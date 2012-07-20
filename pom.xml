@@ -40,6 +40,7 @@
 
   <modules>
     <module>api</module>
+    <module>impl</module>
   </modules>
 
   <dependencyManagement>
@@ -48,6 +49,11 @@
         <groupId>org.fossnova</groupId>
         <artifactId>fossnova-factory-finder</artifactId>
         <version>${fossnova.factory.finder.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.fossnova</groupId>
+        <artifactId>fossnova-json-api</artifactId>
+        <version>${project.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

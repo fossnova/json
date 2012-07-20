@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2012, FOSS Nova Software foundation (FNSF),
+  ~ and individual contributors as indicated by the @author tags.
+  ~
+  ~ This is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU Lesser General Public License as
+  ~ published by the Free Software Foundation; either version 2.1 of
+  ~ the License, or (at your option) any later version.
+  ~
+  ~ This software is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this software; if not see the FSF site:
+  ~ http://www.fsf.org/ and search for the LGPL License document there.
+  -->
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.fossnova</groupId>
+    <artifactId>fossnova-json-parent</artifactId>
+    <version>1.0.0.Beta1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <name>FOSS Nova JSON Impl</name>
+  <groupId>org.fossnova</groupId>
+  <artifactId>fossnova-json-impl</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.fossnova</groupId>
+      <artifactId>fossnova-json-api</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>
