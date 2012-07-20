@@ -24,50 +24,74 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.fossnova</groupId>
-    <artifactId>fossnova-json-parent</artifactId>
-    <version>1.0.0.Beta1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-
-  <name>FOSS Nova JSON API</name>
+  <name>FOSS Nova JSON Parent</name>
   <groupId>org.fossnova</groupId>
-  <artifactId>fossnova-json-api</artifactId>
+  <artifactId>fossnova-json-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.0.Beta1-SNAPSHOT</version>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.fossnova</groupId>
-      <artifactId>fossnova-factory-finder</artifactId>
-    </dependency>
-  </dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.plugin.version>2.3.1</maven.compiler.plugin.version>
+    <maven.javadoc.plugin.version>2.8.1</maven.javadoc.plugin.version>
+    <maven.surefire.plugin.version>2.4.3</maven.surefire.plugin.version>
+    <fossnova.factory.finder.version>1.0.0.Beta1-SNAPSHOT</fossnova.factory.finder.version>
+  </properties>
+
+  <modules>
+    <module>api</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.fossnova</groupId>
+        <artifactId>fossnova-factory-finder</artifactId>
+        <version>${fossnova.factory.finder.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-          <configLocation>${project.baseUri}/checkstyle/api.xml</configLocation>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>true</failsOnError>
-          <useFile/>
+          <encoding>UTF-8</encoding>
+          <source>1.5</source>
+          <target>1.5</target>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
+          <optimize>true</optimize>
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <detectJavaApiLink>false</detectJavaApiLink>
-          <detectLinks>false</detectLinks>
-          <doctitle><![CDATA[FOSS Nova JSON API ]]>${project.version}</doctitle>
-          <header><![CDATA[FOSS Nova JSON API ]]>${project.version}</header>
-          <footer><![CDATA[FOSS Nova JSON API ]]>${project.version}</footer>
-          <bottom><![CDATA[<i>Copyright &#169;, 2012 FOSS Nova Software Foundation (FNSF)</i>]]></bottom>
+          <forkMode>pertest</forkMode>
+          <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
         </configuration>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven.compiler.plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven.surefire.plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven.javadoc.plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
 </project>
