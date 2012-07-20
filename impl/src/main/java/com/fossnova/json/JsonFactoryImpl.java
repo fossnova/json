@@ -36,37 +36,45 @@ public final class JsonFactoryImpl extends JsonFactory {
 
     @Override
     public JsonReader newJsonReader( final ReadableByteChannel channel ) {
+        assertNotNull( channel );
         // TODO: implement
         throw new UnsupportedOperationException();
     }
 
     @Override
     public JsonWriter newJsonWriter( final WritableByteChannel channel ) {
+        assertNotNull( channel );
         // TODO: implement
         throw new UnsupportedOperationException();
     }
 
     @Override
     public JsonBuilder newJsonBuilder( final WritableByteChannel channel ) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return new JsonBuilderImpl( newJsonWriter( channel ) );
     }
 
     @Override
     public JsonReader newJsonReader( final InputStream stream ) {
+        assertNotNull( stream );
         // TODO: implement
         throw new UnsupportedOperationException();
     }
 
     @Override
     public JsonWriter newJsonWriter( final OutputStream stream ) {
+        assertNotNull( stream );
         // TODO: implement
         throw new UnsupportedOperationException();
     }
 
     @Override
     public JsonBuilder newJsonBuilder( final OutputStream stream ) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return new JsonBuilderImpl( newJsonWriter( stream ) );
+    }
+
+    private static void assertNotNull( final Object o ) {
+        if ( o == null ) {
+            throw new IllegalArgumentException( "Parameter cannot be null" );
+        }
     }
 }

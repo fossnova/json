@@ -49,6 +49,7 @@
         <groupId>org.fossnova</groupId>
         <artifactId>fossnova-factory-finder</artifactId>
         <version>${fossnova.factory.finder.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.fossnova</groupId>
