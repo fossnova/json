@@ -29,8 +29,7 @@ import java.io.IOException;
  * @see JsonWriter
  * @see JsonReader
  */
-public interface JsonBuilder
-{
+public interface JsonBuilder {
 
     /**
      * Writes JSON <code>object start</code> token.
@@ -79,7 +78,7 @@ public interface JsonBuilder
      * @throws IOException if I/O error occurs
      * @return this builder instance
      */
-    JsonBuilder writeString(String data) throws IOException;
+    JsonBuilder writeString( String data ) throws IOException;
 
     /**
      * Writes JSON <code>true</code> or <code>false</code> token.
@@ -88,7 +87,7 @@ public interface JsonBuilder
      * @throws IOException if I/O error occurs
      * @return this builder instance
      */
-    JsonBuilder writeBoolean(boolean data) throws IOException;
+    JsonBuilder writeBoolean( boolean data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -97,7 +96,7 @@ public interface JsonBuilder
      * @throws IOException if I/O error occurs
      * @return this builder instance
      */
-    JsonBuilder writeByte(byte data) throws IOException;
+    JsonBuilder writeByte( byte data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -106,7 +105,7 @@ public interface JsonBuilder
      * @throws IOException if I/O error occurs
      * @return this builder instance
      */
-    JsonBuilder writeShort(short data) throws IOException;
+    JsonBuilder writeShort( short data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -115,7 +114,7 @@ public interface JsonBuilder
      * @throws IOException if I/O error occurs
      * @return this builder instance
      */
-    JsonBuilder writeInt(int data) throws IOException;
+    JsonBuilder writeInt( int data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -124,7 +123,7 @@ public interface JsonBuilder
      * @throws IOException if I/O error occurs
      * @return this builder instance
      */
-    JsonBuilder writeLong(long data) throws IOException;
+    JsonBuilder writeLong( long data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -133,7 +132,7 @@ public interface JsonBuilder
      * @throws IOException if I/O error occurs
      * @return this builder instance
      */
-    JsonBuilder writeFloat(float data) throws IOException;
+    JsonBuilder writeFloat( float data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -142,5 +141,5 @@ public interface JsonBuilder
      * @throws IOException if I/O error occurs
      * @return this builder instance
      */
-    JsonBuilder writeDouble(double data) throws IOException;
+    JsonBuilder writeDouble( double data ) throws IOException;
 }

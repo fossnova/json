@@ -29,8 +29,7 @@ import java.io.IOException;
  * @see JsonBuilder
  * @see JsonWriter
  */
-public interface JsonReader
-{
+public interface JsonReader {
 
     /**
      * Detects if there is next JSON parsing event available.

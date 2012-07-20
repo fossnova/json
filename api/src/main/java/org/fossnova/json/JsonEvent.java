@@ -24,8 +24,7 @@ package org.fossnova.json;
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public enum JsonEvent
-{
+public enum JsonEvent {
     /**
      * Parsing cursor points to JSON <CODE>true</CODE> or <CODE>false</CODE> token.
      */

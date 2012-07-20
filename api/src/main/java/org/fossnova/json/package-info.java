@@ -17,7 +17,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 /**
  * Provides API for writing and reading <A href="http://www.json.org/">JSON</A> encoded NIO channels and IO streams.
  *

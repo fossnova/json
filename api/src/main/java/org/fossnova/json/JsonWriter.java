@@ -29,8 +29,7 @@ import java.io.IOException;
  * @see JsonBuilder
  * @see JsonReader
  */
-public interface JsonWriter
-{
+public interface JsonWriter {
 
     /**
      * Writes JSON <code>object start</code> token.
@@ -73,7 +72,7 @@ public interface JsonWriter
      * @param data to encode
      * @throws IOException if I/O error occurs
      */
-    void writeString(String data) throws IOException;
+    void writeString( String data ) throws IOException;
 
     /**
      * Writes JSON <code>true</code> or <code>false</code> token.
@@ -81,7 +80,7 @@ public interface JsonWriter
      * @param data to encode
      * @throws IOException if I/O error occurs
      */
-    void writeBoolean(boolean data) throws IOException;
+    void writeBoolean( boolean data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -89,7 +88,7 @@ public interface JsonWriter
      * @param data to encode
      * @throws IOException if I/O error occurs
      */
-    void writeByte(byte data) throws IOException;
+    void writeByte( byte data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -97,7 +96,7 @@ public interface JsonWriter
      * @param data to encode
      * @throws IOException if I/O error occurs
      */
-    void writeShort(short data) throws IOException;
+    void writeShort( short data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -105,7 +104,7 @@ public interface JsonWriter
      * @param data to encode
      * @throws IOException if I/O error occurs
      */
-    void writeInt(int data) throws IOException;
+    void writeInt( int data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -113,7 +112,7 @@ public interface JsonWriter
      * @param data to encode
      * @throws IOException if I/O error occurs
      */
-    void writeLong(long data) throws IOException;
+    void writeLong( long data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -121,7 +120,7 @@ public interface JsonWriter
      * @param data to encode
      * @throws IOException if I/O error occurs
      */
-    void writeFloat(float data) throws IOException;
+    void writeFloat( float data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
@@ -129,5 +128,5 @@ public interface JsonWriter
      * @param data to encode
      * @throws IOException if I/O error occurs
      */
-    void writeDouble(double data) throws IOException;
+    void writeDouble( double data ) throws IOException;
 }
