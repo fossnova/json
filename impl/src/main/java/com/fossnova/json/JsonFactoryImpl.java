@@ -21,6 +21,7 @@ package com.fossnova.json;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
@@ -34,6 +35,8 @@ import org.fossnova.json.JsonWriter;
  */
 public final class JsonFactoryImpl extends JsonFactory {
 
+    private static final String DEFAULT_ENCODING = "UTF-8";
+
     @Override
     public JsonReader newJsonReader( final ReadableByteChannel channel ) {
         assertNotNull( channel );
@@ -44,8 +47,7 @@ public final class JsonFactoryImpl extends JsonFactory {
     @Override
     public JsonWriter newJsonWriter( final WritableByteChannel channel ) {
         assertNotNull( channel );
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return new JsonWriterImpl( channel, DEFAULT_ENCODING );
     }
 
     @Override
@@ -63,8 +65,7 @@ public final class JsonFactoryImpl extends JsonFactory {
     @Override
     public JsonWriter newJsonWriter( final OutputStream stream ) {
         assertNotNull( stream );
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return new JsonWriterImpl( Channels.newChannel( stream ), DEFAULT_ENCODING );
     }
 
     @Override

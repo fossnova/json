@@ -1,0 +1,6 @@
+P1 Implement JSON reader
+P2 Implement configuration properties
+P2 implement indentation support
+P3 configure checkstyle
+P3 provide tests
+P4 remove Channels class dependency
