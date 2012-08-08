@@ -25,6 +25,7 @@ import static com.fossnova.json.JsonConstants.COLON;
 import static com.fossnova.json.JsonConstants.COMMA;
 import static com.fossnova.json.JsonConstants.OBJECT_END;
 import static com.fossnova.json.JsonConstants.OBJECT_START;
+import static com.fossnova.json.JsonConstants.QUOTE;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -48,6 +49,8 @@ final class JsonWriterImpl implements JsonWriter {
     private static final byte[] COLON_DATA = wrap( COLON );
 
     private static final byte[] COMMA_DATA = wrap( COMMA );
+
+    private static final byte[] QUOTE_DATA = wrap( QUOTE );
 
     private static final byte[] NULL_DATA = "null".getBytes();
 
@@ -90,7 +93,9 @@ final class JsonWriterImpl implements JsonWriter {
         }
         writeOptionalColonOrComma();
         analyzer.put( JsonGrammarToken.STRING );
+        write( QUOTE_DATA );
         write( data.getBytes( encoding ) );
+        write( QUOTE_DATA );
     }
 
     public void writeNull() throws IOException {
