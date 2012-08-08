@@ -22,7 +22,7 @@ package test.fossnova.json;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.fossnova.json.JsonException;
+import org.fossnova.json.InvalidJsonException;
 import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonWriter;
 import org.junit.Test;
@@ -149,7 +149,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -158,7 +158,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -167,7 +167,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeString( "" );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -176,7 +176,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeByte( ( byte ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -185,7 +185,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeShort( ( short ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -194,7 +194,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeInt( 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -203,7 +203,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeLong( 0L );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -212,7 +212,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeFloat( 0.0F );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -221,7 +221,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeDouble( 0.0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -230,7 +230,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeBoolean( true );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -239,7 +239,7 @@ public final class InvalidJsonTestCase {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeNull();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -249,7 +249,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -259,7 +259,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeByte( ( byte ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -269,7 +269,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeShort( ( short ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -279,7 +279,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeInt( 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -289,7 +289,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeLong( 0L );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -299,7 +299,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeFloat( 0.0F );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -309,7 +309,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeDouble( 0.0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -319,7 +319,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeBoolean( true );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -329,7 +329,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectStart();
         try {
             writer.writeNull();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -339,7 +339,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayStart();
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -350,7 +350,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -361,7 +361,7 @@ public final class InvalidJsonTestCase {
         writer.writeByte( ( byte ) 0 );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -372,7 +372,7 @@ public final class InvalidJsonTestCase {
         writer.writeShort( ( short ) 0 );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -383,7 +383,7 @@ public final class InvalidJsonTestCase {
         writer.writeInt( 0 );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -394,7 +394,7 @@ public final class InvalidJsonTestCase {
         writer.writeLong( 0L );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -405,7 +405,7 @@ public final class InvalidJsonTestCase {
         writer.writeFloat( 0.0F );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -416,7 +416,7 @@ public final class InvalidJsonTestCase {
         writer.writeDouble( 0.0 );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -427,7 +427,7 @@ public final class InvalidJsonTestCase {
         writer.writeNull();
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -438,7 +438,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeObjectStart();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -449,7 +449,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -460,7 +460,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeArrayStart();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -471,7 +471,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -482,7 +482,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeString( "" );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -493,7 +493,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeByte( ( byte ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -504,7 +504,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeShort( ( short ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -515,7 +515,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeInt( 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -526,7 +526,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeLong( 0L );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -537,7 +537,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeFloat( 0.0F );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -548,7 +548,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeDouble( 0.0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -559,7 +559,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeBoolean( true );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -570,7 +570,7 @@ public final class InvalidJsonTestCase {
         writer.writeObjectEnd();
         try {
             writer.writeNull();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -581,7 +581,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeObjectStart();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -592,7 +592,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -603,7 +603,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeArrayStart();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -614,7 +614,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -625,7 +625,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeString( "" );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -636,7 +636,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeByte( ( byte ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -647,7 +647,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeShort( ( short ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -658,7 +658,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeInt( 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -669,7 +669,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeLong( 0L );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -680,7 +680,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeFloat( 0.0F );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -691,7 +691,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeDouble( 0.0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -702,7 +702,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeBoolean( true );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -713,7 +713,7 @@ public final class InvalidJsonTestCase {
         writer.writeArrayEnd();
         try {
             writer.writeNull();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -724,7 +724,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -735,7 +735,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -747,7 +747,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -759,7 +759,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeByte( ( byte ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -771,7 +771,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeShort( ( short ) 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -783,7 +783,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeInt( 0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -795,7 +795,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeLong( 0L );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -807,7 +807,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeFloat( 0.0F );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -819,7 +819,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeDouble( 0.0 );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -831,7 +831,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeBoolean( true );
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -843,7 +843,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeNull();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -856,7 +856,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -869,7 +869,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -882,7 +882,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -895,7 +895,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -908,7 +908,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -921,7 +921,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -934,7 +934,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -947,7 +947,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -960,7 +960,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeObjectEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -973,7 +973,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -986,7 +986,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -999,7 +999,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -1012,7 +1012,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -1025,7 +1025,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -1038,7 +1038,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -1051,7 +1051,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -1064,7 +1064,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }
@@ -1077,7 +1077,7 @@ public final class InvalidJsonTestCase {
         writer.writeString( "" );
         try {
             writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
+        } catch ( final InvalidJsonException e ) {
             System.out.println( e.getMessage() );
         }
     }

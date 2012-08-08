@@ -32,7 +32,7 @@ import static com.fossnova.json.JsonGrammarToken.STRING;
 
 import java.util.LinkedList;
 
-import org.fossnova.json.JsonException;
+import org.fossnova.json.InvalidJsonException;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
@@ -227,9 +227,9 @@ final class JsonGrammarAnalyzer {
         }
     }
 
-    private JsonException newJsonException( final String s ) {
+    private InvalidJsonException newJsonException( final String s ) {
         setCannotContinue();
-        return new JsonException( s );
+        return new InvalidJsonException( s );
     }
 
     private boolean isEmpty() {
