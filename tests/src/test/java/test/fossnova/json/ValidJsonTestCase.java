@@ -21,24 +21,31 @@ package test.fossnova.json;
 
 import java.io.ByteArrayOutputStream;
 
-import org.fossnova.json.JsonException;
 import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonWriter;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class WrongJsonTestCase {
+public final class ValidJsonTestCase {
 
     @Test
-    public void test1() throws Exception {
+    public void emptyObject() throws Exception {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter writer = JsonFactory.newInstance().newJsonWriter( baos );
-        try {
-            writer.writeArrayEnd();
-        } catch ( final JsonException e ) {
-            System.out.println( e.getMessage() );
-        }
+        writer.writeObjectStart();
+        writer.writeObjectEnd();
+        Assert.assertEquals( "{}", baos.toString( "UTF-8" ) );
+    }
+
+    @Test
+    public void emptyArray() throws Exception {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final JsonWriter writer = JsonFactory.newInstance().newJsonWriter( baos );
+        writer.writeArrayStart();
+        writer.writeArrayEnd();
+        Assert.assertEquals( "[]", baos.toString( "UTF-8" ) );
     }
 }

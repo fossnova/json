@@ -200,7 +200,7 @@ final class JsonGrammarAnalyzer {
                 return "Expecting: '" + ( char ) JsonConstants.ARRAY_END + "', '" + ( char ) JsonConstants.OBJECT_START + "', '" + ( char ) JsonConstants.ARRAY_START + "', '"
                     + JsonConstants.STRING + "', '" + JsonConstants.NUMBER + "', '" + JsonConstants.TRUE + "', '" + JsonConstants.FALSE + "', '" + JsonConstants.NULL + "'";
             } else {
-                return "Expecting: '" + ( char ) JsonConstants.COMMA + "', " + ( char ) JsonConstants.ARRAY_END + "'";
+                return "Expecting: '" + ( char ) JsonConstants.COMMA + "', '" + ( char ) JsonConstants.ARRAY_END + "'";
             }
         }
         if ( isLastOnStack( COLON ) ) {
@@ -223,7 +223,7 @@ final class JsonGrammarAnalyzer {
 
     private void ensureCanContinue() {
         if ( finished ) {
-            throw newJsonException( "Cannot continue JSON processing" );
+            throw newJsonException( getExpectingTokensMessage() );
         }
     }
 
