@@ -183,32 +183,32 @@ final class JsonGrammarAnalyzer {
     private String getExpectingTokensMessage() {
         if ( isEmpty() ) {
             if ( !finished ) {
-                return "Expecting: '" + ( char ) JsonConstants.OBJECT_START + "', '" + ( char ) JsonConstants.ARRAY_START + "'";
+                return "Expecting: '" + JsonConstants.OBJECT_START + "', '" + JsonConstants.ARRAY_START + "'";
             } else {
                 return "Expecting: EOF";
             }
         }
         if ( isLastOnStack( OBJECT_START ) ) {
             if ( !canWriteComma ) {
-                return "Expecting: '" + ( char ) JsonConstants.OBJECT_END + "', '" + JsonConstants.STRING + "'";
+                return "Expecting: '" + JsonConstants.OBJECT_END + "', '" + JsonConstants.STRING + "'";
             } else {
-                return "Expecting: '" + ( char ) JsonConstants.COMMA + "', " + ( char ) JsonConstants.OBJECT_END + "'";
+                return "Expecting: '" + JsonConstants.COMMA + "', " + JsonConstants.OBJECT_END + "'";
             }
         }
         if ( isLastOnStack( ARRAY_START ) ) {
             if ( !canWriteComma ) {
-                return "Expecting: '" + ( char ) JsonConstants.ARRAY_END + "', '" + ( char ) JsonConstants.OBJECT_START + "', '" + ( char ) JsonConstants.ARRAY_START + "', '"
-                    + JsonConstants.STRING + "', '" + JsonConstants.NUMBER + "', '" + JsonConstants.TRUE + "', '" + JsonConstants.FALSE + "', '" + JsonConstants.NULL + "'";
+                return "Expecting: '" + JsonConstants.ARRAY_END + "', '" + JsonConstants.OBJECT_START + "', '" + JsonConstants.ARRAY_START + "', '" + JsonConstants.STRING + "', '"
+                    + JsonConstants.NUMBER + "', '" + JsonConstants.TRUE + "', '" + JsonConstants.FALSE + "', '" + JsonConstants.NULL + "'";
             } else {
-                return "Expecting: '" + ( char ) JsonConstants.COMMA + "', '" + ( char ) JsonConstants.ARRAY_END + "'";
+                return "Expecting: '" + JsonConstants.COMMA + "', '" + JsonConstants.ARRAY_END + "'";
             }
         }
         if ( isLastOnStack( COLON ) ) {
-            return "Expecting: '" + ( char ) JsonConstants.OBJECT_START + "', '" + ( char ) JsonConstants.ARRAY_START + "', '" + JsonConstants.STRING + "', '"
-                + JsonConstants.NUMBER + "', '" + JsonConstants.TRUE + "', '" + JsonConstants.FALSE + "', '" + JsonConstants.NULL + "'";
+            return "Expecting: '" + JsonConstants.OBJECT_START + "', '" + JsonConstants.ARRAY_START + "', '" + JsonConstants.STRING + "', '" + JsonConstants.NUMBER + "', '"
+                + JsonConstants.TRUE + "', '" + JsonConstants.FALSE + "', '" + JsonConstants.NULL + "'";
         }
         if ( isLastOnStack( STRING ) ) {
-            return "Expecting: '" + ( char ) JsonConstants.COLON + "'";
+            return "Expecting: '" + JsonConstants.COLON + "'";
         }
         throw new IllegalStateException();
     }

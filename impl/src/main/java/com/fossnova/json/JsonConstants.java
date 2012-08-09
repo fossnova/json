@@ -24,23 +24,35 @@ package com.fossnova.json;
  */
 final class JsonConstants {
 
-    static final int OBJECT_START = '{';
+    static final char ARRAY_END = ']';
 
-    static final int OBJECT_END = '}';
+    static final char ARRAY_START = '[';
 
-    static final int ARRAY_START = '[';
+    static final char BACKSLASH = '\\';
 
-    static final int ARRAY_END = ']';
+    static final char BACKSPACE = '\b';
 
-    static final int COLON = ':';
+    static final char CR = '\r';
 
-    static final int COMMA = ',';
+    static final char COLON = ':';
 
-    static final int MINUS = '-';
+    static final char COMMA = ',';
 
-    static final int QUOTE = '\"';
+    static final char FORMFEED = '\f';
 
-    static final int BACKSLASH = '\\';
+    static final char MINUS = '-';
+
+    static final char NL = '\n';
+
+    static final char OBJECT_END = '}';
+
+    static final char OBJECT_START = '{';
+
+    static final char QUOTE = '\"';
+
+    static final char SOLIDUS = '/';
+
+    static final char TAB = '\t';
 
     static final String STRING = "STRING";
 

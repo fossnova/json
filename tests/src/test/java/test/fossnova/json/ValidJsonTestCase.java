@@ -25,10 +25,10 @@ import java.io.UnsupportedEncodingException;
 
 import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonWriter;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
@@ -162,6 +162,41 @@ public final class ValidJsonTestCase {
         writer.writeArrayEnd();
         writer.writeObjectEnd();
         Assert.assertEquals( "{\"0\":{\"String\":\"s\",\"boolean\":false},\"1\":[null,true,7,{}]}", getWriterOutput() );
+    }
+
+    @Test
+    public void escapesEncoding() throws IOException {
+        writer.writeArrayStart();
+        final StringBuilder sb = new StringBuilder();
+        sb.append( '\"' );
+        sb.append( '\\' );
+        sb.append( '/' );
+        sb.append( '\b' );
+        sb.append( '\f' );
+        sb.append( '\n' );
+        sb.append( '\r' );
+        sb.append( '\t' );
+        writer.writeString( sb.toString() );
+        writer.writeArrayEnd();
+        Assert.assertEquals( "[\"\\\"\\\\\\/\\b\\f\\n\\r\\t\"]", getWriterOutput() );
+    }
+
+    @Test
+    public void controlsEncoding() throws IOException {
+        writer.writeArrayStart();
+        final StringBuilder sb = new StringBuilder();
+        for ( char c = '\u0000'; c <= '\u001F'; c++ ) {
+            sb.append( c );
+        }
+        for ( char c = '\u007F'; c <= '\u009F'; c++ ) {
+            sb.append( c );
+        }
+        writer.writeString( sb.toString() );
+        writer.writeArrayEnd();
+        final String expected = "[\"\\u0000\\u0001\\u0002\\u0003\\u0004\\u0005\\u0006\\u0007\\b\\t\\n\\u000B\\f\\r\\u000E\\u000F\\u0010\\u0011\\u0012\\u0013\\u0014\\u0015"
+            + "\\u0016\\u0017\\u0018\\u0019\\u001A\\u001B\\u001C\\u001D\\u001E\\u001F\\u007F\\u0080\\u0081\\u0082\\u0083\\u0084\\u0085\\u0086\\u0087\\u0088\\u0089\\u008A"
+            + "\\u008B\\u008C\\u008D\\u008E\\u008F\\u0090\\u0091\\u0092\\u0093\\u0094\\u0095\\u0096\\u0097\\u0098\\u0099\\u009A\\u009B\\u009C\\u009D\\u009E\\u009F\"]";
+        Assert.assertEquals( expected, getWriterOutput() );
     }
 
     private String getWriterOutput() throws UnsupportedEncodingException {

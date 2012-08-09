@@ -21,11 +21,18 @@ package com.fossnova.json;
 
 import static com.fossnova.json.JsonConstants.ARRAY_END;
 import static com.fossnova.json.JsonConstants.ARRAY_START;
+import static com.fossnova.json.JsonConstants.BACKSLASH;
+import static com.fossnova.json.JsonConstants.BACKSPACE;
 import static com.fossnova.json.JsonConstants.COLON;
 import static com.fossnova.json.JsonConstants.COMMA;
+import static com.fossnova.json.JsonConstants.CR;
+import static com.fossnova.json.JsonConstants.FORMFEED;
+import static com.fossnova.json.JsonConstants.NL;
 import static com.fossnova.json.JsonConstants.OBJECT_END;
 import static com.fossnova.json.JsonConstants.OBJECT_START;
 import static com.fossnova.json.JsonConstants.QUOTE;
+import static com.fossnova.json.JsonConstants.SOLIDUS;
+import static com.fossnova.json.JsonConstants.TAB;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -49,8 +56,6 @@ final class JsonWriterImpl implements JsonWriter {
     private static final byte[] COLON_DATA = wrap( COLON );
 
     private static final byte[] COMMA_DATA = wrap( COMMA );
-
-    private static final byte[] QUOTE_DATA = wrap( QUOTE );
 
     private static final byte[] NULL_DATA = "null".getBytes();
 
@@ -93,9 +98,7 @@ final class JsonWriterImpl implements JsonWriter {
         }
         writeOptionalColonOrComma();
         analyzer.put( JsonGrammarToken.STRING );
-        write( QUOTE_DATA );
-        write( data.getBytes( encoding ) );
-        write( QUOTE_DATA );
+        write( escape( data ).getBytes( encoding ) );
     }
 
     public void writeNull() throws IOException {
@@ -166,6 +169,68 @@ final class JsonWriterImpl implements JsonWriter {
 
     private void write( final byte[] data ) throws IOException {
         channel.write( ByteBuffer.wrap( data ) );
+    }
+
+    private static String escape( final String s ) {
+        final int length = s.length();
+        final StringBuilder retVal = new StringBuilder( length + 16 );
+        retVal.append( QUOTE );
+        for ( int i = 0; i < length; i = s.offsetByCodePoints( i, 1 ) ) {
+            final int character = s.codePointAt( i );
+            switch ( character ) {
+                case QUOTE:
+                    retVal.append( BACKSLASH ).append( QUOTE );
+                    break;
+                case BACKSLASH:
+                    retVal.append( BACKSLASH ).append( BACKSLASH );
+                    break;
+                case SOLIDUS:
+                    retVal.append( BACKSLASH ).append( SOLIDUS );
+                    break;
+                case BACKSPACE:
+                    retVal.append( BACKSLASH ).append( 'b' );
+                    break;
+                case FORMFEED:
+                    retVal.append( BACKSLASH ).append( 'f' );
+                    break;
+                case NL:
+                    retVal.append( BACKSLASH ).append( 'n' );
+                    break;
+                case CR:
+                    retVal.append( BACKSLASH ).append( 'r' );
+                    break;
+                case TAB:
+                    retVal.append( BACKSLASH ).append( 't' );
+                    break;
+                default:
+                    if ( isControl( character ) ) {
+                        retVal.append( BACKSLASH ).append( 'u' );
+                        final String hexString = Integer.toHexString( character );
+                        for ( int j = 0; j < ( 4 - hexString.length() ); j++ ) {
+                            retVal.append( '0' );
+                        }
+                        retVal.append( hexString.toUpperCase() );
+                    } else {
+                        retVal.appendCodePoint( character );
+                    }
+                    break;
+            }
+        }
+        retVal.append( QUOTE );
+        return retVal.toString();
+    }
+
+    private static boolean isControl( final int c ) {
+        // ASCII control characters
+        if ( ( ( c >= '\u0000' ) && ( c <= '\u001F' ) ) || ( c == '\u007F' ) ) {
+            return true;
+        }
+        // ISO-8859 control characters
+        if ( ( c >= '\u0080' ) && ( c <= '\u009F' ) ) {
+            return true;
+        }
+        // not unicode control character
+        return false;
     }
 
     private static byte[] wrap( final int character ) {
