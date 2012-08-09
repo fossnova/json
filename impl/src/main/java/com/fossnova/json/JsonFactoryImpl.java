@@ -21,9 +21,6 @@ package com.fossnova.json;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
 
 import org.fossnova.json.JsonBuilder;
 import org.fossnova.json.JsonFactory;
@@ -38,24 +35,6 @@ public final class JsonFactoryImpl extends JsonFactory {
     private static final String DEFAULT_ENCODING = "UTF-8";
 
     @Override
-    public JsonReader newJsonReader( final ReadableByteChannel channel ) {
-        assertNotNull( channel );
-        // TODO: implement
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public JsonWriter newJsonWriter( final WritableByteChannel channel ) {
-        assertNotNull( channel );
-        return new JsonWriterImpl( channel, DEFAULT_ENCODING );
-    }
-
-    @Override
-    public JsonBuilder newJsonBuilder( final WritableByteChannel channel ) {
-        return new JsonBuilderImpl( newJsonWriter( channel ) );
-    }
-
-    @Override
     public JsonReader newJsonReader( final InputStream stream ) {
         assertNotNull( stream );
         // TODO: implement
@@ -65,7 +44,7 @@ public final class JsonFactoryImpl extends JsonFactory {
     @Override
     public JsonWriter newJsonWriter( final OutputStream stream ) {
         assertNotNull( stream );
-        return new JsonWriterImpl( Channels.newChannel( stream ), DEFAULT_ENCODING );
+        return new JsonWriterImpl( stream, DEFAULT_ENCODING );
     }
 
     @Override
@@ -75,7 +54,7 @@ public final class JsonFactoryImpl extends JsonFactory {
 
     private static void assertNotNull( final Object o ) {
         if ( o == null ) {
-            throw new IllegalArgumentException( "Parameter cannot be null" );
+            throw new IllegalArgumentException( "Stream cannot be null" );
         }
     }
 }

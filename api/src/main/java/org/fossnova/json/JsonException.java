@@ -24,7 +24,7 @@ package org.fossnova.json;
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class InvalidJsonException extends RuntimeException {
+public final class JsonException extends RuntimeException {
 
     /**
      * Serialization version UID.
@@ -34,7 +34,7 @@ public final class InvalidJsonException extends RuntimeException {
     /**
      * Constructor.
      */
-    public InvalidJsonException() {
+    public JsonException() {
     }
 
     /**
@@ -42,7 +42,7 @@ public final class InvalidJsonException extends RuntimeException {
      * 
      * @param msg message
      */
-    public InvalidJsonException( final String msg ) {
+    public JsonException( final String msg ) {
         super( msg );
     }
 
@@ -52,7 +52,7 @@ public final class InvalidJsonException extends RuntimeException {
      * @param msg message
      * @param t reason
      */
-    public InvalidJsonException( final String msg, final Throwable t ) {
+    public JsonException( final String msg, final Throwable t ) {
         super( msg, t );
     }
 
@@ -61,7 +61,7 @@ public final class InvalidJsonException extends RuntimeException {
      * 
      * @param t reason
      */
-    public InvalidJsonException( final Throwable t ) {
+    public JsonException( final Throwable t ) {
         super( t );
     }
 }

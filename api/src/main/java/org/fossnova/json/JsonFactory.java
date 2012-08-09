@@ -21,8 +21,6 @@ package org.fossnova.json;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
 
 import org.fossnova.finder.FactoryFinder;
 
@@ -53,30 +51,6 @@ public abstract class JsonFactory {
         }
         throw new IllegalStateException( "Factory not configured: " + JsonFactory.class.getName() );
     }
-
-    /**
-     * Creates new JSON reader with <b>UTF-8</b> string encoding.
-     * 
-     * @param channel input
-     * @return JSON reader instance
-     */
-    public abstract JsonReader newJsonReader( ReadableByteChannel channel );
-
-    /**
-     * Creates new JSON writer with <b>UTF-8</b> string encoding.
-     * 
-     * @param channel output
-     * @return JSON writer instance
-     */
-    public abstract JsonWriter newJsonWriter( WritableByteChannel channel );
-
-    /**
-     * Creates new JSON builder with <b>UTF-8</b> string encoding.
-     * 
-     * @param channel output
-     * @return JSON builder instance
-     */
-    public abstract JsonBuilder newJsonBuilder( WritableByteChannel channel );
 
     /**
      * Creates new JSON reader with <b>UTF-8</b> string encoding.
