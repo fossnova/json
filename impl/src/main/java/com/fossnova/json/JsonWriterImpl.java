@@ -45,93 +45,131 @@ import org.fossnova.json.JsonWriter;
  */
 final class JsonWriterImpl implements JsonWriter {
 
-    private final OutputStream out;
+    private JsonGrammarAnalyzer analyzer = new JsonGrammarAnalyzer();
 
-    private final String encoding;
+    private String encoding;
 
-    private final JsonGrammarAnalyzer analyzer = new JsonGrammarAnalyzer();
+    private OutputStream out;
+
+    private boolean closed;
 
     JsonWriterImpl( final OutputStream out, final String encoding ) {
         this.out = out;
         this.encoding = encoding;
     }
 
+    private void ensureOpen() {
+        if ( closed ) {
+            throw new UnsupportedOperationException( "JSON writer have been closed" );
+        }
+    }
+
+    public void close() {
+        analyzer = null;
+        encoding = null;
+        out = null;
+        closed = true;
+    }
+
+    protected void finalize() throws Throwable {
+        close();
+        super.finalize();
+    }
+
+    public void flush() throws IOException {
+        ensureOpen();
+        out.flush();
+    }
+
     public void writeObjectStart() throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.OBJECT_START );
+        analyzer.push( JsonGrammarToken.OBJECT_START );
         out.write( OBJECT_START );
     }
 
     public void writeObjectEnd() throws IOException {
-        analyzer.put( JsonGrammarToken.OBJECT_END );
+        ensureOpen();
+        analyzer.push( JsonGrammarToken.OBJECT_END );
         out.write( OBJECT_END );
     }
 
     public void writeArrayStart() throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.ARRAY_START );
+        analyzer.push( JsonGrammarToken.ARRAY_START );
         out.write( ARRAY_START );
     }
 
     public void writeArrayEnd() throws IOException {
-        analyzer.put( JsonGrammarToken.ARRAY_END );
+        ensureOpen();
+        analyzer.push( JsonGrammarToken.ARRAY_END );
         out.write( ARRAY_END );
     }
 
     public void writeString( final String data ) throws IOException {
+        ensureOpen();
         if ( data == null ) {
             throw new IllegalArgumentException( "Null parameter" );
         }
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.STRING );
+        analyzer.push( JsonGrammarToken.STRING );
         out.write( encode( data ).getBytes( encoding ) );
     }
 
     public void writeNull() throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.NULL );
+        analyzer.push( JsonGrammarToken.NULL );
         out.write( NULL.getBytes() );
     }
 
     public void writeBoolean( final boolean data ) throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.BOOLEAN );
+        analyzer.push( JsonGrammarToken.BOOLEAN );
         out.write( String.valueOf( data ).getBytes() );
     }
 
     public void writeByte( final byte data ) throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.NUMBER );
+        analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ).getBytes() );
     }
 
     public void writeShort( final short data ) throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.NUMBER );
+        analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ).getBytes() );
     }
 
     public void writeInt( final int data ) throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.NUMBER );
+        analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ).getBytes() );
     }
 
     public void writeLong( final long data ) throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.NUMBER );
+        analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ).getBytes() );
     }
 
     public void writeFloat( final float data ) throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.NUMBER );
+        analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ).getBytes() );
     }
 
     public void writeDouble( final double data ) throws IOException {
+        ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.put( JsonGrammarToken.NUMBER );
+        analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ).getBytes() );
     }
 
@@ -144,12 +182,12 @@ final class JsonWriterImpl implements JsonWriter {
     }
 
     private void writeColon() throws IOException {
-        analyzer.put( JsonGrammarToken.COLON );
+        analyzer.push( JsonGrammarToken.COLON );
         out.write( COLON );
     }
 
     private void writeComma() throws IOException {
-        analyzer.put( JsonGrammarToken.COMMA );
+        analyzer.push( JsonGrammarToken.COMMA );
         out.write( COMMA );
     }
 

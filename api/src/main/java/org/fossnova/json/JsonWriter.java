@@ -129,4 +129,18 @@ public interface JsonWriter {
      * @throws IOException if I/O error occurs
      */
     void writeDouble( double data ) throws IOException;
+
+    /**
+     * Writes all cached data.
+     * 
+     * @throws IOException if I/O error occurs
+     */
+    void flush() throws IOException;
+
+    /**
+     * Free resources associated with this writer. Never closes underlying stream.
+     *
+     * @throws IOException if I/O error occurs
+     */
+    void close();
 }

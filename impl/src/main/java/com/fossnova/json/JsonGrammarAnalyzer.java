@@ -45,7 +45,7 @@ final class JsonGrammarAnalyzer {
 
     private final LinkedList< JsonGrammarToken > stack = new LinkedList< JsonGrammarToken >();
 
-    void put( final JsonGrammarToken event ) {
+    void push( final JsonGrammarToken event ) {
         ensureCanContinue();
         if ( event == OBJECT_END ) {
             putObjectEnd();
