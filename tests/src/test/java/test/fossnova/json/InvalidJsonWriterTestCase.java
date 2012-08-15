@@ -31,7 +31,7 @@ import org.junit.Test;
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 // TODO: implement assertion and remove system outs
-public final class InvalidJsonTestCase {
+public final class InvalidJsonWriterTestCase {
 
     @Test
     public void testEmptyState() throws IOException {

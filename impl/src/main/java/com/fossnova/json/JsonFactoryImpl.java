@@ -37,8 +37,7 @@ public final class JsonFactoryImpl extends JsonFactory {
     @Override
     public JsonReader newJsonReader( final InputStream stream ) {
         assertNotNull( stream );
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return new JsonReaderImpl( stream, DEFAULT_ENCODING );
     }
 
     @Override

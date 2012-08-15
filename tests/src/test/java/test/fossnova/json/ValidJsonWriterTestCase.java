@@ -34,7 +34,7 @@ import org.junit.Test;
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 // TODO: implement writer.close(), reader.close(), builder.close() and call it in tests when necessary
-public final class ValidJsonTestCase {
+public final class ValidJsonWriterTestCase {
 
     private ByteArrayOutputStream baos;
 

@@ -30,7 +30,7 @@ public enum JsonEvent {
      */
     BOOLEAN,
     /**
-     * Parsing cursor points to JSON number.
+     * Parsing cursor points to JSON <CODE>number</CODE>.
      */
     NUMBER,
     /**
@@ -38,23 +38,23 @@ public enum JsonEvent {
      */
     NULL,
     /**
-     * Parsing cursor points to JSON string.
+     * Parsing cursor points to JSON <CODE>string</CODE>.
      */
     STRING,
     /**
-     * Parsing cursor points to start of JSON object.
+     * Parsing cursor points to JSON <CODE>object start</CODE> token.
      */
     OBJECT_START,
     /**
-     * Parsing cursor points to end of JSON object.
+     * Parsing cursor points to JSON <CODE>object end</CODE> token.
      */
     OBJECT_END,
     /**
-     * Parsing cursor points to start of JSON array.
+     * Parsing cursor points to JSON <CODE>array start</CODE> token.
      */
     ARRAY_START,
     /**
-     * Parsing cursor points to end of JSON array.
+     * Parsing cursor points to JSON <CODE>array end</CODE> token.
      */
     ARRAY_END,
 }

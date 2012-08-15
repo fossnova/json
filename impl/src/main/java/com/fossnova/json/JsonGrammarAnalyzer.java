@@ -32,6 +32,7 @@ import static com.fossnova.json.JsonGrammarToken.STRING;
 
 import java.util.LinkedList;
 
+import org.fossnova.json.JsonEvent;
 import org.fossnova.json.JsonException;
 
 /**
@@ -41,6 +42,8 @@ final class JsonGrammarAnalyzer {
 
     private boolean canWriteComma;
 
+    private JsonEvent currentEvent;
+
     private boolean finished;
 
     private final LinkedList< JsonGrammarToken > stack = new LinkedList< JsonGrammarToken >();
@@ -49,20 +52,28 @@ final class JsonGrammarAnalyzer {
         ensureCanContinue();
         if ( event == OBJECT_END ) {
             putObjectEnd();
+            currentEvent = JsonEvent.OBJECT_END;
         } else if ( event == ARRAY_END ) {
             putArrayEnd();
+            currentEvent = JsonEvent.ARRAY_END;
         } else if ( event == NUMBER ) {
             putValue();
+            currentEvent = JsonEvent.NUMBER;
         } else if ( event == NULL ) {
             putValue();
+            currentEvent = JsonEvent.NULL;
         } else if ( event == BOOLEAN ) {
             putValue();
+            currentEvent = JsonEvent.BOOLEAN;
         } else if ( event == STRING ) {
             putString();
+            currentEvent = JsonEvent.STRING;
         } else if ( event == OBJECT_START ) {
             putObjectStart();
+            currentEvent = JsonEvent.OBJECT_START;
         } else if ( event == ARRAY_START ) {
             putArrayStart();
+            currentEvent = JsonEvent.ARRAY_START;
         } else if ( event == COLON ) {
             putColon();
         } else if ( event == COMMA ) {
@@ -70,6 +81,10 @@ final class JsonGrammarAnalyzer {
         } else {
             throw new IllegalStateException();
         }
+    }
+
+    JsonEvent getCurrentEvent() {
+        return currentEvent;
     }
 
     boolean isColonExpected() {
@@ -221,19 +236,19 @@ final class JsonGrammarAnalyzer {
         return ( stack.size() >= 2 ) && ( stack.get( stack.size() - 2 ) == event );
     }
 
-    private void ensureCanContinue() {
+    void ensureCanContinue() {
         if ( finished ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
     }
 
+    boolean isEmpty() {
+        return stack.size() == 0;
+    }
+
     private JsonException newJsonException( final String s ) {
         setCannotContinue();
         return new JsonException( s );
-    }
-
-    private boolean isEmpty() {
-        return stack.size() == 0;
     }
 
     private void setCannotContinue() {

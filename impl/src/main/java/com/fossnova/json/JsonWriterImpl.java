@@ -71,6 +71,7 @@ final class JsonWriterImpl implements JsonWriter {
         closed = true;
     }
 
+    @Override
     protected void finalize() throws Throwable {
         close();
         super.finalize();
