@@ -36,7 +36,7 @@ import static com.fossnova.json.JsonConstants.SOLIDUS;
 import static com.fossnova.json.JsonConstants.TAB;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.Writer;
 
 import org.fossnova.json.JsonWriter;
 
@@ -47,15 +47,12 @@ final class JsonWriterImpl implements JsonWriter {
 
     private JsonGrammarAnalyzer analyzer = new JsonGrammarAnalyzer();
 
-    private String encoding;
-
-    private OutputStream out;
+    private Writer out;
 
     private boolean closed;
 
-    JsonWriterImpl( final OutputStream out, final String encoding ) {
+    JsonWriterImpl( final Writer out ) {
         this.out = out;
-        this.encoding = encoding;
     }
 
     private void ensureOpen() {
@@ -66,7 +63,6 @@ final class JsonWriterImpl implements JsonWriter {
 
     public void close() {
         analyzer = null;
-        encoding = null;
         out = null;
         closed = true;
     }
@@ -115,63 +111,63 @@ final class JsonWriterImpl implements JsonWriter {
         }
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.STRING );
-        out.write( encode( data ).getBytes( encoding ) );
+        out.write( encode( data ) );
     }
 
     public void writeNull() throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NULL );
-        out.write( NULL.getBytes() );
+        out.write( NULL );
     }
 
     public void writeBoolean( final boolean data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.BOOLEAN );
-        out.write( String.valueOf( data ).getBytes() );
+        out.write( String.valueOf( data ) );
     }
 
     public void writeByte( final byte data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ).getBytes() );
+        out.write( String.valueOf( data ) );
     }
 
     public void writeShort( final short data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ).getBytes() );
+        out.write( String.valueOf( data ) );
     }
 
     public void writeInt( final int data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ).getBytes() );
+        out.write( String.valueOf( data ) );
     }
 
     public void writeLong( final long data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ).getBytes() );
+        out.write( String.valueOf( data ) );
     }
 
     public void writeFloat( final float data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ).getBytes() );
+        out.write( String.valueOf( data ) );
     }
 
     public void writeDouble( final double data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ).getBytes() );
+        out.write( String.valueOf( data ) );
     }
 
     private void writeOptionalColonOrComma() throws IOException {

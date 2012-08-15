@@ -1082,7 +1082,7 @@ public final class InvalidJsonWriterTestCase {
         }
     }
 
-    private JsonWriter getJsonWriter() {
+    private JsonWriter getJsonWriter() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         return JsonFactory.newInstance().newJsonWriter( baos );
     }

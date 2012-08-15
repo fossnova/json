@@ -21,6 +21,9 @@ package org.fossnova.json;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 import org.fossnova.finder.FactoryFinder;
 
@@ -53,26 +56,83 @@ public abstract class JsonFactory {
     }
 
     /**
-     * Creates new JSON reader with <b>UTF-8</b> string encoding.
+     * Creates new JSON reader.
+     * 
+     * @param reader input
+     * @return JSON reader instance
+     */
+    public abstract JsonReader newJsonReader( Reader reader );
+
+    /**
+     * Creates new JSON writer.
+     * 
+     * @param writer output
+     * @return JSON writer instance
+     */
+    public abstract JsonWriter newJsonWriter( Writer writer );
+
+    /**
+     * Creates new JSON builder.
+     * 
+     * @param writer output
+     * @return JSON builder instance
+     */
+    public abstract JsonBuilder newJsonBuilder( Writer writer );
+
+    /**
+     * Creates new JSON reader with default character set.
      * 
      * @param stream input
      * @return JSON reader instance
+     * @throws UnsupportedEncodingException if default character set is not supported
      */
-    public abstract JsonReader newJsonReader( InputStream stream );
+    public abstract JsonReader newJsonReader( InputStream stream ) throws UnsupportedEncodingException;
 
     /**
-     * Creates new JSON writer with <b>UTF-8</b> string encoding.
+     * Creates new JSON writer with default character set.
      * 
      * @param stream output
      * @return JSON writer instance
+     * @throws UnsupportedEncodingException if default character set is not supported
      */
-    public abstract JsonWriter newJsonWriter( OutputStream stream );
+    public abstract JsonWriter newJsonWriter( OutputStream stream ) throws UnsupportedEncodingException;
 
     /**
-     * Creates new JSON builder with <b>UTF-8</b> string encoding.
+     * Creates new JSON builder with default character set.
      * 
      * @param stream output
      * @return JSON builder instance
+     * @throws UnsupportedEncodingException if default character set is not supported
      */
-    public abstract JsonBuilder newJsonBuilder( OutputStream stream );
+    public abstract JsonBuilder newJsonBuilder( OutputStream stream ) throws UnsupportedEncodingException;
+
+    /**
+     * Creates new JSON reader  with specified character set.
+     * 
+     * @param stream input
+     * @param charsetName character set name
+     * @return JSON reader instance
+     * @throws UnsupportedEncodingException if specified character set is not supported
+     */
+    public abstract JsonReader newJsonReader( InputStream stream, String charsetName ) throws UnsupportedEncodingException;
+
+    /**
+     * Creates new JSON writer with specified character set.
+     * 
+     * @param stream output
+     * @param charsetName character set name
+     * @return JSON writer instance
+     * @throws UnsupportedEncodingException if specified character set is not supported
+     */
+    public abstract JsonWriter newJsonWriter( OutputStream stream, String charsetName ) throws UnsupportedEncodingException;
+
+    /**
+     * Creates new JSON builder with specified character set.
+     * 
+     * @param stream output
+     * @param charsetName character set name
+     * @return JSON builder instance
+     * @throws UnsupportedEncodingException if specified character set is not supported
+     */
+    public abstract JsonBuilder newJsonBuilder( OutputStream stream, String charsetName ) throws UnsupportedEncodingException;
 }

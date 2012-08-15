@@ -242,6 +242,10 @@ final class JsonGrammarAnalyzer {
         }
     }
 
+    boolean isFinished() {
+        return finished;
+    }
+
     boolean isEmpty() {
         return stack.size() == 0;
     }

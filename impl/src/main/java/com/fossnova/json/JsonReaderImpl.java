@@ -22,8 +22,8 @@ package com.fossnova.json;
 import static com.fossnova.json.JsonConstants.BACKSLASH;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PushbackInputStream;
+import java.io.PushbackReader;
+import java.io.Reader;
 
 import org.fossnova.json.JsonEvent;
 import org.fossnova.json.JsonException;
@@ -34,13 +34,9 @@ import org.fossnova.json.JsonReader;
  */
 final class JsonReaderImpl implements JsonReader {
 
-    private PushbackInputStream in; // TODO: rename to in
-
-    private String encoding; // TODO: implement
+    private PushbackReader in;
 
     private JsonGrammarAnalyzer analyzer = new JsonGrammarAnalyzer();
-
-    private boolean hasNext;
 
     private String lastNumber;
 
@@ -48,20 +44,18 @@ final class JsonReaderImpl implements JsonReader {
 
     private boolean lastBoolean;
 
-    JsonReaderImpl( final InputStream is, final String encoding ) {
-        this.in = new PushbackInputStream( is );
-        this.encoding = encoding;
+    JsonReaderImpl( final Reader in ) {
+        this.in = new PushbackReader( in );
     }
 
     public void close() {
         lastNumber = null;
         lastString = null;
         analyzer = null;
-        encoding = null;
         in = null;
-        hasNext = false;
     }
 
+    @Override
     protected void finalize() throws Throwable {
         close();
         super.finalize();
@@ -82,8 +76,7 @@ final class JsonReaderImpl implements JsonReader {
     }
 
     public boolean hasNext() throws IOException {
-        hasNext = !analyzer.isEmpty() || in.available() > 0;
-        return hasNext;
+        return !analyzer.isFinished();
     }
 
     public JsonEvent next() throws IOException {
@@ -219,21 +212,21 @@ final class JsonReaderImpl implements JsonReader {
                 stringEndFound = true;
                 break;
             }
-            if ( currentChar == BACKSLASH && previousChar != BACKSLASH ) {
+            if ( ( currentChar == BACKSLASH ) && ( previousChar != BACKSLASH ) ) {
                 previousChar = currentChar;
                 continue;
             }
-            if ( previousChar == BACKSLASH && currentChar == 'b' ) {
+            if ( ( previousChar == BACKSLASH ) && ( currentChar == 'b' ) ) {
                 retVal.appendCodePoint( '\b' );
-            } else if ( previousChar == BACKSLASH && currentChar == 'f' ) {
+            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 'f' ) ) {
                 retVal.appendCodePoint( '\f' );
-            } else if ( previousChar == BACKSLASH && currentChar == 'n' ) {
+            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 'n' ) ) {
                 retVal.appendCodePoint( '\n' );
-            } else if ( previousChar == BACKSLASH && currentChar == 'r' ) {
+            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 'r' ) ) {
                 retVal.appendCodePoint( '\r' );
-            } else if ( previousChar == BACKSLASH && currentChar == 't' ) {
+            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 't' ) ) {
                 retVal.appendCodePoint( '\t' );
-            } else if ( previousChar == BACKSLASH && currentChar == 'u' ) {
+            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 'u' ) ) {
                 final StringBuilder sb = new StringBuilder( 4 );
                 for ( int i = 0; i < 4; i++ ) {
                     sb.append( ( char ) in.read() );
@@ -253,15 +246,15 @@ final class JsonReaderImpl implements JsonReader {
     }
 
     private void readBoolean() throws IOException {
-        int firstChar = in.read();
+        final int firstChar = in.read();
         boolean correctBooleanValue = false;
         if ( firstChar == 't' ) {
-            if ( in.read() == 'r' && in.read() == 'u' && in.read() == 'e' ) {
+            if ( ( in.read() == 'r' ) && ( in.read() == 'u' ) && ( in.read() == 'e' ) ) {
                 lastBoolean = true;
                 correctBooleanValue = true;
             }
         } else {
-            if ( in.read() == 'a' && in.read() == 'l' && in.read() == 's' && in.read() == 'e' ) {
+            if ( ( in.read() == 'a' ) && ( in.read() == 'l' ) && ( in.read() == 's' ) && ( in.read() == 'e' ) ) {
                 lastBoolean = false;
                 correctBooleanValue = true;
             }
@@ -272,7 +265,7 @@ final class JsonReaderImpl implements JsonReader {
     }
 
     private void readNull() throws IOException {
-        if ( in.read() == 'n' && in.read() == 'u' && in.read() == 'l' && in.read() == 'l' ) {
+        if ( ( in.read() == 'n' ) && ( in.read() == 'u' ) && ( in.read() == 'l' ) && ( in.read() == 'l' ) ) {
             return;
         }
         throw new JsonException( "Expected null token" );
@@ -292,7 +285,7 @@ final class JsonReaderImpl implements JsonReader {
     }
 
     private boolean isNumberCharacter( final int character ) {
-        if ( '0' <= character && character <= '9' ) return true;
+        if ( ( '0' <= character ) && ( character <= '9' ) ) return true;
         if ( character == '-' ) return true;
         if ( character == '+' ) return true;
         if ( character == '.' ) return true;
@@ -302,7 +295,7 @@ final class JsonReaderImpl implements JsonReader {
     }
 
     private boolean isStringEnd( final char first, final char second ) {
-        return first != BACKSLASH && second == JsonConstants.QUOTE;
+        return ( first != BACKSLASH ) && ( second == JsonConstants.QUOTE );
     }
 
     private boolean isCurrentEvent( final JsonEvent event ) {

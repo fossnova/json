@@ -41,7 +41,7 @@ public final class ValidJsonWriterTestCase {
     private JsonWriter writer;
 
     @Before
-    public void init() {
+    public void init() throws UnsupportedEncodingException {
         baos = new ByteArrayOutputStream();
         writer = JsonFactory.newInstance().newJsonWriter( baos );
     }
