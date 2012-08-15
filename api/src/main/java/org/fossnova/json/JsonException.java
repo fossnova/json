@@ -20,7 +20,7 @@
 package org.fossnova.json;
 
 /**
- * Represents JSON encoding exception.
+ * JSON encoding exception.
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
