@@ -142,4 +142,20 @@ public interface JsonBuilder {
      * @return this builder instance
      */
     JsonBuilder writeDouble( double data ) throws IOException;
+
+    /**
+     * Writes all cached data.
+     * 
+     * @throws IOException if I/O error occurs
+     * @return this builder instance
+     */
+    JsonBuilder flush() throws IOException;
+
+    /**
+     * Free resources associated with this builder. Never closes underlying stream.
+     *
+     * @throws IOException if I/O error occurs
+     * @return this builder instance
+     */
+    void close();
 }

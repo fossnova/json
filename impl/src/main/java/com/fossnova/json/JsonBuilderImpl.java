@@ -99,4 +99,13 @@ final class JsonBuilderImpl implements JsonBuilder {
         delegate.writeDouble( data );
         return this;
     }
+
+    public JsonBuilder flush() throws IOException {
+        delegate.flush();
+        return this;
+    }
+
+    public void close() {
+        delegate.close();
+    }
 }
