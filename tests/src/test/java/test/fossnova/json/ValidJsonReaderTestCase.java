@@ -23,6 +23,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonReader;
@@ -53,7 +55,9 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
     public void moreComplexObject() throws IOException {
-        final JsonReader reader = getJsonReader( "{\"0\":\"0\",\"1\":1,\"2\":2,\"3\":3,\"4\":4,\"5\":5.0,\"6\":6.0,\"7\":true,\"8\":null}" );
+        final String data = "{\"0\":\"0\",\"1\":1,\"2\":2,\"3\":3,\"4\":4,\"5\":5.0,\"6\":6.0,\"7\":true,\"8\":null,\"9\":"
+            + "900000000000000000000000000000000000000,\"10\":100000000000000000000000000000000000000.000000000000000000000000000001}";
+        final JsonReader reader = getJsonReader( data );
         assertObjectStartState( reader );
         assertStringState( reader, "0" );
         assertStringState( reader, "0" );
@@ -73,6 +77,10 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertBooleanState( reader, true );
         assertStringState( reader, "8" );
         assertNullState( reader );
+        assertStringState( reader, "9" );
+        assertBigIntegerState( reader, new BigInteger( "900000000000000000000000000000000000000" ) );
+        assertStringState( reader, "10" );
+        assertBigDecimalState( reader, new BigDecimal( "100000000000000000000000000000000000000.000000000000000000000000000001" ) );
         assertObjectEndState( reader );
     }
 
@@ -108,7 +116,8 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
     public void moreComplexArray() throws IOException {
-        final JsonReader reader = getJsonReader( "[\"0\",1,2,3,4,5.0,6.0,true,null]" );
+        final String data = "[\"0\",1,2,3,4,5.0,6.0," + "700000000000000000000000000000000000000,800000000000000000000000000000000000000.000000000000000000000000000009,true,null]";
+        final JsonReader reader = getJsonReader( data );
         assertArrayStartState( reader );
         assertStringState( reader, "0" );
         assertByteState( reader, ( byte ) 1 );
@@ -117,6 +126,8 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertLongState( reader, 4L );
         assertFloatState( reader, 5F );
         assertDoubleState( reader, 6.0 );
+        assertBigIntegerState( reader, new BigInteger( "700000000000000000000000000000000000000" ) );
+        assertBigDecimalState( reader, new BigDecimal( "800000000000000000000000000000000000000.000000000000000000000000000009" ) );
         assertBooleanState( reader, true );
         assertNullState( reader );
         assertArrayEndState( reader );

@@ -21,6 +21,8 @@ package org.fossnova.json;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * JSON writer.
@@ -114,6 +116,22 @@ public interface JsonWriter extends Closeable {
      * @throws IOException if I/O error occurs
      */
     void writeLong( long data ) throws IOException;
+
+    /**
+     * Writes JSON <code>number</code>.
+     * 
+     * @param data to encode
+     * @throws IOException if I/O error occurs
+     */
+    void writeBigInteger( BigInteger data ) throws IOException;
+
+    /**
+     * Writes JSON <code>number</code>.
+     * 
+     * @param data to encode
+     * @throws IOException if I/O error occurs
+     */
+    void writeBigDecimal( BigDecimal data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.

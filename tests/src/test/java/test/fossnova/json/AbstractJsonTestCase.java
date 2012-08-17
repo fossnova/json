@@ -32,6 +32,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.fossnova.json.JsonReader;
 
@@ -130,6 +132,16 @@ abstract class AbstractJsonTestCase {
     static void assertLongState( final JsonReader reader, final long expected ) throws IOException {
         assertNumberState( reader );
         assertEquals( expected, reader.getLong() );
+    }
+
+    static void assertBigIntegerState( final JsonReader reader, final BigInteger expected ) throws IOException {
+        assertNumberState( reader );
+        assertEquals( expected, reader.getBigInteger() );
+    }
+
+    static void assertBigDecimalState( final JsonReader reader, final BigDecimal expected ) throws IOException {
+        assertNumberState( reader );
+        assertEquals( expected, reader.getBigDecimal() );
     }
 
     static void assertFloatState( final JsonReader reader, final float expected ) throws IOException {

@@ -21,6 +21,8 @@ package org.fossnova.json;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * JSON reader.
@@ -185,4 +187,22 @@ public interface JsonReader extends Closeable {
      * @exception NumberFormatException if JSON number is not convertible to <code>double</code>
      */
     double getDouble();
+
+    /**
+     * Converts available context data to <code>BigInteger</code>.
+     * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
+     * 
+     * @return BigInteger value the parsing cursor is pointing to
+     * @exception NumberFormatException if JSON number is not convertible to <code>BigInteger</code>
+     */
+    BigInteger getBigInteger();
+
+    /**
+     * Converts available context data to <code>BigDecimal</code>.
+     * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
+     * 
+     * @return BigDecimal value the parsing cursor is pointing to
+     * @exception NumberFormatException if JSON number is not convertible to <code>BigDecimal</code>
+     */
+    BigDecimal getBigDecimal();
 }

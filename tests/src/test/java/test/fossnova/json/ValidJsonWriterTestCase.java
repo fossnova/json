@@ -23,6 +23,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonWriter;
@@ -80,12 +82,16 @@ public final class ValidJsonWriterTestCase {
         writer.writeLong( 4L );
         writer.writeFloat( 5F );
         writer.writeDouble( 6.0 );
+        writer.writeBigInteger( new BigInteger( "700000000000000000000000000000000000000" ) );
+        writer.writeBigDecimal( new BigDecimal( "800000000000000000000000000000000000000.000000000000000000000000000009" ) );
         writer.writeBoolean( true );
         writer.writeNull();
         writer.writeArrayEnd();
         writer.flush();
         writer.close();
-        Assert.assertEquals( "[\"0\",1,2,3,4,5.0,6.0,true,null]", getWriterOutput() );
+        final String expected = "[\"0\",1,2,3,4,5.0,6.0,"
+            + "700000000000000000000000000000000000000,800000000000000000000000000000000000000.000000000000000000000000000009,true,null]";
+        Assert.assertEquals( expected, getWriterOutput() );
     }
 
     @Test
@@ -148,10 +154,16 @@ public final class ValidJsonWriterTestCase {
         writer.writeBoolean( true );
         writer.writeString( "8" );
         writer.writeNull();
+        writer.writeString( "9" );
+        writer.writeBigInteger( new BigInteger( "900000000000000000000000000000000000000" ) );
+        writer.writeString( "10" );
+        writer.writeBigDecimal( new BigDecimal( "100000000000000000000000000000000000000.000000000000000000000000000001" ) );
         writer.writeObjectEnd();
         writer.flush();
         writer.close();
-        Assert.assertEquals( "{\"0\":\"0\",\"1\":1,\"2\":2,\"3\":3,\"4\":4,\"5\":5.0,\"6\":6.0,\"7\":true,\"8\":null}", getWriterOutput() );
+        final String expected = "{\"0\":\"0\",\"1\":1,\"2\":2,\"3\":3,\"4\":4,\"5\":5.0,\"6\":6.0,\"7\":true,\"8\":null,\"9\":"
+            + "900000000000000000000000000000000000000,\"10\":100000000000000000000000000000000000000.000000000000000000000000000001}";
+        Assert.assertEquals( expected, getWriterOutput() );
     }
 
     @Test

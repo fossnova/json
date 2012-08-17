@@ -37,6 +37,8 @@ import static com.fossnova.json.JsonConstants.TAB;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.fossnova.json.JsonWriter;
 
@@ -105,10 +107,10 @@ final class JsonWriterImpl implements JsonWriter {
     }
 
     public void writeString( final String data ) throws IOException {
-        ensureOpen();
         if ( data == null ) {
-            throw new IllegalArgumentException( "Null parameter" );
+            throw new NullPointerException( "Parameter cannot be null" );
         }
+        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.STRING );
         out.write( encode( data ) );
@@ -150,6 +152,26 @@ final class JsonWriterImpl implements JsonWriter {
     }
 
     public void writeLong( final long data ) throws IOException {
+        ensureOpen();
+        writeOptionalColonOrComma();
+        analyzer.push( JsonGrammarToken.NUMBER );
+        out.write( String.valueOf( data ) );
+    }
+
+    public void writeBigInteger( final BigInteger data ) throws IOException {
+        if ( data == null ) {
+            throw new NullPointerException( "Parameter cannot be null" );
+        }
+        ensureOpen();
+        writeOptionalColonOrComma();
+        analyzer.push( JsonGrammarToken.NUMBER );
+        out.write( String.valueOf( data ) );
+    }
+
+    public void writeBigDecimal( final BigDecimal data ) throws IOException {
+        if ( data == null ) {
+            throw new NullPointerException( "Parameter cannot be null" );
+        }
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );

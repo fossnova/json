@@ -24,6 +24,8 @@ import static com.fossnova.json.JsonConstants.BACKSLASH;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.fossnova.json.JsonEvent;
 import org.fossnova.json.JsonException;
@@ -323,6 +325,14 @@ final class JsonReaderImpl implements JsonReader {
 
     public long getLong() {
         return Long.parseLong( getNumber() );
+    }
+
+    public BigInteger getBigInteger() {
+        return new BigInteger( getNumber() );
+    }
+
+    public BigDecimal getBigDecimal() {
+        return new BigDecimal( getNumber() );
     }
 
     public float getFloat() {
