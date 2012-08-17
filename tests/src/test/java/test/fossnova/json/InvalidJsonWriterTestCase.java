@@ -21,6 +21,7 @@ package test.fossnova.json;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.fossnova.json.JsonException;
 import org.fossnova.json.JsonFactory;
@@ -1084,6 +1085,6 @@ public final class InvalidJsonWriterTestCase {
 
     private JsonWriter getJsonWriter() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        return JsonFactory.newInstance().newJsonWriter( baos );
+        return JsonFactory.newInstance().newJsonWriter( new OutputStreamWriter( baos ) );
     }
 }

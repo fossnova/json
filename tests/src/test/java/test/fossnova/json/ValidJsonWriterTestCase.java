@@ -21,6 +21,7 @@ package test.fossnova.json;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
 import org.fossnova.json.JsonFactory;
@@ -33,7 +34,6 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-// TODO: implement writer.close(), reader.close(), builder.close() and call it in tests when necessary
 public final class ValidJsonWriterTestCase {
 
     private ByteArrayOutputStream baos;
@@ -43,7 +43,7 @@ public final class ValidJsonWriterTestCase {
     @Before
     public void init() throws UnsupportedEncodingException {
         baos = new ByteArrayOutputStream();
-        writer = JsonFactory.newInstance().newJsonWriter( baos );
+        writer = JsonFactory.newInstance().newJsonWriter( new OutputStreamWriter( baos ) );
     }
 
     @After

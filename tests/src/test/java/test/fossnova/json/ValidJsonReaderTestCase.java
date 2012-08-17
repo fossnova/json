@@ -21,6 +21,7 @@ package test.fossnova.json;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import org.fossnova.json.JsonFactory;
@@ -30,7 +31,7 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-// TODO: implement writer.close(), reader.close(), builder.close() and call it in tests when necessary
+// TODO: call reader.close() in all methods below
 public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
@@ -184,6 +185,6 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
     }
 
     private static JsonReader getJsonReader( final String data ) throws UnsupportedEncodingException {
-        return JsonFactory.newInstance().newJsonReader( new ByteArrayInputStream( data.getBytes( "UTF-8" ) ) );
+        return JsonFactory.newInstance().newJsonReader( new InputStreamReader( new ByteArrayInputStream( data.getBytes( "UTF-8" ) ) ) );
     }
 }

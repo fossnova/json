@@ -19,14 +19,8 @@
  */
 package com.fossnova.json;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.charset.Charset;
 
 import org.fossnova.json.JsonBuilder;
 import org.fossnova.json.JsonFactory;
@@ -38,62 +32,24 @@ import org.fossnova.json.JsonWriter;
  */
 public final class JsonFactoryImpl extends JsonFactory {
 
-    private static final String defaultCharset = Charset.defaultCharset().name();
-
     @Override
     public JsonReader newJsonReader( final Reader reader ) {
-        assertNotNullParameter( reader );
+        if ( reader == null ) {
+            throw new NullPointerException( "Reader cannot be null" );
+        }
         return new JsonReaderImpl( reader );
     }
 
     @Override
-    public JsonReader newJsonReader( final InputStream stream ) throws UnsupportedEncodingException {
-        return newJsonReader( stream, defaultCharset );
-    }
-
-    @Override
-    public JsonReader newJsonReader( final InputStream stream, final String charsetName ) throws UnsupportedEncodingException {
-        assertNotNullParameter( stream );
-        assertNotNullParameter( charsetName );
-        return newJsonReader( new InputStreamReader( stream, charsetName ) );
-    }
-
-    @Override
     public JsonWriter newJsonWriter( final Writer writer ) {
-        assertNotNullParameter( writer );
+        if ( writer == null ) {
+            throw new NullPointerException( "Writer cannot be null" );
+        }
         return new JsonWriterImpl( writer );
-    }
-
-    @Override
-    public JsonWriter newJsonWriter( final OutputStream stream ) throws UnsupportedEncodingException {
-        return newJsonWriter( stream, defaultCharset );
-    }
-
-    @Override
-    public JsonWriter newJsonWriter( final OutputStream stream, final String charsetName ) throws UnsupportedEncodingException {
-        assertNotNullParameter( stream );
-        assertNotNullParameter( charsetName );
-        return newJsonWriter( new OutputStreamWriter( stream, charsetName ) );
     }
 
     @Override
     public JsonBuilder newJsonBuilder( final Writer writer ) {
         return new JsonBuilderImpl( newJsonWriter( writer ) );
-    }
-
-    @Override
-    public JsonBuilder newJsonBuilder( final OutputStream stream ) throws UnsupportedEncodingException {
-        return new JsonBuilderImpl( newJsonWriter( stream ) );
-    }
-
-    @Override
-    public JsonBuilder newJsonBuilder( final OutputStream stream, final String charsetName ) throws UnsupportedEncodingException {
-        return new JsonBuilderImpl( newJsonWriter( stream, charsetName ) );
-    }
-
-    private static void assertNotNullParameter( final Object o ) {
-        if ( o == null ) {
-            throw new NullPointerException( "Parameter cannot be null" );
-        }
     }
 }
