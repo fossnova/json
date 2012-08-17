@@ -1,4 +1,4 @@
-P1 Implement JSON reader
+P1 Implement JSON reader whitespace processing - http://en.wikipedia.org/wiki/Whitespace_character
 P2 Implement configuration properties
 P2 implement indentation support
 P3 configure checkstyle

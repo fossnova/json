@@ -19,6 +19,7 @@
  */
 package org.fossnova.json;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 /**
@@ -29,7 +30,7 @@ import java.io.IOException;
  * @see JsonBuilder
  * @see JsonWriter
  */
-public interface JsonReader {
+public interface JsonReader extends Closeable {
 
     /**
      * Detects if there is next JSON parsing event available.

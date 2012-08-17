@@ -19,6 +19,7 @@
  */
 package org.fossnova.json;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 /**
@@ -29,7 +30,7 @@ import java.io.IOException;
  * @see JsonBuilder
  * @see JsonReader
  */
-public interface JsonWriter {
+public interface JsonWriter extends Closeable {
 
     /**
      * Writes JSON <code>object start</code> token.
