@@ -33,7 +33,6 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-// TODO: call reader.close() in all methods below
 public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
@@ -42,6 +41,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertObjectStartState( reader );
         assertObjectEndState( reader );
         assertFinalState( reader );
+        reader.close();
     }
 
     @Test
@@ -51,6 +51,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertStringState( reader, "a" );
         assertStringState( reader, "b" );
         assertObjectEndState( reader );
+        reader.close();
     }
 
     @Test
@@ -82,6 +83,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertStringState( reader, "10" );
         assertBigDecimalState( reader, new BigDecimal( "100000000000000000000000000000000000000.000000000000000000000000000001" ) );
         assertObjectEndState( reader );
+        reader.close();
     }
 
     @Test
@@ -104,6 +106,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertObjectEndState( reader );
         assertArrayEndState( reader );
         assertObjectEndState( reader );
+        reader.close();
     }
 
     @Test
@@ -112,6 +115,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertArrayStartState( reader );
         assertArrayEndState( reader );
         assertFinalState( reader );
+        reader.close();
     }
 
     @Test
@@ -132,6 +136,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertNullState( reader );
         assertArrayEndState( reader );
         assertFinalState( reader );
+        reader.close();
     }
 
     @Test
@@ -158,6 +163,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertArrayEndState( reader );
         assertArrayEndState( reader );
         assertArrayEndState( reader );
+        reader.close();
     }
 
     @Test
@@ -175,6 +181,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         sb.append( '\t' );
         assertStringState( reader, sb.toString() );
         assertArrayEndState( reader );
+        reader.close();
     }
 
     @Test
@@ -193,6 +200,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         }
         assertStringState( reader, sb.toString() );
         assertArrayEndState( reader );
+        reader.close();
     }
 
     private static JsonReader getJsonReader( final String data ) throws UnsupportedEncodingException {
