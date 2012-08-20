@@ -78,7 +78,12 @@ final class JsonReaderImpl implements JsonReader {
     }
 
     public boolean hasNext() throws IOException {
-        return !analyzer.isFinished();
+        final int nextChar = in.read();
+        if ( nextChar != -1 ) {
+            in.unread( nextChar );
+            return true;
+        }
+        return false;
     }
 
     public JsonEvent next() throws IOException {

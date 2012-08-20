@@ -39,7 +39,7 @@ import org.junit.Test;
 public final class InvalidJsonWriterTestCase {
 
     @Test
-    public void testEmptyState() throws IOException {
+    public void emptyState() throws IOException {
         write_objectEnd();
         write_arrayEnd();
         write_string();
@@ -56,7 +56,7 @@ public final class InvalidJsonWriterTestCase {
     }
 
     @Test
-    public void testEmptyObjectStartState() throws IOException {
+    public void emptyObjectStartState() throws IOException {
         write_objectStart_arrayEnd();
         write_objectStart_byte();
         write_objectStart_short();
@@ -71,12 +71,12 @@ public final class InvalidJsonWriterTestCase {
     }
 
     @Test
-    public void testEmptyArrayStartState() throws IOException {
+    public void emptyArrayStartState() throws IOException {
         write_arrayStart_objectEnd();
     }
 
     @Test
-    public void testNotEmptyArrayStartState() throws IOException {
+    public void notEmptyArrayStartState() throws IOException {
         write_arrayStart_string_objectEnd();
         write_arrayStart_byte_objectEnd();
         write_arrayStart_short_objectEnd();
@@ -91,7 +91,7 @@ public final class InvalidJsonWriterTestCase {
     }
 
     @Test
-    public void testObjectStartObjectEndState() throws IOException {
+    public void objectStartObjectEndState() throws IOException {
         write_objectStart_objectEnd_objectStart();
         write_objectStart_objectEnd_objectEnd();
         write_objectStart_objectEnd_arrayStart();
@@ -110,7 +110,7 @@ public final class InvalidJsonWriterTestCase {
     }
 
     @Test
-    public void testArrayStartArrayEndState() throws IOException {
+    public void arrayStartArrayEndState() throws IOException {
         write_arrayStart_arrayEnd_objectStart();
         write_arrayStart_arrayEnd_objectEnd();
         write_arrayStart_arrayEnd_arrayStart();
@@ -129,7 +129,7 @@ public final class InvalidJsonWriterTestCase {
     }
 
     @Test
-    public void testNotEmptyObjectStartState() throws IOException {
+    public void notEmptyObjectStartState() throws IOException {
         write_objectStart_string_objectEnd();
         write_objectStart_string_string_arrayEnd();
         write_objectStart_string_string_byte();

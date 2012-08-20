@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.fossnova.json.JsonException;
 import org.fossnova.json.JsonReader;
 
 /**
@@ -128,6 +129,16 @@ abstract class AbstractJsonTestCase {
         assertEquals( expected, reader.getString() );
         assertNotNumberException( reader );
         assertNotBooleanException( reader );
+    }
+
+    static void assertJsonException( final JsonReader reader, final String expected ) throws IOException {
+        assertTrue( reader.hasNext() );
+        try {
+            reader.next();
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( expected, e.getMessage() );
+        }
     }
 
     static void assertByteState( final JsonReader reader, final byte expected ) throws IOException {
