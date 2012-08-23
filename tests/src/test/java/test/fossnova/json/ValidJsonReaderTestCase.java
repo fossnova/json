@@ -19,14 +19,10 @@
  */
 package test.fossnova.json;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonReader;
 import org.junit.Test;
 
@@ -141,7 +137,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
     public void theMostComplexArray() throws IOException {
-        final JsonReader reader = getJsonReader( "[\"0\",{\"String\":\"s\",\"boolean\":false},\"1\",[null,true,7,{}[[]]]]" );
+        final JsonReader reader = getJsonReader( "[\"0\",{\"String\":\"s\",\"boolean\":false},\"1\",[null,true,7,{},[[]]]]" );
         assertArrayStartState( reader );
         assertStringState( reader, "0" );
         assertObjectStartState( reader );
@@ -201,9 +197,5 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertStringState( reader, sb.toString() );
         assertArrayEndState( reader );
         reader.close();
-    }
-
-    private static JsonReader getJsonReader( final String data ) throws UnsupportedEncodingException {
-        return JsonFactory.newInstance().newJsonReader( new InputStreamReader( new ByteArrayInputStream( data.getBytes( "UTF-8" ) ) ) );
     }
 }

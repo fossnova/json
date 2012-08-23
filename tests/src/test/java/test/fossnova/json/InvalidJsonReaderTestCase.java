@@ -19,11 +19,8 @@
  */
 package test.fossnova.json;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
-import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonReader;
 import org.junit.Test;
 
@@ -33,8 +30,7 @@ import org.junit.Test;
 public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
 
     // TODO: implement test - EOF at string, number, boolean, null, array or object structure
-    // TODO: implement test - colon at array instead of comma
-    // TODO: implement test - comma at object instead of colon and vice versa 
+
     @Test
     public void emptyState() throws IOException {
         read_colon();
@@ -66,10 +62,14 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
     public void notEmptyArrayStartState() throws IOException {
+        read_arrayStart_arrayStart_arrayEnd_objectEnd();
+        read_arrayStart_objectStart_objectEnd_objectEnd();
         read_arrayStart_string_objectEnd();
         read_arrayStart_number_objectEnd();
         read_arrayStart_boolean_objectEnd();
         read_arrayStart_null_objectEnd();
+        read_arrayStart_arrayStart_arrayEnd_colon();
+        read_arrayStart_objectStart_objectEnd_colon();
         read_arrayStart_string_colon();
         read_arrayStart_number_colon();
         read_arrayStart_boolean_colon();
@@ -106,6 +106,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
     public void notEmptyObjectStartState() throws IOException {
+        // TODO: review test cases - add comma & colon words to method names
         read_objectStart_string_comma();
         read_objectStart_string_objectEnd();
         read_objectStart_string_string_arrayEnd();
@@ -231,6 +232,22 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         assertJsonException( reader, "Expecting ] { [ STRING NUMBER true false null" );
     }
 
+    private void read_arrayStart_arrayStart_arrayEnd_objectEnd() throws IOException {
+        final JsonReader reader = getJsonReader( "[[]}" );
+        assertArrayStartState( reader );
+        assertArrayStartState( reader );
+        assertArrayEndState( reader );
+        assertJsonException( reader, "Expecting , ]" );
+    }
+
+    private void read_arrayStart_objectStart_objectEnd_objectEnd() throws IOException {
+        final JsonReader reader = getJsonReader( "[{}}" );
+        assertArrayStartState( reader );
+        assertObjectStartState( reader );
+        assertObjectEndState( reader );
+        assertJsonException( reader, "Expecting , ]" );
+    }
+
     private void read_arrayStart_string_objectEnd() throws IOException {
         final JsonReader reader = getJsonReader( "[\"\"}" );
         assertArrayStartState( reader );
@@ -260,6 +277,22 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         final JsonReader reader = getJsonReader( "[null}" );
         assertArrayStartState( reader );
         assertNullState( reader );
+        assertJsonException( reader, "Expecting , ]" );
+    }
+
+    private void read_arrayStart_arrayStart_arrayEnd_colon() throws IOException {
+        final JsonReader reader = getJsonReader( "[[]:" );
+        assertArrayStartState( reader );
+        assertArrayStartState( reader );
+        assertArrayEndState( reader );
+        assertJsonException( reader, "Expecting , ]" );
+    }
+
+    private void read_arrayStart_objectStart_objectEnd_colon() throws IOException {
+        final JsonReader reader = getJsonReader( "[{}:" );
+        assertArrayStartState( reader );
+        assertObjectStartState( reader );
+        assertObjectEndState( reader );
         assertJsonException( reader, "Expecting , ]" );
     }
 
@@ -486,7 +519,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         assertStringState( reader, "" );
         assertStringState( reader, "" );
         assertJsonException( reader, "Expecting } STRING" );
-        reader = getJsonReader( "{\"\":\"\",false" ); // TODO: is there a test without , ?
+        reader = getJsonReader( "{\"\":\"\",false" );
         assertObjectStartState( reader );
         assertStringState( reader, "" );
         assertStringState( reader, "" );
@@ -633,10 +666,5 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         assertNullState( reader );
         assertStringState( reader, "2" );
         assertJsonException( reader, "Expecting :" );
-    }
-
-    private JsonReader getJsonReader( final String data ) throws IOException {
-        final ByteArrayInputStream bais = new ByteArrayInputStream( data.getBytes() );
-        return JsonFactory.newInstance().newJsonReader( new InputStreamReader( bais ) );
     }
 }

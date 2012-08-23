@@ -119,7 +119,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeArrayEnd();
         writer.flush();
         writer.close();
-        Assert.assertEquals( "[\"0\",{\"String\":\"s\",\"boolean\":false},\"1\",[null,true,7,{}[[]]]]", getWriterOutput() );
+        Assert.assertEquals( "[\"0\",{\"String\":\"s\",\"boolean\":false},\"1\",[null,true,7,{},[[]]]]", getWriterOutput() );
     }
 
     @Test

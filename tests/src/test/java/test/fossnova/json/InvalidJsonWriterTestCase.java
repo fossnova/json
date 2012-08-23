@@ -22,21 +22,18 @@ package test.fossnova.json;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.fossnova.json.JsonException;
-import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonWriter;
 import org.junit.Test;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class InvalidJsonWriterTestCase {
+public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
 
     @Test
     public void emptyState() throws IOException {
@@ -1394,10 +1391,5 @@ public final class InvalidJsonWriterTestCase {
         } catch ( final JsonException e ) {
             assertEquals( "Expecting :", e.getMessage() );
         }
-    }
-
-    private JsonWriter getJsonWriter() throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        return JsonFactory.newInstance().newJsonWriter( new OutputStreamWriter( baos ) );
     }
 }

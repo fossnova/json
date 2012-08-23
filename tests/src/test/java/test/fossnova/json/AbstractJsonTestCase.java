@@ -32,12 +32,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.fossnova.json.JsonException;
+import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonReader;
+import org.fossnova.json.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
@@ -295,5 +299,15 @@ abstract class AbstractJsonTestCase {
         } catch ( final IllegalStateException e ) {
             assertEquals( "Current event isn't number", e.getMessage() );
         }
+    }
+
+    static JsonReader getJsonReader( final String data ) throws IOException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream( data.getBytes() );
+        return JsonFactory.newInstance().newJsonReader( bais );
+    }
+
+    static JsonWriter getJsonWriter() throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        return JsonFactory.newInstance().newJsonWriter( baos );
     }
 }

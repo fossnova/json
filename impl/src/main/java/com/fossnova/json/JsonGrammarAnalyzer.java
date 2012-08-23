@@ -106,6 +106,8 @@ final class JsonGrammarAnalyzer {
             stack.removeLast();
             stack.removeLast();
             canWriteComma = true;
+        } else if ( isLastOnStack( ARRAY_START) ) {
+            canWriteComma = true;
         }
         if ( isEmpty() ) {
             setCannotContinue();
@@ -122,6 +124,8 @@ final class JsonGrammarAnalyzer {
         if ( isLastOnStack( COLON ) ) {
             stack.removeLast();
             stack.removeLast();
+            canWriteComma = true;
+        } else if ( isLastOnStack( ARRAY_START) ) {
             canWriteComma = true;
         }
         if ( isEmpty() ) {
