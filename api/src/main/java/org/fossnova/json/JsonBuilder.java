@@ -153,10 +153,9 @@ public interface JsonBuilder extends Closeable {
     JsonBuilder flush() throws IOException;
 
     /**
-     * Free resources associated with this builder. Never closes underlying stream.
+     * Free resources associated with this builder. Never closes underlying input stream or writer.
      *
      * @throws IOException if I/O error occurs
-     * @return this builder instance
      */
     void close();
 }

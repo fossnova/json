@@ -157,7 +157,7 @@ public interface JsonWriter extends Closeable {
     void flush() throws IOException;
 
     /**
-     * Free resources associated with this writer. Never closes underlying stream.
+     * Free resources associated with this writer. Never closes underlying input stream or writer.
      *
      * @throws IOException if I/O error occurs
      */

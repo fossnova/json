@@ -205,4 +205,11 @@ public interface JsonReader extends Closeable {
      * @exception NumberFormatException if JSON number is not convertible to <code>BigDecimal</code>
      */
     BigDecimal getBigDecimal();
+
+    /**
+     * Free resources associated with this reader. Never closes underlying output stream or reader.
+     *
+     * @throws IOException if I/O error occurs
+     */
+    void close();
 }
