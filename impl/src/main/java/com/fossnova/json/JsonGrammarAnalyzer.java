@@ -76,8 +76,10 @@ final class JsonGrammarAnalyzer {
             currentEvent = JsonEvent.ARRAY_START;
         } else if ( event == COLON ) {
             putColon();
+            currentEvent = null;
         } else if ( event == COMMA ) {
             putComma();
+            currentEvent = null;
         } else {
             throw new IllegalStateException();
         }
@@ -97,7 +99,7 @@ final class JsonGrammarAnalyzer {
 
     private void putObjectEnd() {
         // preconditions
-        if ( !isLastOnStack( OBJECT_START ) ) {
+        if ( !isLastOnStack( OBJECT_START ) || ( currentEvent == null ) ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
@@ -106,7 +108,7 @@ final class JsonGrammarAnalyzer {
             stack.removeLast();
             stack.removeLast();
             canWriteComma = true;
-        } else if ( isLastOnStack( ARRAY_START) ) {
+        } else if ( isLastOnStack( ARRAY_START ) ) {
             canWriteComma = true;
         }
         if ( isEmpty() ) {
@@ -116,7 +118,7 @@ final class JsonGrammarAnalyzer {
 
     private void putArrayEnd() {
         // preconditions
-        if ( !isLastOnStack( ARRAY_START ) ) {
+        if ( !isLastOnStack( ARRAY_START ) || ( currentEvent == null ) ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
@@ -125,7 +127,7 @@ final class JsonGrammarAnalyzer {
             stack.removeLast();
             stack.removeLast();
             canWriteComma = true;
-        } else if ( isLastOnStack( ARRAY_START) ) {
+        } else if ( isLastOnStack( ARRAY_START ) ) {
             canWriteComma = true;
         }
         if ( isEmpty() ) {
@@ -216,15 +218,20 @@ final class JsonGrammarAnalyzer {
         }
         if ( isLastOnStack( ARRAY_START ) ) {
             if ( !canWriteComma ) {
-                return "Expecting " + JsonConstants.ARRAY_END + " " + JsonConstants.OBJECT_START + " " + JsonConstants.ARRAY_START + " " + JsonConstants.STRING + " "
-                    + JsonConstants.NUMBER + " " + JsonConstants.TRUE + " " + JsonConstants.FALSE + " " + JsonConstants.NULL;
+                if ( currentEvent != null ) {
+                    return "Expecting " + JsonConstants.ARRAY_END + " " + JsonConstants.OBJECT_START + " " + JsonConstants.ARRAY_START + " " + JsonConstants.STRING + " "
+                        + JsonConstants.NUMBER + " " + JsonConstants.TRUE + " " + JsonConstants.FALSE + " " + JsonConstants.NULL;
+                } else {
+                    return "Expecting " + JsonConstants.OBJECT_START + " " + JsonConstants.ARRAY_START + " " + JsonConstants.STRING + " " + JsonConstants.NUMBER + " "
+                        + JsonConstants.TRUE + " " + JsonConstants.FALSE + " " + JsonConstants.NULL;
+                }
             } else {
                 return "Expecting " + JsonConstants.COMMA + " " + JsonConstants.ARRAY_END;
             }
         }
         if ( isLastOnStack( COLON ) ) {
             return "Expecting " + JsonConstants.OBJECT_START + " " + JsonConstants.ARRAY_START + " " + JsonConstants.STRING + " " + JsonConstants.NUMBER + " " + JsonConstants.TRUE
-                + " " + JsonConstants.FALSE + " '" + JsonConstants.NULL;
+                + " " + JsonConstants.FALSE + " " + JsonConstants.NULL;
         }
         if ( isLastOnStack( STRING ) ) {
             return "Expecting " + JsonConstants.COLON;

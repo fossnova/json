@@ -48,7 +48,8 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_bigDecimal();
         write_float();
         write_double();
-        write_boolean();
+        write_false();
+        write_true();
         write_null();
     }
 
@@ -63,7 +64,8 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_objectStart_bigDecimal();
         write_objectStart_float();
         write_objectStart_double();
-        write_objectStart_boolean();
+        write_objectStart_false();
+        write_objectStart_true();
         write_objectStart_null();
     }
 
@@ -83,7 +85,8 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_arrayStart_bigDecimal_objectEnd();
         write_arrayStart_float_objectEnd();
         write_arrayStart_double_objectEnd();
-        write_arrayStart_boolean_objectEnd();
+        write_arrayStart_false_objectEnd();
+        write_arrayStart_true_objectEnd();
         write_arrayStart_null_objectEnd();
     }
 
@@ -102,7 +105,8 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_objectStart_objectEnd_bigDecimal();
         write_objectStart_objectEnd_float();
         write_objectStart_objectEnd_double();
-        write_objectStart_objectEnd_boolean();
+        write_objectStart_objectEnd_false();
+        write_objectStart_objectEnd_true();
         write_objectStart_objectEnd_null();
     }
 
@@ -121,7 +125,8 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_arrayStart_arrayEnd_bigDecimal();
         write_arrayStart_arrayEnd_float();
         write_arrayStart_arrayEnd_double();
-        write_arrayStart_arrayEnd_boolean();
+        write_arrayStart_arrayEnd_false();
+        write_arrayStart_arrayEnd_true();
         write_arrayStart_arrayEnd_null();
     }
 
@@ -137,7 +142,8 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_objectStart_string_string_bigDecimal();
         write_objectStart_string_string_float();
         write_objectStart_string_string_double();
-        write_objectStart_string_string_boolean();
+        write_objectStart_string_string_false();
+        write_objectStart_string_string_true();
         write_objectStart_string_string_null();
         write_objectStart_string_string_string_objectEnd();
         write_objectStart_string_byte_string_objectEnd();
@@ -148,7 +154,8 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_objectStart_string_bigDecimal_string_objectEnd();
         write_objectStart_string_float_string_objectEnd();
         write_objectStart_string_double_string_objectEnd();
-        write_objectStart_string_boolean_string_objectEnd();
+        write_objectStart_string_false_string_objectEnd();
+        write_objectStart_string_true_string_objectEnd();
         write_objectStart_string_null_string_objectEnd();
         write_objectStart_string_arrayEnd();
         write_objectStart_string_string_string_arrayEnd();
@@ -160,7 +167,8 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_objectStart_string_bigDecimal_string_arrayEnd();
         write_objectStart_string_float_string_arrayEnd();
         write_objectStart_string_double_string_arrayEnd();
-        write_objectStart_string_boolean_string_arrayEnd();
+        write_objectStart_string_false_string_arrayEnd();
+        write_objectStart_string_true_string_arrayEnd();
         write_objectStart_string_null_string_arrayEnd();
     }
 
@@ -274,7 +282,17 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         }
     }
 
-    private void write_boolean() throws IOException {
+    private void write_false() throws IOException {
+        final JsonWriter writer = getJsonWriter();
+        try {
+            writer.writeBoolean( false );
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "Expecting { [", e.getMessage() );
+        }
+    }
+
+    private void write_true() throws IOException {
         final JsonWriter writer = getJsonWriter();
         try {
             writer.writeBoolean( true );
@@ -393,7 +411,18 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         }
     }
 
-    private void write_objectStart_boolean() throws IOException {
+    private void write_objectStart_false() throws IOException {
+        final JsonWriter writer = getJsonWriter();
+        writer.writeObjectStart();
+        try {
+            writer.writeBoolean( false );
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "Expecting } STRING", e.getMessage() );
+        }
+    }
+
+    private void write_objectStart_true() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
         try {
@@ -534,7 +563,19 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         }
     }
 
-    private void write_arrayStart_boolean_objectEnd() throws IOException {
+    private void write_arrayStart_false_objectEnd() throws IOException {
+        final JsonWriter writer = getJsonWriter();
+        writer.writeArrayStart();
+        writer.writeBoolean( false );
+        try {
+            writer.writeObjectEnd();
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "Expecting , ]", e.getMessage() );
+        }
+    }
+
+    private void write_arrayStart_true_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeArrayStart();
         writer.writeBoolean( true );
@@ -714,7 +755,19 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         }
     }
 
-    private void write_objectStart_objectEnd_boolean() throws IOException {
+    private void write_objectStart_objectEnd_false() throws IOException {
+        final JsonWriter writer = getJsonWriter();
+        writer.writeObjectStart();
+        writer.writeObjectEnd();
+        try {
+            writer.writeBoolean( false );
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "Expecting EOF", e.getMessage() );
+        }
+    }
+
+    private void write_objectStart_objectEnd_true() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
         writer.writeObjectEnd();
@@ -894,7 +947,19 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         }
     }
 
-    private void write_arrayStart_arrayEnd_boolean() throws IOException {
+    private void write_arrayStart_arrayEnd_false() throws IOException {
+        final JsonWriter writer = getJsonWriter();
+        writer.writeArrayStart();
+        writer.writeArrayEnd();
+        try {
+            writer.writeBoolean( false );
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "Expecting EOF", e.getMessage() );
+        }
+    }
+
+    private void write_arrayStart_arrayEnd_true() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeArrayStart();
         writer.writeArrayEnd();
@@ -1059,7 +1124,20 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         }
     }
 
-    private void write_objectStart_string_string_boolean() throws IOException {
+    private void write_objectStart_string_string_false() throws IOException {
+        final JsonWriter writer = getJsonWriter();
+        writer.writeObjectStart();
+        writer.writeString( "" );
+        writer.writeString( "" );
+        try {
+            writer.writeBoolean( false );
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "Expecting } STRING", e.getMessage() );
+        }
+    }
+
+    private void write_objectStart_string_string_true() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
         writer.writeString( "" );
@@ -1211,7 +1289,21 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         }
     }
 
-    private void write_objectStart_string_boolean_string_objectEnd() throws IOException {
+    private void write_objectStart_string_false_string_objectEnd() throws IOException {
+        final JsonWriter writer = getJsonWriter();
+        writer.writeObjectStart();
+        writer.writeString( "" );
+        writer.writeBoolean( false );
+        writer.writeString( "" );
+        try {
+            writer.writeObjectEnd();
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "Expecting :", e.getMessage() );
+        }
+    }
+
+    private void write_objectStart_string_true_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
         writer.writeString( "" );
@@ -1365,7 +1457,21 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         }
     }
 
-    private void write_objectStart_string_boolean_string_arrayEnd() throws IOException {
+    private void write_objectStart_string_false_string_arrayEnd() throws IOException {
+        final JsonWriter writer = getJsonWriter();
+        writer.writeObjectStart();
+        writer.writeString( "" );
+        writer.writeBoolean( false );
+        writer.writeString( "" );
+        try {
+            writer.writeArrayEnd();
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "Expecting :", e.getMessage() );
+        }
+    }
+
+    private void write_objectStart_string_true_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
         writer.writeString( "" );
