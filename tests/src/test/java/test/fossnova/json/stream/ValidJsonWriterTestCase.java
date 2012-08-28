@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package test.fossnova.json;
+package test.fossnova.json.stream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,8 +26,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.JsonFactory;
-import org.fossnova.json.JsonWriter;
+import org.fossnova.json.stream.JsonFactory;
+import org.fossnova.json.stream.JsonWriter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

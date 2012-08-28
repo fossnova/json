@@ -17,16 +17,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package test.fossnova.json;
+package test.fossnova.json.stream;
 
-import static org.fossnova.json.JsonEvent.ARRAY_END;
-import static org.fossnova.json.JsonEvent.ARRAY_START;
-import static org.fossnova.json.JsonEvent.BOOLEAN;
-import static org.fossnova.json.JsonEvent.NULL;
-import static org.fossnova.json.JsonEvent.NUMBER;
-import static org.fossnova.json.JsonEvent.OBJECT_END;
-import static org.fossnova.json.JsonEvent.OBJECT_START;
-import static org.fossnova.json.JsonEvent.STRING;
+import static org.fossnova.json.stream.JsonEvent.ARRAY_END;
+import static org.fossnova.json.stream.JsonEvent.ARRAY_START;
+import static org.fossnova.json.stream.JsonEvent.BOOLEAN;
+import static org.fossnova.json.stream.JsonEvent.NULL;
+import static org.fossnova.json.stream.JsonEvent.NUMBER;
+import static org.fossnova.json.stream.JsonEvent.OBJECT_END;
+import static org.fossnova.json.stream.JsonEvent.OBJECT_START;
+import static org.fossnova.json.stream.JsonEvent.STRING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -38,10 +38,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.JsonException;
-import org.fossnova.json.JsonFactory;
-import org.fossnova.json.JsonReader;
-import org.fossnova.json.JsonWriter;
+import org.fossnova.json.stream.JsonException;
+import org.fossnova.json.stream.JsonFactory;
+import org.fossnova.json.stream.JsonReader;
+import org.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>

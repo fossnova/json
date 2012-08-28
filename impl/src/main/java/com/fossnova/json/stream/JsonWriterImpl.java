@@ -17,30 +17,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.fossnova.json;
+package com.fossnova.json.stream;
 
-import static com.fossnova.json.JsonConstants.ARRAY_END;
-import static com.fossnova.json.JsonConstants.ARRAY_START;
-import static com.fossnova.json.JsonConstants.BACKSLASH;
-import static com.fossnova.json.JsonConstants.BACKSPACE;
-import static com.fossnova.json.JsonConstants.COLON;
-import static com.fossnova.json.JsonConstants.COMMA;
-import static com.fossnova.json.JsonConstants.CR;
-import static com.fossnova.json.JsonConstants.FORMFEED;
-import static com.fossnova.json.JsonConstants.NL;
-import static com.fossnova.json.JsonConstants.NULL;
-import static com.fossnova.json.JsonConstants.OBJECT_END;
-import static com.fossnova.json.JsonConstants.OBJECT_START;
-import static com.fossnova.json.JsonConstants.QUOTE;
-import static com.fossnova.json.JsonConstants.SOLIDUS;
-import static com.fossnova.json.JsonConstants.TAB;
+import static com.fossnova.json.stream.JsonConstants.ARRAY_END;
+import static com.fossnova.json.stream.JsonConstants.ARRAY_START;
+import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
+import static com.fossnova.json.stream.JsonConstants.BACKSPACE;
+import static com.fossnova.json.stream.JsonConstants.COLON;
+import static com.fossnova.json.stream.JsonConstants.COMMA;
+import static com.fossnova.json.stream.JsonConstants.CR;
+import static com.fossnova.json.stream.JsonConstants.FORMFEED;
+import static com.fossnova.json.stream.JsonConstants.NL;
+import static com.fossnova.json.stream.JsonConstants.NULL;
+import static com.fossnova.json.stream.JsonConstants.OBJECT_END;
+import static com.fossnova.json.stream.JsonConstants.OBJECT_START;
+import static com.fossnova.json.stream.JsonConstants.QUOTE;
+import static com.fossnova.json.stream.JsonConstants.SOLIDUS;
+import static com.fossnova.json.stream.JsonConstants.TAB;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.JsonWriter;
+import org.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>

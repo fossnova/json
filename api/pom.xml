@@ -31,9 +31,9 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <name>FOSS Nova JSON API</name>
+  <name>FOSS Nova JSON Streaming API</name>
   <groupId>org.fossnova</groupId>
-  <artifactId>fossnova-json-api</artifactId>
+  <artifactId>fossnova-json-stream-api</artifactId>
 
   <dependencies>
     <dependency>
@@ -50,9 +50,9 @@
         <configuration>
           <detectJavaApiLink>false</detectJavaApiLink>
           <detectLinks>false</detectLinks>
-          <doctitle><![CDATA[FOSS Nova JSON API ]]>${project.version}</doctitle>
-          <header><![CDATA[FOSS Nova JSON API ]]>${project.version}</header>
-          <footer><![CDATA[FOSS Nova JSON API ]]>${project.version}</footer>
+          <doctitle><![CDATA[FOSS Nova JSON Streaming API ]]>${project.version}</doctitle>
+          <header><![CDATA[FOSS Nova JSON Streaming API ]]>${project.version}</header>
+          <footer><![CDATA[FOSS Nova JSON Streaming API ]]>${project.version}</footer>
           <bottom><![CDATA[<i>Copyright &#169;, 2012 FOSS Nova Software Foundation (FNSF)</i>]]></bottom>
         </configuration>
       </plugin>

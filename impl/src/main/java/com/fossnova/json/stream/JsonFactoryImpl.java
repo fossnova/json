@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.fossnova.json;
+package com.fossnova.json.stream;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,10 +28,10 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import org.fossnova.json.JsonBuilder;
-import org.fossnova.json.JsonFactory;
-import org.fossnova.json.JsonReader;
-import org.fossnova.json.JsonWriter;
+import org.fossnova.json.stream.JsonBuilder;
+import org.fossnova.json.stream.JsonFactory;
+import org.fossnova.json.stream.JsonReader;
+import org.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>

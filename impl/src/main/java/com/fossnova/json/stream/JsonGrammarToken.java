@@ -17,10 +17,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package com.fossnova.json.stream;
+
 /**
- * Provides API for writing and reading <A href="http://www.json.org/">JSON</A> encoded NIO channels and IO streams.
- *
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-package org.fossnova.json;
-
+enum JsonGrammarToken {
+    OBJECT_START, OBJECT_END, ARRAY_START, ARRAY_END, STRING, NUMBER, BOOLEAN, NULL, COLON, COMMA,
+}

@@ -17,147 +17,143 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.fossnova.json;
+package org.fossnova.json.stream;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 /**
- * JSON writer.
+ * JSON builder.
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  * @see JsonFactory
- * @see JsonBuilder
+ * @see JsonWriter
  * @see JsonReader
  */
-public interface JsonWriter extends Closeable {
+public interface JsonBuilder extends Closeable {
 
     /**
      * Writes JSON <code>object start</code> token.
      *
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeObjectStart() throws IOException;
+    JsonBuilder writeObjectStart() throws IOException;
 
     /**
      * Writes JSON <code>object end</code> token.
      * 
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeObjectEnd() throws IOException;
+    JsonBuilder writeObjectEnd() throws IOException;
 
     /**
      * Writes JSON <code>array start</code> token.
      *
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeArrayStart() throws IOException;
+    JsonBuilder writeArrayStart() throws IOException;
 
     /**
      * Writes JSON <code>array end</code> token.
      * 
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeArrayEnd() throws IOException;
+    JsonBuilder writeArrayEnd() throws IOException;
 
     /**
      * Writes JSON <code>null</code> token.
      * 
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeNull() throws IOException;
+    JsonBuilder writeNull() throws IOException;
 
     /**
      * Writes JSON <code>string</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeString( String data ) throws IOException;
+    JsonBuilder writeString( String data ) throws IOException;
 
     /**
      * Writes JSON <code>true</code> or <code>false</code> token.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeBoolean( boolean data ) throws IOException;
+    JsonBuilder writeBoolean( boolean data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeByte( byte data ) throws IOException;
+    JsonBuilder writeByte( byte data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeShort( short data ) throws IOException;
+    JsonBuilder writeShort( short data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeInt( int data ) throws IOException;
+    JsonBuilder writeInt( int data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeLong( long data ) throws IOException;
+    JsonBuilder writeLong( long data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeBigInteger( BigInteger data ) throws IOException;
+    JsonBuilder writeFloat( float data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void writeBigDecimal( BigDecimal data ) throws IOException;
-
-    /**
-     * Writes JSON <code>number</code>.
-     * 
-     * @param data to encode
-     * @throws IOException if I/O error occurs
-     */
-    void writeFloat( float data ) throws IOException;
-
-    /**
-     * Writes JSON <code>number</code>.
-     * 
-     * @param data to encode
-     * @throws IOException if I/O error occurs
-     */
-    void writeDouble( double data ) throws IOException;
+    JsonBuilder writeDouble( double data ) throws IOException;
 
     /**
      * Writes all cached data.
      * 
      * @throws IOException if I/O error occurs
+     * @return this builder instance
      */
-    void flush() throws IOException;
+    JsonBuilder flush() throws IOException;
 
     /**
-     * Free resources associated with this writer. Never closes underlying input stream or writer.
+     * Free resources associated with this builder. Never closes underlying input stream or writer.
      *
      * @throws IOException if I/O error occurs
      */

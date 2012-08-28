@@ -31,14 +31,14 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <name>FOSS Nova JSON Tests</name>
+  <name>FOSS Nova JSON Streaming Tests</name>
   <groupId>org.fossnova</groupId>
-  <artifactId>fossnova-json-tests</artifactId>
+  <artifactId>fossnova-json-stream-tests</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>org.fossnova</groupId>
-      <artifactId>fossnova-json-impl</artifactId>
+      <artifactId>fossnova-json-stream-impl</artifactId>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
