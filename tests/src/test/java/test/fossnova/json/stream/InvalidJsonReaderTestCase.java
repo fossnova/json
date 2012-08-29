@@ -31,7 +31,6 @@ import org.junit.Test;
  */
 public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
 
-    // TODO: implement test - EOF at string, number, boolean, null, array or object structure
     // TODO: implement test - illegal char in string, number, boolean, null or inside array or object structure
     @Test
     public void emptyState() throws IOException {
@@ -406,6 +405,17 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         read_objectStart_string_colon_objectStart_objectEnd_comma_string_false();
         read_objectStart_string_colon_objectStart_objectEnd_comma_string_true();
         read_objectStart_string_colon_objectStart_objectEnd_comma_string_null();
+    }
+
+    @Test
+    public void unexpectedEOF() throws IOException {
+        read_arrayStart_string_EOF();
+        read_arrayStart_number_EOF();
+        read_arrayStart_true_EOF();
+        read_arrayStart_false_EOF();
+        read_arrayStart_null_EOF();
+        read_arrayStart_EOF();
+        read_objectStart_EOF();
     }
 
     private void read_colon() throws IOException {
@@ -3163,5 +3173,47 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         assertObjectEndState( reader );
         assertStringState( reader, "2" );
         assertJsonException( reader, "Expecting :" );
+    }
+
+    private void read_arrayStart_string_EOF() throws IOException {
+        final JsonReader reader = getJsonReader( "[\"0" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected EOF while reading JSON string" );
+    }
+
+    private void read_arrayStart_number_EOF() throws IOException {
+        final JsonReader reader = getJsonReader( "[0" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected EOF while reading JSON number" );
+    }
+
+    private void read_arrayStart_false_EOF() throws IOException {
+        final JsonReader reader = getJsonReader( "[fals" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected EOF while reading JSON false token" );
+    }
+
+    private void read_arrayStart_true_EOF() throws IOException {
+        final JsonReader reader = getJsonReader( "[tru" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected EOF while reading JSON true token" );
+    }
+
+    private void read_arrayStart_null_EOF() throws IOException {
+        final JsonReader reader = getJsonReader( "[nul" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected EOF while reading JSON null token" );
+    }
+
+    private void read_arrayStart_EOF() throws IOException {
+        final JsonReader reader = getJsonReader( "[" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected EOF while reading JSON stream" );
+    }
+
+    private void read_objectStart_EOF() throws IOException {
+        final JsonReader reader = getJsonReader( "{" );
+        assertObjectStartState( reader );
+        assertJsonException( reader, "Unexpected EOF while reading JSON stream" );
     }
 }

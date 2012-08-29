@@ -83,7 +83,7 @@ final class JsonReaderImpl implements JsonReader {
             in.unread( nextChar );
             return true;
         }
-        return false;
+        return !analyzer.isFinished();
     }
 
     public JsonEvent next() throws IOException {
@@ -168,7 +168,7 @@ final class JsonReaderImpl implements JsonReader {
                     if ( nextCharacter >= 0 ) {
                         throw new JsonException( "Unexpected JSON stream character: " + nextCharacter ); // TODO: print unicode
                     } else {
-                        throw new JsonException( "Unexpected JSON stream EOF" );
+                        throw new JsonException( "Unexpected EOF while reading JSON stream" );
                     }
                 }
             }
@@ -210,11 +210,11 @@ final class JsonReaderImpl implements JsonReader {
 
     private void readString() throws IOException {
         final StringBuilder retVal = new StringBuilder();
-        char previousChar = ( char ) -1;
-        char currentChar = ( char ) -1;
+        int previousChar = -1;
+        int currentChar = -1;
         in.read();
         boolean stringEndFound = false;
-        while ( ( currentChar = ( char ) in.read() ) != -1 ) {
+        while ( ( currentChar = in.read() ) != -1 ) {
             if ( isStringEnd( previousChar, currentChar ) ) {
                 stringEndFound = true;
                 break;
@@ -247,35 +247,44 @@ final class JsonReaderImpl implements JsonReader {
             previousChar = ( char ) -1;
         }
         if ( !stringEndFound ) {
-            throw new JsonException( "Unexpected EOF" );
+            throw new JsonException( "Unexpected EOF while reading JSON string" );
         }
         lastString = retVal.toString();
     }
 
     private void readBoolean() throws IOException {
         final int firstChar = in.read();
+        int currentChar = -1;
         boolean correctBooleanValue = false;
         if ( firstChar == 't' ) {
-            if ( ( in.read() == 'r' ) && ( in.read() == 'u' ) && ( in.read() == 'e' ) ) {
+            if ( ( ( currentChar = in.read() ) == 'r' ) && ( ( currentChar = in.read() ) == 'u' ) && ( ( currentChar = in.read() ) == 'e' ) ) {
                 lastBoolean = true;
                 correctBooleanValue = true;
             }
         } else {
-            if ( ( in.read() == 'a' ) && ( in.read() == 'l' ) && ( in.read() == 's' ) && ( in.read() == 'e' ) ) {
+            if ( ( ( currentChar = in.read() ) == 'a' ) && ( ( currentChar = in.read() ) == 'l' ) && ( ( currentChar = in.read() ) == 's' )
+                && ( ( currentChar = in.read() ) == 'e' ) ) {
                 lastBoolean = false;
                 correctBooleanValue = true;
             }
         }
         if ( !correctBooleanValue ) {
-            throw new JsonException( "Expected true or false token" );
+            if ( currentChar == -1 ) {
+                throw new JsonException( "Unexpected EOF while reading JSON " + ( firstChar == 't' ) + " token" );
+            }
+            throw new JsonException( "Unexpected char '" + ( char ) currentChar + "' while readding JSON " + ( firstChar == 't' ) + " token" );
         }
     }
 
     private void readNull() throws IOException {
-        if ( ( in.read() == 'n' ) && ( in.read() == 'u' ) && ( in.read() == 'l' ) && ( in.read() == 'l' ) ) {
+        int currentChar = -1;
+        if ( ( ( currentChar = in.read() ) == 'n' ) && ( ( currentChar = in.read() ) == 'u' ) && ( ( currentChar = in.read() ) == 'l' ) && ( ( currentChar = in.read() ) == 'l' ) ) {
             return;
         }
-        throw new JsonException( "Expected null token" );
+        if ( currentChar == -1 ) {
+            throw new JsonException( "Unexpected EOF while reading JSON null token" );
+        }
+        throw new JsonException( "Unexpected char '" + ( char ) currentChar + "' while readding JSON null token" );
     }
 
     private void readNumber() throws IOException {
@@ -287,6 +296,9 @@ final class JsonReaderImpl implements JsonReader {
                 break;
             }
             retVal.appendCodePoint( currentChar );
+        }
+        if ( currentChar == -1 ) {
+            throw new JsonException( "Unexpected EOF while reading JSON number" );
         }
         lastNumber = retVal.toString();
     }
@@ -301,7 +313,7 @@ final class JsonReaderImpl implements JsonReader {
         return false;
     }
 
-    private boolean isStringEnd( final char first, final char second ) {
+    private boolean isStringEnd( final int first, final int second ) {
         return ( first != BACKSLASH ) && ( second == JsonConstants.QUOTE );
     }
 
