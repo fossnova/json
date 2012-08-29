@@ -34,6 +34,8 @@ import static com.fossnova.json.stream.JsonConstants.OBJECT_START;
 import static com.fossnova.json.stream.JsonConstants.QUOTE;
 import static com.fossnova.json.stream.JsonConstants.SOLIDUS;
 import static com.fossnova.json.stream.JsonConstants.TAB;
+import static com.fossnova.json.stream.Utils.isControl;
+import static com.fossnova.json.stream.Utils.toUnicodeString;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -243,12 +245,7 @@ final class JsonWriterImpl implements JsonWriter {
                     break;
                 default:
                     if ( isControl( character ) ) {
-                        retVal.append( BACKSLASH ).append( 'u' );
-                        final String hexString = Integer.toHexString( character );
-                        for ( int j = 0; j < ( 4 - hexString.length() ); j++ ) {
-                            retVal.append( '0' );
-                        }
-                        retVal.append( hexString.toUpperCase() );
+                        retVal.append( toUnicodeString( character ) );
                     } else {
                         retVal.appendCodePoint( character );
                     }
@@ -257,18 +254,5 @@ final class JsonWriterImpl implements JsonWriter {
         }
         retVal.append( QUOTE );
         return retVal.toString();
-    }
-
-    private static boolean isControl( final int c ) {
-        // ASCII control characters
-        if ( ( ( c >= '\u0000' ) && ( c <= '\u001F' ) ) || ( c == '\u007F' ) ) {
-            return true;
-        }
-        // ISO-8859 control characters
-        if ( ( c >= '\u0080' ) && ( c <= '\u009F' ) ) {
-            return true;
-        }
-        // not unicode control character
-        return false;
     }
 }

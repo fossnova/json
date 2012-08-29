@@ -31,7 +31,6 @@ import org.junit.Test;
  */
 public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
 
-    // TODO: implement test - illegal char in string, number, boolean, null or inside array or object structure
     @Test
     public void emptyState() throws IOException {
         read_colon();
@@ -416,6 +415,16 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         read_arrayStart_null_EOF();
         read_arrayStart_EOF();
         read_objectStart_EOF();
+    }
+
+    @Test
+    public void illegalCharacter() throws IOException {
+        read_arrayStart_string_illegalChar();
+        read_arrayStart_true_illegalChar();
+        read_arrayStart_false_illegalChar();
+        read_arrayStart_null_illegalChar();
+        read_arrayStart_illegalChar();
+        read_objectStart_illegalChar();
     }
 
     private void read_colon() throws IOException {
@@ -3215,5 +3224,41 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         final JsonReader reader = getJsonReader( "{" );
         assertObjectStartState( reader );
         assertJsonException( reader, "Unexpected EOF while reading JSON stream" );
+    }
+
+    private void read_arrayStart_string_illegalChar() throws IOException {
+        final JsonReader reader = getJsonReader( "[\"\t" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected control character '\\u0009' while reading JSON string" );
+    }
+
+    private void read_arrayStart_false_illegalChar() throws IOException {
+        final JsonReader reader = getJsonReader( "[falsa" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected character '\\u0061' while reading JSON false token" );
+    }
+
+    private void read_arrayStart_true_illegalChar() throws IOException {
+        final JsonReader reader = getJsonReader( "[trua" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected character '\\u0061' while reading JSON true token" );
+    }
+
+    private void read_arrayStart_null_illegalChar() throws IOException {
+        final JsonReader reader = getJsonReader( "[nula" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected character '\\u0061' while reading JSON null token" );
+    }
+
+    private void read_arrayStart_illegalChar() throws IOException {
+        final JsonReader reader = getJsonReader( "[a" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected character '\\u0061' while reading JSON stream" );
+    }
+
+    private void read_objectStart_illegalChar() throws IOException {
+        final JsonReader reader = getJsonReader( "{a" );
+        assertObjectStartState( reader );
+        assertJsonException( reader, "Unexpected character '\\u0061' while reading JSON stream" );
     }
 }

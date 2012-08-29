@@ -20,6 +20,8 @@
 package com.fossnova.json.stream;
 
 import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
+import static com.fossnova.json.stream.Utils.isControl;
+import static com.fossnova.json.stream.Utils.toUnicodeString;
 
 import java.io.IOException;
 import java.io.PushbackReader;
@@ -166,7 +168,7 @@ final class JsonReaderImpl implements JsonReader {
                     break;
                 default: {
                     if ( nextCharacter >= 0 ) {
-                        throw new JsonException( "Unexpected JSON stream character: " + nextCharacter ); // TODO: print unicode
+                        throw new JsonException( "Unexpected character '" + toUnicodeString( nextCharacter ) + "' while reading JSON stream" );
                     } else {
                         throw new JsonException( "Unexpected EOF while reading JSON stream" );
                     }
@@ -218,6 +220,9 @@ final class JsonReaderImpl implements JsonReader {
             if ( isStringEnd( previousChar, currentChar ) ) {
                 stringEndFound = true;
                 break;
+            }
+            if ( isControl( currentChar ) ) {
+                throw new JsonException( "Unexpected control character '" + toUnicodeString( currentChar ) + "' while reading JSON string" );
             }
             if ( ( currentChar == BACKSLASH ) && ( previousChar != BACKSLASH ) ) {
                 previousChar = currentChar;
@@ -272,7 +277,7 @@ final class JsonReaderImpl implements JsonReader {
             if ( currentChar == -1 ) {
                 throw new JsonException( "Unexpected EOF while reading JSON " + ( firstChar == 't' ) + " token" );
             }
-            throw new JsonException( "Unexpected char '" + ( char ) currentChar + "' while readding JSON " + ( firstChar == 't' ) + " token" );
+            throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON " + ( firstChar == 't' ) + " token" );
         }
     }
 
@@ -284,7 +289,7 @@ final class JsonReaderImpl implements JsonReader {
         if ( currentChar == -1 ) {
             throw new JsonException( "Unexpected EOF while reading JSON null token" );
         }
-        throw new JsonException( "Unexpected char '" + ( char ) currentChar + "' while readding JSON null token" );
+        throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON null token" );
     }
 
     private void readNumber() throws IOException {
