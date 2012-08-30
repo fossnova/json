@@ -21,6 +21,7 @@ package com.fossnova.json.stream;
 
 import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
 import static com.fossnova.json.stream.Utils.isControl;
+import static com.fossnova.json.stream.Utils.isWhitespace;
 import static com.fossnova.json.stream.Utils.toUnicodeString;
 
 import java.io.IOException;
@@ -167,6 +168,9 @@ final class JsonReaderImpl implements JsonReader {
                 }
                     break;
                 default: {
+                    if ( isWhitespace( nextCharacter ) ) {
+                        continue;
+                    }
                     if ( nextCharacter >= 0 ) {
                         throw new JsonException( "Unexpected character '" + toUnicodeString( nextCharacter ) + "' while reading JSON stream" );
                     } else {

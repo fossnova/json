@@ -43,6 +43,10 @@ final class Utils {
         return false;
     }
 
+    static boolean isWhitespace( final int c ) {
+        return ( c == ' ' ) || ( c == '\t' ) || ( c == '\r' ) || ( c == '\n' );
+    }
+
     static String toUnicodeString( final int c ) {
         final StringBuilder sb = new StringBuilder();
         sb.append( BACKSLASH ).append( 'u' );

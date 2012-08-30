@@ -32,8 +32,8 @@ import org.junit.Test;
 public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
-    public void emptyObject() throws IOException {
-        final JsonReader reader = getJsonReader( "{}" );
+    public void emptyObjectWithWhitespaces() throws IOException {
+        final JsonReader reader = getJsonReader( "{ \t\r\n}" );
         assertObjectStartState( reader );
         assertObjectEndState( reader );
         assertFinalState( reader );
@@ -41,8 +41,8 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
     }
 
     @Test
-    public void simpleObject() throws IOException {
-        final JsonReader reader = getJsonReader( "{\"a\":\"b\"}" );
+    public void simpleObjectWithWhitespaces() throws IOException {
+        final JsonReader reader = getJsonReader( "{\r\n\t\"a\" : \"b\"\r\n}" );
         assertObjectStartState( reader );
         assertStringState( reader, "a" );
         assertStringState( reader, "b" );
@@ -106,8 +106,8 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
     }
 
     @Test
-    public void emptyArray() throws IOException {
-        final JsonReader reader = getJsonReader( "[]" );
+    public void emptyArrayWithWhitespaces() throws IOException {
+        final JsonReader reader = getJsonReader( "[ \t\r\n]" );
         assertArrayStartState( reader );
         assertArrayEndState( reader );
         assertFinalState( reader );
@@ -115,8 +115,9 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
     }
 
     @Test
-    public void moreComplexArray() throws IOException {
-        final String data = "[\"0\",1,2,3,4,5.0,6.0," + "700000000000000000000000000000000000000,800000000000000000000000000000000000000.000000000000000000000000000009,true,null]";
+    public void moreComplexArrayWithWhitespaces() throws IOException {
+        final String data = "[ \"0\" \r\n, 1 \r\n, 2 \r\n, 3 \r\n, 4 \r\n, 5.0 \r\n, 6.0\r\n, "
+            + "700000000000000000000000000000000000000,800000000000000000000000000000000000000.000000000000000000000000000009 \r\n, true \r\n, null \r\n]";
         final JsonReader reader = getJsonReader( data );
         assertArrayStartState( reader );
         assertStringState( reader, "0" );

@@ -1,4 +1,8 @@
-P1 Implement JSON reader whitespace processing - http://en.wikipedia.org/wiki/Whitespace_character
+P1 configure checkstyle
 P2 Implement configuration properties
+ * enable indentation
+ * string length limits
+ * number limits
+ * nesting limits
 P2 implement indentation support
-P3 configure checkstyle
+
