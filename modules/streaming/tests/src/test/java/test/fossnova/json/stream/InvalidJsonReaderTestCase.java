@@ -427,6 +427,18 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         read_objectStart_illegalChar();
     }
 
+    @Test
+    public void invalidNumbers() throws IOException {
+        read_arrayStart_wrongByte();
+        read_arrayStart_wrongShort();
+        read_arrayStart_wrongInt();
+        read_arrayStart_wrongLong();
+        read_arrayStart_wrongBigInteger();
+        read_arrayStart_wrongBigDecimal();
+        read_arrayStart_wrongFloat();
+        read_arrayStart_wrongDouble();
+    }
+
     private void read_colon() throws IOException {
         final JsonReader reader = getJsonReader( ":" );
         assertJsonException( reader, "Expecting { [" );
@@ -3260,5 +3272,69 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         final JsonReader reader = getJsonReader( "{a" );
         assertObjectStartState( reader );
         assertJsonException( reader, "Unexpected character '\\u0061' while reading JSON stream" );
+    }
+
+    private void read_arrayStart_wrongByte() throws IOException {
+        final JsonReader reader = getJsonReader( "[129]" );
+        assertArrayStartState( reader );
+        try {
+            assertByteState( reader, ( byte ) 0 );
+        } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongShort() throws IOException {
+        final JsonReader reader = getJsonReader( "[32768]" );
+        assertArrayStartState( reader );
+        try {
+            assertShortState( reader, ( short ) 0 );
+        } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongInt() throws IOException {
+        final JsonReader reader = getJsonReader( "[2147483648]" );
+        assertArrayStartState( reader );
+        try {
+            assertIntState( reader, 0 );
+        } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongLong() throws IOException {
+        final JsonReader reader = getJsonReader( "[9223372036854775808]" );
+        assertArrayStartState( reader );
+        try {
+            assertLongState( reader, 0L );
+        } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongBigInteger() throws IOException {
+        final JsonReader reader = getJsonReader( "[1.1]" );
+        assertArrayStartState( reader );
+        try {
+            assertBigIntegerState( reader, BigInteger.ZERO );
+        } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongBigDecimal() throws IOException {
+        final JsonReader reader = getJsonReader( "[1.1e--10]" );
+        assertArrayStartState( reader );
+        try {
+            assertBigDecimalState( reader, BigDecimal.ZERO );
+        } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat() throws IOException {
+        final JsonReader reader = getJsonReader( "[1.1e-99999999999999999999999999999999]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongDouble() throws IOException {
+        final JsonReader reader = getJsonReader( "[1.1e-99999999999999999999999999999999]" );
+        assertArrayStartState( reader );
+        try {
+            assertDoubleState( reader, 0.0 );
+        } catch ( final NumberFormatException ignore ) {}
     }
 }
