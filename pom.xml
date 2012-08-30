@@ -40,9 +40,9 @@
   </properties>
 
   <modules>
-    <module>api</module>
-    <module>impl</module>
-    <module>tests</module>
+    <module>modules/streaming/api</module>
+    <module>modules/streaming/impl</module>
+    <module>modules/streaming/tests</module>
   </modules>
 
   <dependencyManagement>
