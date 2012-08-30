@@ -29,7 +29,6 @@ import java.math.BigInteger;
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  * @see JsonFactory
- * @see JsonBuilder
  * @see JsonReader
  */
 public interface JsonWriter extends Closeable {
@@ -38,123 +37,139 @@ public interface JsonWriter extends Closeable {
      * Writes JSON <code>object start</code> token.
      *
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeObjectStart() throws IOException;
+    JsonWriter writeObjectStart() throws IOException;
 
     /**
      * Writes JSON <code>object end</code> token.
      * 
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeObjectEnd() throws IOException;
+    JsonWriter writeObjectEnd() throws IOException;
 
     /**
      * Writes JSON <code>array start</code> token.
      *
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeArrayStart() throws IOException;
+    JsonWriter writeArrayStart() throws IOException;
 
     /**
      * Writes JSON <code>array end</code> token.
      * 
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeArrayEnd() throws IOException;
+    JsonWriter writeArrayEnd() throws IOException;
 
     /**
      * Writes JSON <code>null</code> token.
      * 
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeNull() throws IOException;
+    JsonWriter writeNull() throws IOException;
 
     /**
      * Writes JSON <code>string</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeString( String data ) throws IOException;
+    JsonWriter writeString( String data ) throws IOException;
 
     /**
      * Writes JSON <code>true</code> or <code>false</code> token.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeBoolean( boolean data ) throws IOException;
+    JsonWriter writeBoolean( boolean data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeByte( byte data ) throws IOException;
+    JsonWriter writeByte( byte data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeShort( short data ) throws IOException;
+    JsonWriter writeShort( short data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeInt( int data ) throws IOException;
+    JsonWriter writeInt( int data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeLong( long data ) throws IOException;
+    JsonWriter writeLong( long data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeBigInteger( BigInteger data ) throws IOException;
+    JsonWriter writeBigInteger( BigInteger data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeBigDecimal( BigDecimal data ) throws IOException;
+    JsonWriter writeBigDecimal( BigDecimal data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeFloat( float data ) throws IOException;
+    JsonWriter writeFloat( float data ) throws IOException;
 
     /**
      * Writes JSON <code>number</code>.
      * 
      * @param data to encode
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void writeDouble( double data ) throws IOException;
+    JsonWriter writeDouble( double data ) throws IOException;
 
     /**
      * Writes all cached data.
      * 
      * @throws IOException if I/O error occurs
+     * @return this writer instance
      */
-    void flush() throws IOException;
+    JsonWriter flush() throws IOException;
 
     /**
      * Free resources associated with this writer. Never closes underlying input stream or writer.

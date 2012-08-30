@@ -77,38 +77,43 @@ final class JsonWriterImpl implements JsonWriter {
         super.finalize();
     }
 
-    public void flush() throws IOException {
+    public JsonWriter flush() throws IOException {
         ensureOpen();
         out.flush();
+        return this;
     }
 
-    public void writeObjectStart() throws IOException {
+    public JsonWriter writeObjectStart() throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.OBJECT_START );
         out.write( OBJECT_START );
+        return this;
     }
 
-    public void writeObjectEnd() throws IOException {
+    public JsonWriter writeObjectEnd() throws IOException {
         ensureOpen();
         analyzer.push( JsonGrammarToken.OBJECT_END );
         out.write( OBJECT_END );
+        return this;
     }
 
-    public void writeArrayStart() throws IOException {
+    public JsonWriter writeArrayStart() throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.ARRAY_START );
         out.write( ARRAY_START );
+        return this;
     }
 
-    public void writeArrayEnd() throws IOException {
+    public JsonWriter writeArrayEnd() throws IOException {
         ensureOpen();
         analyzer.push( JsonGrammarToken.ARRAY_END );
         out.write( ARRAY_END );
+        return this;
     }
 
-    public void writeString( final String data ) throws IOException {
+    public JsonWriter writeString( final String data ) throws IOException {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
         }
@@ -116,51 +121,58 @@ final class JsonWriterImpl implements JsonWriter {
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.STRING );
         out.write( encode( data ) );
+        return this;
     }
 
-    public void writeNull() throws IOException {
+    public JsonWriter writeNull() throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NULL );
         out.write( NULL );
+        return this;
     }
 
-    public void writeBoolean( final boolean data ) throws IOException {
+    public JsonWriter writeBoolean( final boolean data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.BOOLEAN );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
-    public void writeByte( final byte data ) throws IOException {
+    public JsonWriter writeByte( final byte data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
-    public void writeShort( final short data ) throws IOException {
+    public JsonWriter writeShort( final short data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
-    public void writeInt( final int data ) throws IOException {
+    public JsonWriter writeInt( final int data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
-    public void writeLong( final long data ) throws IOException {
+    public JsonWriter writeLong( final long data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
-    public void writeBigInteger( final BigInteger data ) throws IOException {
+    public JsonWriter writeBigInteger( final BigInteger data ) throws IOException {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
         }
@@ -168,9 +180,10 @@ final class JsonWriterImpl implements JsonWriter {
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
-    public void writeBigDecimal( final BigDecimal data ) throws IOException {
+    public JsonWriter writeBigDecimal( final BigDecimal data ) throws IOException {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
         }
@@ -178,20 +191,23 @@ final class JsonWriterImpl implements JsonWriter {
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
-    public void writeFloat( final float data ) throws IOException {
+    public JsonWriter writeFloat( final float data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
-    public void writeDouble( final double data ) throws IOException {
+    public JsonWriter writeDouble( final double data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
         out.write( String.valueOf( data ) );
+        return this;
     }
 
     private void writeOptionalColonOrComma() throws IOException {

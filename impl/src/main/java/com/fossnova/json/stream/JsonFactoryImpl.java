@@ -28,7 +28,6 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import org.fossnova.json.stream.JsonBuilder;
 import org.fossnova.json.stream.JsonFactory;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonWriter;
@@ -74,21 +73,6 @@ public final class JsonFactoryImpl extends JsonFactory {
         assertNotNullParameter( stream );
         assertNotNullParameter( charsetName );
         return newJsonWriter( new OutputStreamWriter( stream, charsetName ) );
-    }
-
-    @Override
-    public JsonBuilder newJsonBuilder( final Writer writer ) {
-        return new JsonBuilderImpl( newJsonWriter( writer ) );
-    }
-
-    @Override
-    public JsonBuilder newJsonBuilder( final OutputStream stream ) throws UnsupportedEncodingException {
-        return new JsonBuilderImpl( newJsonWriter( stream ) );
-    }
-
-    @Override
-    public JsonBuilder newJsonBuilder( final OutputStream stream, final String charsetName ) throws UnsupportedEncodingException {
-        return new JsonBuilderImpl( newJsonWriter( stream, charsetName ) );
     }
 
     private static void assertNotNullParameter( final Object o ) {
