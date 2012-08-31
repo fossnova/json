@@ -32,6 +32,13 @@ import org.junit.Test;
 public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
 
     @Test
+    public void noData() throws IOException {
+        final JsonReader reader = getJsonReader( "" );
+        assertJsonException( reader, "Unexpected EOF while reading JSON stream" );
+        reader.close();
+    }
+
+    @Test
     public void emptyState() throws IOException {
         read_colon();
         read_comma();
