@@ -19,21 +19,39 @@
  */
 package com.fossnova.json;
 
+import static org.fossnova.json.JsonEvent.ARRAY_END;
+import static org.fossnova.json.JsonEvent.ARRAY_START;
+import static org.fossnova.json.JsonEvent.BOOLEAN;
+import static org.fossnova.json.JsonEvent.NULL;
+import static org.fossnova.json.JsonEvent.NUMBER;
+import static org.fossnova.json.JsonEvent.OBJECT_END;
+import static org.fossnova.json.JsonEvent.OBJECT_START;
+import static org.fossnova.json.JsonEvent.STRING;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.util.Comparator;
 
-import org.fossnova.json.JsonArray;
-import org.fossnova.json.JsonObject;
+import org.fossnova.json.JsonEvent;
 import org.fossnova.json.JsonStructure;
 import org.fossnova.json.JsonStructureFactory;
+import org.fossnova.json.JsonValue;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 public final class JsonStructureFactoryImpl extends JsonStructureFactory {
+
+    @Override
+    public JsonObjectImpl newJsonObject() {
+        return new JsonObjectImpl();
+    }
+
+    @Override
+    public JsonArrayImpl newJsonArray() {
+        return new JsonArrayImpl();
+    }
 
     @Override
     public JsonStructure readFrom( final Reader reader ) throws IOException {
@@ -53,28 +71,66 @@ public final class JsonStructureFactoryImpl extends JsonStructureFactory {
         return readFrom( jsonReader );
     }
 
-    private JsonStructureImpl readFrom( final JsonReaderImpl jsonReader ) throws IOException {
-        throw new UnsupportedOperationException(); // TODO: implement
-    }
-
-    @Override
-    public JsonObject newJsonObject() {
-        return new JsonObjectImpl();
-    }
-
-    @Override
-    public JsonObject newJsonObject( final Comparator< String > keyComparator ) {
-        return new JsonObjectImpl( keyComparator );
-    }
-
-    @Override
-    public JsonArray newJsonArray() {
-        return new JsonArrayImpl();
-    }
-
-    private static void assertNotNullParameter( final Object o ) {
-        if ( o == null ) {
-            throw new NullPointerException( "Parameter cannot be null" );
+    private JsonStructure readFrom( final JsonReaderImpl jsonReader ) throws IOException {
+        if ( jsonReader.next() == OBJECT_START ) {
+            return readJsonObjectFrom( jsonReader );
+        } else {
+            return readJsonArrayFrom( jsonReader );
         }
+    }
+
+    private JsonObjectImpl readJsonObjectFrom( final JsonReaderImpl jsonReader ) throws IOException {
+        final JsonObjectImpl jsonObject = newJsonObject();
+        JsonEvent jsonEvent = jsonReader.next();
+        String jsonKey = null;
+        JsonValue jsonValue = null;
+        while ( jsonEvent != OBJECT_END ) {
+            jsonKey = jsonReader.getString();
+            jsonEvent = jsonReader.next();
+            if ( jsonEvent == NULL ) {
+                jsonValue = null;
+            } else if ( jsonEvent == BOOLEAN ) {
+                jsonValue = jsonReader.getBoolean() ? JsonBooleanImpl.TRUE : JsonBooleanImpl.FALSE;
+            } else if ( jsonEvent == NUMBER ) {
+                jsonValue = new JsonNumberImpl( jsonReader.getNumber() );
+            } else if ( jsonEvent == STRING ) {
+                jsonValue = new JsonStringImpl( jsonReader.getString() );
+            } else if ( jsonEvent == OBJECT_START ) {
+                jsonValue = readJsonObjectFrom( jsonReader );
+            } else if ( jsonEvent == ARRAY_START ) {
+                jsonValue = readJsonArrayFrom( jsonReader );
+            } else {
+                throw new IllegalStateException();
+            }
+            jsonObject.putInternal( jsonKey, jsonValue );
+            jsonEvent = jsonReader.next();
+        }
+        return jsonObject;
+    }
+
+    private JsonArrayImpl readJsonArrayFrom( final JsonReaderImpl jsonReader ) throws IOException {
+        final JsonArrayImpl jsonArray = newJsonArray();
+        JsonEvent jsonEvent = jsonReader.next();
+        JsonValue jsonValue = null;
+        while ( jsonEvent != ARRAY_END ) {
+            if ( jsonEvent == NULL ) {
+                jsonValue = null;
+            } else if ( jsonEvent == BOOLEAN ) {
+                jsonValue = jsonReader.getBoolean() ? JsonBooleanImpl.TRUE : JsonBooleanImpl.FALSE;
+            } else if ( jsonEvent == NUMBER ) {
+                jsonValue = new JsonNumberImpl( jsonReader.getNumber() );
+            } else if ( jsonEvent == STRING ) {
+                jsonValue = new JsonStringImpl( jsonReader.getString() );
+            } else if ( jsonEvent == OBJECT_START ) {
+                jsonValue = readJsonObjectFrom( jsonReader );
+            } else if ( jsonEvent == ARRAY_START ) {
+                jsonValue = readJsonArrayFrom( jsonReader );
+            } else {
+                throw new IllegalStateException();
+            }
+            jsonArray.addInternal( jsonValue );
+            jsonEvent = jsonReader.next();
+        }
+        return jsonArray;
     }
 }

@@ -21,7 +21,6 @@ package com.fossnova.json;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -39,43 +38,23 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     private final Map< String, JsonValue > map;
 
     JsonObjectImpl() {
-        this( null );
-    }
-
-    JsonObjectImpl( final Comparator< String > keyComparator ) {
-        if ( keyComparator == null ) {
-            map = new TreeMap< String, JsonValue >( String.CASE_INSENSITIVE_ORDER );
-        } else {
-            map = new TreeMap< String, JsonValue >( keyComparator );
-        }
+        map = new TreeMap< String, JsonValue >( String.CASE_INSENSITIVE_ORDER );
     }
 
     public JsonValue put( final String key, final String value ) {
-        if ( key == null ) {
-            throw new IllegalArgumentException( "JSON key cannot be null" );
-        }
-        return map.put( key, toJsonString( value ) );
+        return putInternal( key, toJsonString( value ) );
     }
 
     public JsonValue put( final String key, final Boolean value ) {
-        if ( key == null ) {
-            throw new IllegalArgumentException( "JSON key cannot be null" );
-        }
-        return map.put( key, toJsonBoolean( value ) );
+        return putInternal( key, toJsonBoolean( value ) );
     }
 
     public JsonValue put( final String key, final Number value ) {
-        if ( key == null ) {
-            throw new IllegalArgumentException( "JSON key cannot be null" );
-        }
-        return map.put( key, toJsonNumber( value ) );
+        return putInternal( key, toJsonNumber( value ) );
     }
 
     public JsonValue put( final String key, final JsonStructure value ) {
-        if ( key == null ) {
-            throw new IllegalArgumentException( "JSON key cannot be null" );
-        }
-        return map.put( key, value );
+        return putInternal( key, value );
     }
 
     public boolean containsKey( final String key ) {
@@ -171,5 +150,12 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
         }
         jsonWriter.writeObjectEnd();
         jsonWriter.flush();
+    }
+
+    JsonValue putInternal( final String key, final JsonValue value ) {
+        if ( key == null ) {
+            throw new IllegalArgumentException( "JSON key cannot be null" );
+        }
+        return map.put( key, value );
     }
 }

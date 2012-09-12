@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.util.Comparator;
 
 import org.fossnova.finder.FactoryFinder;
 
@@ -44,8 +43,6 @@ public abstract class JsonStructureFactory {
     }
 
     public abstract JsonObject newJsonObject();
-
-    public abstract JsonObject newJsonObject( Comparator< String > keyComparator );
 
     public abstract JsonArray newJsonArray();
     

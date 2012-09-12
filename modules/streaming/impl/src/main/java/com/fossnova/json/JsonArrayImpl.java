@@ -73,18 +73,22 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     }
 
     public boolean add( final String value ) {
-        return list.add( toJsonString( value ) );
+        return addInternal( toJsonString( value ) );
     }
 
     public boolean add( final Number value ) {
-        return list.add( toJsonNumber( value ) );
+        return addInternal( toJsonNumber( value ) );
     }
 
     public boolean add( final Boolean value ) {
-        return list.add( toJsonBoolean( value ) );
+        return addInternal( toJsonBoolean( value ) );
     }
 
     public boolean add( final JsonStructure value ) {
+        return addInternal( value );
+    }
+
+    boolean addInternal( final JsonValue value ) {
         return list.add( value );
     }
 

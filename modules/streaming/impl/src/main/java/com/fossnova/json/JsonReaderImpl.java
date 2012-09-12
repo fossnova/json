@@ -66,7 +66,7 @@ final class JsonReaderImpl implements JsonReader {
         super.finalize();
     }
 
-    private String getNumber() {
+    String getNumber() {
         if ( !isCurrentEvent( JsonEvent.NUMBER ) ) {
             throw new IllegalStateException( "Current event isn't number" );
         }
