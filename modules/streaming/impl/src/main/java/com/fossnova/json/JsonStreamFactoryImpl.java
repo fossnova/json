@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.fossnova.json.stream;
+package com.fossnova.json;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,48 +28,48 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import org.fossnova.json.stream.JsonFactory;
-import org.fossnova.json.stream.JsonReader;
-import org.fossnova.json.stream.JsonWriter;
+import org.fossnova.json.JsonReader;
+import org.fossnova.json.JsonStreamFactory;
+import org.fossnova.json.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonFactoryImpl extends JsonFactory {
+public final class JsonStreamFactoryImpl extends JsonStreamFactory {
 
     private static final String defaultCharset = Charset.defaultCharset().name();
 
     @Override
-    public JsonReader newJsonReader( final Reader reader ) {
+    public JsonReaderImpl newJsonReader( final Reader reader ) {
         assertNotNullParameter( reader );
         return new JsonReaderImpl( reader );
     }
 
     @Override
-    public JsonReader newJsonReader( final InputStream stream ) throws UnsupportedEncodingException {
+    public JsonReaderImpl newJsonReader( final InputStream stream ) throws UnsupportedEncodingException {
         return newJsonReader( stream, defaultCharset );
     }
 
     @Override
-    public JsonReader newJsonReader( final InputStream stream, final String charsetName ) throws UnsupportedEncodingException {
+    public JsonReaderImpl newJsonReader( final InputStream stream, final String charsetName ) throws UnsupportedEncodingException {
         assertNotNullParameter( stream );
         assertNotNullParameter( charsetName );
         return newJsonReader( new InputStreamReader( stream, charsetName ) );
     }
 
     @Override
-    public JsonWriter newJsonWriter( final Writer writer ) {
+    public JsonWriterImpl newJsonWriter( final Writer writer ) {
         assertNotNullParameter( writer );
         return new JsonWriterImpl( writer );
     }
 
     @Override
-    public JsonWriter newJsonWriter( final OutputStream stream ) throws UnsupportedEncodingException {
+    public JsonWriterImpl newJsonWriter( final OutputStream stream ) throws UnsupportedEncodingException {
         return newJsonWriter( stream, defaultCharset );
     }
 
     @Override
-    public JsonWriter newJsonWriter( final OutputStream stream, final String charsetName ) throws UnsupportedEncodingException {
+    public JsonWriterImpl newJsonWriter( final OutputStream stream, final String charsetName ) throws UnsupportedEncodingException {
         assertNotNullParameter( stream );
         assertNotNullParameter( charsetName );
         return newJsonWriter( new OutputStreamWriter( stream, charsetName ) );

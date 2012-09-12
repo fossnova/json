@@ -17,32 +17,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.fossnova.json.stream;
+package com.fossnova.json;
 
-import static com.fossnova.json.stream.JsonConstants.ARRAY_END;
-import static com.fossnova.json.stream.JsonConstants.ARRAY_START;
-import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
-import static com.fossnova.json.stream.JsonConstants.BACKSPACE;
-import static com.fossnova.json.stream.JsonConstants.COLON;
-import static com.fossnova.json.stream.JsonConstants.COMMA;
-import static com.fossnova.json.stream.JsonConstants.CR;
-import static com.fossnova.json.stream.JsonConstants.FORMFEED;
-import static com.fossnova.json.stream.JsonConstants.NL;
-import static com.fossnova.json.stream.JsonConstants.NULL;
-import static com.fossnova.json.stream.JsonConstants.OBJECT_END;
-import static com.fossnova.json.stream.JsonConstants.OBJECT_START;
-import static com.fossnova.json.stream.JsonConstants.QUOTE;
-import static com.fossnova.json.stream.JsonConstants.SOLIDUS;
-import static com.fossnova.json.stream.JsonConstants.TAB;
-import static com.fossnova.json.stream.Utils.isControl;
-import static com.fossnova.json.stream.Utils.toUnicodeString;
+import static com.fossnova.json.JsonConstants.ARRAY_END;
+import static com.fossnova.json.JsonConstants.ARRAY_START;
+import static com.fossnova.json.JsonConstants.BACKSLASH;
+import static com.fossnova.json.JsonConstants.BACKSPACE;
+import static com.fossnova.json.JsonConstants.COLON;
+import static com.fossnova.json.JsonConstants.COMMA;
+import static com.fossnova.json.JsonConstants.CR;
+import static com.fossnova.json.JsonConstants.FORMFEED;
+import static com.fossnova.json.JsonConstants.NL;
+import static com.fossnova.json.JsonConstants.NULL;
+import static com.fossnova.json.JsonConstants.OBJECT_END;
+import static com.fossnova.json.JsonConstants.OBJECT_START;
+import static com.fossnova.json.JsonConstants.QUOTE;
+import static com.fossnova.json.JsonConstants.SOLIDUS;
+import static com.fossnova.json.JsonConstants.TAB;
+import static com.fossnova.json.Utils.isControl;
+import static com.fossnova.json.Utils.toUnicodeString;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.stream.JsonWriter;
+import org.fossnova.json.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
@@ -141,72 +141,48 @@ final class JsonWriterImpl implements JsonWriter {
     }
 
     public JsonWriter writeByte( final byte data ) throws IOException {
-        ensureOpen();
-        writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ) );
-        return this;
+        return writeNumber( String.valueOf( data ) );
     }
 
     public JsonWriter writeShort( final short data ) throws IOException {
-        ensureOpen();
-        writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ) );
-        return this;
+        return writeNumber( String.valueOf( data ) );
     }
 
     public JsonWriter writeInt( final int data ) throws IOException {
-        ensureOpen();
-        writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ) );
-        return this;
+        return writeNumber( String.valueOf( data ) );
     }
 
     public JsonWriter writeLong( final long data ) throws IOException {
-        ensureOpen();
-        writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ) );
-        return this;
+        return writeNumber( String.valueOf( data ) );
     }
 
     public JsonWriter writeBigInteger( final BigInteger data ) throws IOException {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
         }
-        ensureOpen();
-        writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ) );
-        return this;
+        return writeNumber( String.valueOf( data ) );
     }
 
     public JsonWriter writeBigDecimal( final BigDecimal data ) throws IOException {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
         }
-        ensureOpen();
-        writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ) );
-        return this;
+        return writeNumber( String.valueOf( data ) );
     }
 
     public JsonWriter writeFloat( final float data ) throws IOException {
-        ensureOpen();
-        writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ) );
-        return this;
+        return writeNumber( String.valueOf( data ) );
     }
 
     public JsonWriter writeDouble( final double data ) throws IOException {
+        return writeNumber( String.valueOf( data ) );
+    }
+
+    JsonWriter writeNumber( final String data ) throws IOException {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.NUMBER );
-        out.write( String.valueOf( data ) );
+        out.write( data );
         return this;
     }
 

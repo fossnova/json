@@ -17,10 +17,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package org.fossnova.json;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
+
 /**
- * Streaming API for writing and reading <A href="http://www.json.org/">JSON</A>.
- *
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-package org.fossnova.json.stream;
-
+public interface JsonStructure extends JsonValue {
+    void writeTo( OutputStream stream ) throws IOException;
+    void writeTo( OutputStream stream, String charsetName ) throws IOException;
+    void writeTo( Writer writer ) throws IOException;
+}

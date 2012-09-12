@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.fossnova.json.stream;
+package org.fossnova.json;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -28,7 +28,7 @@ import java.math.BigInteger;
  * JSON writer.
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
- * @see JsonFactory
+ * @see JsonStreamFactory
  * @see JsonReader
  */
 public interface JsonWriter extends Closeable {

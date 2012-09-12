@@ -17,23 +17,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.fossnova.json.stream;
+package com.fossnova.json;
 
-import static com.fossnova.json.stream.JsonGrammarToken.ARRAY_END;
-import static com.fossnova.json.stream.JsonGrammarToken.ARRAY_START;
-import static com.fossnova.json.stream.JsonGrammarToken.BOOLEAN;
-import static com.fossnova.json.stream.JsonGrammarToken.COLON;
-import static com.fossnova.json.stream.JsonGrammarToken.COMMA;
-import static com.fossnova.json.stream.JsonGrammarToken.NULL;
-import static com.fossnova.json.stream.JsonGrammarToken.NUMBER;
-import static com.fossnova.json.stream.JsonGrammarToken.OBJECT_END;
-import static com.fossnova.json.stream.JsonGrammarToken.OBJECT_START;
-import static com.fossnova.json.stream.JsonGrammarToken.STRING;
+import static com.fossnova.json.JsonGrammarToken.ARRAY_END;
+import static com.fossnova.json.JsonGrammarToken.ARRAY_START;
+import static com.fossnova.json.JsonGrammarToken.BOOLEAN;
+import static com.fossnova.json.JsonGrammarToken.COLON;
+import static com.fossnova.json.JsonGrammarToken.COMMA;
+import static com.fossnova.json.JsonGrammarToken.NULL;
+import static com.fossnova.json.JsonGrammarToken.NUMBER;
+import static com.fossnova.json.JsonGrammarToken.OBJECT_END;
+import static com.fossnova.json.JsonGrammarToken.OBJECT_START;
+import static com.fossnova.json.JsonGrammarToken.STRING;
 
 import java.util.LinkedList;
 
-import org.fossnova.json.stream.JsonEvent;
-import org.fossnova.json.stream.JsonException;
+import org.fossnova.json.JsonEvent;
+import org.fossnova.json.JsonException;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>

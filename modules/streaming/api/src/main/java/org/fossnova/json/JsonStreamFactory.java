@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.fossnova.json.stream;
+package org.fossnova.json;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,12 +33,12 @@ import org.fossnova.finder.FactoryFinder;
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public abstract class JsonFactory {
+public abstract class JsonStreamFactory {
 
     /**
      * All implementations must provide public default constructor overriding this one.
      */
-    protected JsonFactory() {
+    protected JsonStreamFactory() {
     }
 
     /**
@@ -46,12 +46,12 @@ public abstract class JsonFactory {
      * 
      * @return JSON factory instance
      */
-    public static JsonFactory newInstance() {
-        final JsonFactory jsonFactoryImpl = FactoryFinder.find( JsonFactory.class );
+    public static JsonStreamFactory newInstance() {
+        final JsonStreamFactory jsonFactoryImpl = FactoryFinder.find( JsonStreamFactory.class );
         if ( jsonFactoryImpl != null ) {
             return jsonFactoryImpl;
         }
-        throw new IllegalStateException( "Factory not configured: " + JsonFactory.class.getName() );
+        throw new IllegalStateException( "Factory not configured: " + JsonStreamFactory.class.getName() );
     }
 
     /**

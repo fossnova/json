@@ -17,13 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package test.fossnova.json.stream;
+package test.fossnova.json;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.stream.JsonReader;
+import org.fossnova.json.JsonReader;
 import org.junit.Test;
 
 /**

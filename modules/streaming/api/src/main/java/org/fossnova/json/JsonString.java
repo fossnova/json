@@ -17,51 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.fossnova.json.stream;
+package org.fossnova.json;
 
 /**
- * JSON encoding exception.
- * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonException extends RuntimeException {
+public interface JsonString extends JsonValue {
+    
+    String getString();
 
-    /**
-     * Serialization version UID.
-     */
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Constructor.
-     */
-    public JsonException() {
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param msg message
-     */
-    public JsonException( final String msg ) {
-        super( msg );
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param msg message
-     * @param t reason
-     */
-    public JsonException( final String msg, final Throwable t ) {
-        super( msg, t );
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param t reason
-     */
-    public JsonException( final Throwable t ) {
-        super( t );
-    }
 }

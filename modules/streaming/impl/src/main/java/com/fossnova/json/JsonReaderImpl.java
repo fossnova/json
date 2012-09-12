@@ -17,12 +17,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.fossnova.json.stream;
+package com.fossnova.json;
 
-import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
-import static com.fossnova.json.stream.Utils.isControl;
-import static com.fossnova.json.stream.Utils.isWhitespace;
-import static com.fossnova.json.stream.Utils.toUnicodeString;
+import static com.fossnova.json.JsonConstants.BACKSLASH;
+import static com.fossnova.json.Utils.isControl;
+import static com.fossnova.json.Utils.isWhitespace;
+import static com.fossnova.json.Utils.toUnicodeString;
 
 import java.io.IOException;
 import java.io.PushbackReader;
@@ -30,9 +30,9 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.stream.JsonEvent;
-import org.fossnova.json.stream.JsonException;
-import org.fossnova.json.stream.JsonReader;
+import org.fossnova.json.JsonEvent;
+import org.fossnova.json.JsonException;
+import org.fossnova.json.JsonReader;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
