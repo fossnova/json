@@ -30,7 +30,7 @@ import org.fossnova.json.JsonBoolean;
 import org.fossnova.json.JsonNumber;
 import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonString;
-import org.fossnova.json.JsonStructureFactory;
+import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonValue;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
 
     @Test
     public void createJsonObjectFromScratch() throws IOException {
-        JsonStructureFactory jsonStructureFactory = JsonStructureFactory.newInstance();
+        JsonFactory jsonStructureFactory = JsonFactory.newInstance();
         JsonObject o = jsonStructureFactory.newJsonObject();
         o.put( "1", "b1" );
         o.put( "2", (String)null );
@@ -73,7 +73,7 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
     
     @Test
     public void createJsonObjectFromStream() throws IOException {
-        final JsonStructureFactory jsonStructureFactory = JsonStructureFactory.newInstance();
+        final JsonFactory jsonStructureFactory = JsonFactory.newInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream("{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes());
         final JsonObject o = (JsonObject) jsonStructureFactory.readFrom( bais );
         JsonArray a = jsonStructureFactory.newJsonArray();

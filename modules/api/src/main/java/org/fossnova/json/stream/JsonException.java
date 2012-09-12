@@ -17,54 +17,51 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.fossnova.json;
+package org.fossnova.json.stream;
 
 /**
+ * JSON encoding exception.
+ * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-final class JsonConstants {
+public final class JsonException extends RuntimeException {
 
-    static final char ARRAY_END = ']';
+    /**
+     * Serialization version UID.
+     */
+    private static final long serialVersionUID = 1L;
 
-    static final char ARRAY_START = '[';
+    /**
+     * Constructor.
+     */
+    public JsonException() {
+    }
 
-    static final char BACKSLASH = '\\';
+    /**
+     * Constructor.
+     * 
+     * @param msg message
+     */
+    public JsonException( final String msg ) {
+        super( msg );
+    }
 
-    static final char BACKSPACE = '\b';
+    /**
+     * Constructor.
+     * 
+     * @param msg message
+     * @param t reason
+     */
+    public JsonException( final String msg, final Throwable t ) {
+        super( msg, t );
+    }
 
-    static final char CR = '\r';
-
-    static final char COLON = ':';
-
-    static final char COMMA = ',';
-
-    static final char FORMFEED = '\f';
-
-    static final char MINUS = '-';
-
-    static final char NL = '\n';
-
-    static final char OBJECT_END = '}';
-
-    static final char OBJECT_START = '{';
-
-    static final char QUOTE = '\"';
-
-    static final char SOLIDUS = '/';
-
-    static final char TAB = '\t';
-
-    static final String STRING = "STRING";
-
-    static final String NUMBER = "NUMBER";
-
-    static final String NULL = "null";
-
-    static final String TRUE = "true";
-
-    static final String FALSE = "false";
-
-    private JsonConstants() {
-        // forbidden instantiation
+    /**
+     * Constructor.
+     * 
+     * @param t reason
+     */
+    public JsonException( final Throwable t ) {
+        super( t );
     }
 }

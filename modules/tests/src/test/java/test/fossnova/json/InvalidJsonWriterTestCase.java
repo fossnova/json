@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.JsonException;
-import org.fossnova.json.JsonWriter;
+import org.fossnova.json.stream.JsonException;
+import org.fossnova.json.stream.JsonWriter;
 import org.junit.Test;
 
 /**

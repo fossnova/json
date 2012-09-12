@@ -27,6 +27,9 @@ import java.math.BigInteger;
 
 import org.fossnova.json.JsonStructure;
 
+import com.fossnova.json.stream.JsonStreamFactoryImpl;
+import com.fossnova.json.stream.JsonWriterImpl;
+
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */

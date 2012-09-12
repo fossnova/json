@@ -17,10 +17,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package org.fossnova.json.stream;
+
 /**
- * Streaming API for writing and reading <A href="http://www.json.org/">JSON</A>.
- *
+ * JSON encoding parsing events.
+ * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-package org.fossnova.json;
-
+public enum JsonEvent {
+    /**
+     * Parsing cursor points to JSON <CODE>true</CODE> or <CODE>false</CODE> token.
+     */
+    BOOLEAN,
+    /**
+     * Parsing cursor points to JSON <CODE>number</CODE>.
+     */
+    NUMBER,
+    /**
+     * Parsing cursor points to JSON <CODE>null</CODE> token.
+     */
+    NULL,
+    /**
+     * Parsing cursor points to JSON <CODE>string</CODE>.
+     */
+    STRING,
+    /**
+     * Parsing cursor points to JSON <CODE>object start</CODE> token.
+     */
+    OBJECT_START,
+    /**
+     * Parsing cursor points to JSON <CODE>object end</CODE> token.
+     */
+    OBJECT_END,
+    /**
+     * Parsing cursor points to JSON <CODE>array start</CODE> token.
+     */
+    ARRAY_START,
+    /**
+     * Parsing cursor points to JSON <CODE>array end</CODE> token.
+     */
+    ARRAY_END,
+}

@@ -19,29 +19,32 @@
  */
 package com.fossnova.json;
 
-import static org.fossnova.json.JsonEvent.ARRAY_END;
-import static org.fossnova.json.JsonEvent.ARRAY_START;
-import static org.fossnova.json.JsonEvent.BOOLEAN;
-import static org.fossnova.json.JsonEvent.NULL;
-import static org.fossnova.json.JsonEvent.NUMBER;
-import static org.fossnova.json.JsonEvent.OBJECT_END;
-import static org.fossnova.json.JsonEvent.OBJECT_START;
-import static org.fossnova.json.JsonEvent.STRING;
+import static org.fossnova.json.stream.JsonEvent.ARRAY_END;
+import static org.fossnova.json.stream.JsonEvent.ARRAY_START;
+import static org.fossnova.json.stream.JsonEvent.BOOLEAN;
+import static org.fossnova.json.stream.JsonEvent.NULL;
+import static org.fossnova.json.stream.JsonEvent.NUMBER;
+import static org.fossnova.json.stream.JsonEvent.OBJECT_END;
+import static org.fossnova.json.stream.JsonEvent.OBJECT_START;
+import static org.fossnova.json.stream.JsonEvent.STRING;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
-import org.fossnova.json.JsonEvent;
 import org.fossnova.json.JsonStructure;
-import org.fossnova.json.JsonStructureFactory;
+import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonValue;
+import org.fossnova.json.stream.JsonEvent;
+
+import com.fossnova.json.stream.JsonReaderImpl;
+import com.fossnova.json.stream.JsonStreamFactoryImpl;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonStructureFactoryImpl extends JsonStructureFactory {
+public final class JsonFactoryImpl extends JsonFactory {
 
     @Override
     public JsonObjectImpl newJsonObject() {

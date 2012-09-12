@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.JsonReader;
+import org.fossnova.json.stream.JsonReader;
 import org.junit.Test;
 
 /**

@@ -29,17 +29,17 @@ import org.fossnova.finder.FactoryFinder;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public abstract class JsonStructureFactory {
+public abstract class JsonFactory {
 
-    protected JsonStructureFactory() {
+    protected JsonFactory() {
     }
 
-    public static JsonStructureFactory newInstance() {
-        final JsonStructureFactory jsonFactoryImpl = FactoryFinder.find( JsonStructureFactory.class );
+    public static JsonFactory newInstance() {
+        final JsonFactory jsonFactoryImpl = FactoryFinder.find( JsonFactory.class );
         if ( jsonFactoryImpl != null ) {
             return jsonFactoryImpl;
         }
-        throw new IllegalStateException( "Factory not configured: " + JsonStructureFactory.class.getName() );
+        throw new IllegalStateException( "Factory not configured: " + JsonFactory.class.getName() );
     }
 
     public abstract JsonObject newJsonObject();

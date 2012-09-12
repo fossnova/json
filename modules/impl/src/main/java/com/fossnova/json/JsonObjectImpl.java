@@ -30,6 +30,8 @@ import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonStructure;
 import org.fossnova.json.JsonValue;
 
+import com.fossnova.json.stream.JsonWriterImpl;
+
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */

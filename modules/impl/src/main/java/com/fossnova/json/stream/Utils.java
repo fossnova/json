@@ -17,9 +17,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.fossnova.json;
+package com.fossnova.json.stream;
 
-import static com.fossnova.json.JsonConstants.BACKSLASH;
+import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
