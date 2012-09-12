@@ -28,21 +28,17 @@
     <groupId>org.fossnova</groupId>
     <artifactId>fossnova-json-parent</artifactId>
     <version>1.0.0.Beta1-SNAPSHOT</version>
-    <relativePath>../../../pom.xml</relativePath>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <name>FOSS Nova JSON Streaming Tests</name>
+  <name>FOSS Nova JSON Implementation</name>
   <groupId>org.fossnova</groupId>
-  <artifactId>fossnova-json-stream-tests</artifactId>
+  <artifactId>fossnova-json-impl</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>org.fossnova</groupId>
-      <artifactId>fossnova-json-stream-impl</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <artifactId>fossnova-json-api</artifactId>
     </dependency>
   </dependencies>
 
