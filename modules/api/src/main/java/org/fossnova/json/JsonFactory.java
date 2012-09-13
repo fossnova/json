@@ -20,11 +20,9 @@
 package org.fossnova.json;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 
 import org.fossnova.finder.FactoryFinder;
+import org.fossnova.json.stream.JsonReader;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
@@ -46,10 +44,6 @@ public abstract class JsonFactory {
 
     public abstract JsonArray newJsonArray();
     
-    public abstract JsonStructure readFrom( Reader reader ) throws IOException;
-    
-    public abstract JsonStructure readFrom( InputStream stream ) throws IOException;
-    
-    public abstract JsonStructure readFrom( InputStream stream, String charsetName ) throws UnsupportedEncodingException, IOException;
+    public abstract JsonStructure readFrom( JsonReader reader ) throws IOException;
 
 }

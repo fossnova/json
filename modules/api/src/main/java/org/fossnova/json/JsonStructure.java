@@ -20,14 +20,12 @@
 package org.fossnova.json;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
+
+import org.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 public interface JsonStructure extends JsonValue {
-    void writeTo( OutputStream stream ) throws IOException;
-    void writeTo( OutputStream stream, String charsetName ) throws IOException;
-    void writeTo( Writer writer ) throws IOException;
+    void writeTo( JsonWriter writer ) throws IOException;
 }

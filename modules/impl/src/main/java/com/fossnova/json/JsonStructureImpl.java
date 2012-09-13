@@ -20,14 +20,12 @@
 package com.fossnova.json;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.fossnova.json.JsonStructure;
+import org.fossnova.json.stream.JsonWriter;
 
-import com.fossnova.json.stream.JsonStreamFactoryImpl;
 import com.fossnova.json.stream.JsonWriterImpl;
 
 /**
@@ -35,25 +33,11 @@ import com.fossnova.json.stream.JsonWriterImpl;
  */
 abstract class JsonStructureImpl implements JsonStructure {
 
-    public final void writeTo( final OutputStream stream ) throws IOException {
-        final JsonWriterImpl jsonWriter = new JsonStreamFactoryImpl().newJsonWriter( stream );
-        writeTo( jsonWriter );
-        jsonWriter.flush();
-        jsonWriter.close();
-    }
-
-    public final void writeTo( final OutputStream stream, final String charsetName ) throws IOException {
-        final JsonWriterImpl jsonWriter = new JsonStreamFactoryImpl().newJsonWriter( stream, charsetName );
-        writeTo( jsonWriter );
-        jsonWriter.flush();
-        jsonWriter.close();
-    }
-
-    public final void writeTo( final Writer writer ) throws IOException {
-        final JsonWriterImpl jsonWriter = new JsonStreamFactoryImpl().newJsonWriter( writer );
-        writeTo( jsonWriter );
-        jsonWriter.flush();
-        jsonWriter.close();
+    public final void writeTo( final JsonWriter jsonWriter ) throws IOException {
+        if ( jsonWriter == null ) {
+            throw new IllegalArgumentException( "JSON writer cannot be null" );
+        }
+        writeTo( (JsonWriterImpl) jsonWriter );
     }
 
     protected abstract void writeTo( final JsonWriterImpl jsonWriter ) throws IOException;

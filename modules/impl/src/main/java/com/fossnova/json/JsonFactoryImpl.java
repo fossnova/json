@@ -29,17 +29,14 @@ import static org.fossnova.json.stream.JsonEvent.OBJECT_START;
 import static org.fossnova.json.stream.JsonEvent.STRING;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 
-import org.fossnova.json.JsonStructure;
 import org.fossnova.json.JsonFactory;
+import org.fossnova.json.JsonStructure;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonEvent;
+import org.fossnova.json.stream.JsonReader;
 
 import com.fossnova.json.stream.JsonReaderImpl;
-import com.fossnova.json.stream.JsonStreamFactoryImpl;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
@@ -57,21 +54,11 @@ public final class JsonFactoryImpl extends JsonFactory {
     }
 
     @Override
-    public JsonStructure readFrom( final Reader reader ) throws IOException {
-        final JsonReaderImpl jsonReader = new JsonStreamFactoryImpl().newJsonReader( reader );
-        return readFrom( jsonReader );
-    }
-
-    @Override
-    public JsonStructure readFrom( final InputStream stream ) throws UnsupportedEncodingException, IOException {
-        final JsonReaderImpl jsonReader = new JsonStreamFactoryImpl().newJsonReader( stream );
-        return readFrom( jsonReader );
-    }
-
-    @Override
-    public JsonStructure readFrom( final InputStream stream, final String charsetName ) throws UnsupportedEncodingException, IOException {
-        final JsonReaderImpl jsonReader = new JsonStreamFactoryImpl().newJsonReader( stream, charsetName );
-        return readFrom( jsonReader );
+    public JsonStructure readFrom( final JsonReader jsonReader ) throws IOException {
+        if ( jsonReader == null ) {
+            throw new IllegalArgumentException( "JSON reader cannot be null" );
+        }
+        return readFrom( (JsonReaderImpl) jsonReader );
     }
 
     private JsonStructure readFrom( final JsonReaderImpl jsonReader ) throws IOException {

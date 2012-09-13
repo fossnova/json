@@ -27,11 +27,14 @@ import junit.framework.Assert;
 
 import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonBoolean;
+import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonNumber;
 import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonString;
-import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonValue;
+import org.fossnova.json.stream.JsonReader;
+import org.fossnova.json.stream.JsonStreamFactory;
+import org.fossnova.json.stream.JsonWriter;
 import org.junit.Test;
 
 /**
@@ -44,16 +47,16 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         JsonFactory jsonStructureFactory = JsonFactory.newInstance();
         JsonObject o = jsonStructureFactory.newJsonObject();
         o.put( "1", "b1" );
-        o.put( "2", (String)null );
-        o.put("3", true );
+        o.put( "2", ( String ) null );
+        o.put( "3", true );
         o.put( "4", false );
         o.put( "5", 1 );
         JsonArray a = jsonStructureFactory.newJsonArray();
-        o.put("6", a);
+        o.put( "6", a );
         JsonObject o1 = jsonStructureFactory.newJsonObject();
-        o.put("7", o1);
-        assertJsonString( o, "1", "b1");
-        assertJsonNull( o, "2");
+        o.put( "7", o1 );
+        assertJsonString( o, "1", "b1" );
+        assertJsonNull( o, "2" );
         assertJsonBoolean( o, "3", true );
         assertJsonBoolean( o, "4", false );
         assertJsonNumber( o, "5", 1 );
@@ -61,25 +64,27 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         Assert.assertTrue( o.containsValue( 1 ) );
         Assert.assertTrue( o.containsValue( true ) );
         Assert.assertTrue( o.containsValue( false ) );
-        Assert.assertTrue( o.containsValue( (Boolean) null ) );
+        Assert.assertTrue( o.containsValue( ( Boolean ) null ) );
         Assert.assertTrue( o.containsValue( a ) );
         Assert.assertTrue( o.containsValue( o1 ) );
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        o.writeTo( baos );
-        System.out.println("--- START ---");
-        System.out.println( new String(baos.toByteArray()));
-        System.out.println("--- END ---");
+        JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
+        o.writeTo( jsonWriter );
+        System.out.println( "--- START ---" );
+        System.out.println( new String( baos.toByteArray() ) );
+        System.out.println( "--- END ---" );
     }
-    
+
     @Test
     public void createJsonObjectFromStream() throws IOException {
         final JsonFactory jsonStructureFactory = JsonFactory.newInstance();
-        final ByteArrayInputStream bais = new ByteArrayInputStream("{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes());
-        final JsonObject o = (JsonObject) jsonStructureFactory.readFrom( bais );
+        final ByteArrayInputStream bais = new ByteArrayInputStream( "{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes() );
+        final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
+        final JsonObject o = ( JsonObject ) jsonStructureFactory.readFrom( jsonReader );
         JsonArray a = jsonStructureFactory.newJsonArray();
         JsonObject o1 = jsonStructureFactory.newJsonObject();
-        assertJsonString( o, "1", "b1");
-        assertJsonNull( o, "2");
+        assertJsonString( o, "1", "b1" );
+        assertJsonNull( o, "2" );
         assertJsonBoolean( o, "3", true );
         assertJsonBoolean( o, "4", false );
         assertJsonNumber( o, "5", 1 );
@@ -87,35 +92,34 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         Assert.assertTrue( o.containsValue( 1 ) );
         Assert.assertTrue( o.containsValue( true ) );
         Assert.assertTrue( o.containsValue( false ) );
-        Assert.assertTrue( o.containsValue( (Boolean) null ) );
+        Assert.assertTrue( o.containsValue( ( Boolean ) null ) );
         Assert.assertTrue( o.containsValue( a ) );
         Assert.assertTrue( o.containsValue( o1 ) );
     }
-    
+
     private static void assertJsonString( final JsonObject o, final String key, final String expectedValue ) {
         final JsonValue jsonValue = o.get( key );
         Assert.assertTrue( jsonValue instanceof JsonString );
-        final JsonString jsonString = (JsonString)jsonValue;
+        final JsonString jsonString = ( JsonString ) jsonValue;
         Assert.assertEquals( expectedValue, jsonString.getString() );
     }
-    
+
     private static void assertJsonBoolean( final JsonObject o, final String key, final boolean expectedValue ) {
         final JsonValue jsonValue = o.get( key );
         Assert.assertTrue( jsonValue instanceof JsonBoolean );
-        final JsonBoolean jsonBoolean = (JsonBoolean)jsonValue;
+        final JsonBoolean jsonBoolean = ( JsonBoolean ) jsonValue;
         Assert.assertEquals( expectedValue, jsonBoolean.getBoolean() );
     }
-    
+
     private static void assertJsonNumber( final JsonObject o, final String key, final int expectedValue ) {
         final JsonValue jsonValue = o.get( key );
         Assert.assertTrue( jsonValue instanceof JsonNumber );
-        final JsonNumber jsonNumber = (JsonNumber)jsonValue;
+        final JsonNumber jsonNumber = ( JsonNumber ) jsonValue;
         Assert.assertEquals( expectedValue, jsonNumber.getInt() );
     }
-    
+
     private static void assertJsonNull( final JsonObject o, final String key ) {
         Assert.assertTrue( o.keySet().contains( key ) );
         Assert.assertNull( o.get( key ) );
     }
-    
 }
