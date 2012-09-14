@@ -99,7 +99,6 @@ final class JsonNumberImpl implements JsonNumber {
         return new BigDecimal( value );
     }
 
-    // implemented java.lang.Object methods
     @Override
     public int hashCode() {
         return value.hashCode();

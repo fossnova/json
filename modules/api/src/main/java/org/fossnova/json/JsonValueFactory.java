@@ -27,22 +27,28 @@ import org.fossnova.json.stream.JsonReader;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public abstract class JsonFactory {
+public abstract class JsonValueFactory {
 
-    protected JsonFactory() {
+    protected JsonValueFactory() {
     }
 
-    public static JsonFactory newInstance() {
-        final JsonFactory jsonFactoryImpl = FactoryFinder.find( JsonFactory.class );
+    public static JsonValueFactory newInstance() {
+        final JsonValueFactory jsonFactoryImpl = FactoryFinder.find( JsonValueFactory.class );
         if ( jsonFactoryImpl != null ) {
             return jsonFactoryImpl;
         }
-        throw new IllegalStateException( "Factory not configured: " + JsonFactory.class.getName() );
+        throw new IllegalStateException( "Factory not configured: " + JsonValueFactory.class.getName() );
     }
 
     public abstract JsonObject newJsonObject();
 
     public abstract JsonArray newJsonArray();
+    
+    public abstract JsonBoolean newJsonBoolean( Boolean value );
+    
+    public abstract JsonNumber newJsonNumber( Number value );
+    
+    public abstract JsonString newJsonString( String value );
     
     public abstract JsonValue readFrom( JsonReader reader ) throws IOException;
 

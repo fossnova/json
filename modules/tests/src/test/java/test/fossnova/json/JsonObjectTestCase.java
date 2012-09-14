@@ -29,7 +29,7 @@ import java.io.IOException;
 
 import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonBoolean;
-import org.fossnova.json.JsonFactory;
+import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.JsonNumber;
 import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonString;
@@ -71,7 +71,7 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
     
     @Test
     public void createJsonObjectFromStream() throws IOException {
-        final JsonFactory jsonStructureFactory = JsonFactory.newInstance();
+        final JsonValueFactory jsonStructureFactory = JsonValueFactory.newInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream( "{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
         final JsonObject o = ( JsonObject ) jsonStructureFactory.readFrom( jsonReader );
@@ -129,12 +129,12 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
     private static JsonValue deserializeJson( final String jsonString ) throws IOException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
-        final JsonFactory jsonFactory = JsonFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         return jsonFactory.readFrom( jsonReader );
     }
     
     private static JsonArray createSimpleArray() {
-        final JsonFactory jsonFactory = JsonFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         final JsonArray jsonArray = jsonFactory.newJsonArray();
         jsonArray.add( (String) null );
         jsonArray.add( true );
@@ -146,7 +146,7 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
     }
     
     private static JsonObject createSimpleObject() {
-        final JsonFactory jsonFactory = JsonFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
         jsonObject.put( "1", (String) null );
         jsonObject.put( "2", true );
@@ -158,7 +158,7 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
     }
 
     private static JsonObject createComplexObject() {
-        final JsonFactory jsonFactory = JsonFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
         jsonObject.put( "1", "b1" );
         jsonObject.put( "2", ( String ) null );

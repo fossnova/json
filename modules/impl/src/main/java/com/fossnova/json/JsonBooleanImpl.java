@@ -40,7 +40,6 @@ final class JsonBooleanImpl implements JsonBoolean {
         return value;
     }
 
-    // implemented java.lang.Object methods
     @Override
     public int hashCode() {
         return value.hashCode();

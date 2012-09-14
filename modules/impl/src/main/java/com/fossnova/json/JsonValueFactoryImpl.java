@@ -29,9 +29,11 @@ import static org.fossnova.json.stream.JsonEvent.OBJECT_START;
 import static org.fossnova.json.stream.JsonEvent.STRING;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
-import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonValue;
+import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonReader;
 
@@ -40,7 +42,7 @@ import com.fossnova.json.stream.JsonReaderImpl;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonFactoryImpl extends JsonFactory {
+public final class JsonValueFactoryImpl extends JsonValueFactory {
 
     @Override
     public JsonObjectImpl newJsonObject() {
@@ -53,11 +55,52 @@ public final class JsonFactoryImpl extends JsonFactory {
     }
 
     @Override
+    public JsonBooleanImpl newJsonBoolean( final Boolean value ) {
+        if ( value == null ) {
+            return null;
+        }
+        return value ? JsonBooleanImpl.TRUE : JsonBooleanImpl.FALSE;
+    }
+
+    @Override
+    public JsonNumberImpl newJsonNumber( final Number value ) {
+        if ( value == null ) {
+            return null;
+        }
+        if ( value instanceof Byte ) {
+            return new JsonNumberImpl( ( Byte ) value );
+        } else if ( value instanceof Short ) {
+            return new JsonNumberImpl( ( Short ) value );
+        } else if ( value instanceof Integer ) {
+            return new JsonNumberImpl( ( Integer ) value );
+        } else if ( value instanceof Long ) {
+            return new JsonNumberImpl( ( Long ) value );
+        } else if ( value instanceof Float ) {
+            return new JsonNumberImpl( ( Float ) value );
+        } else if ( value instanceof Double ) {
+            return new JsonNumberImpl( ( Double ) value );
+        } else if ( value instanceof BigInteger ) {
+            return new JsonNumberImpl( ( BigInteger ) value );
+        } else if ( value instanceof BigDecimal ) {
+            return new JsonNumberImpl( ( BigDecimal ) value );
+        }
+        throw new IllegalStateException();
+    }
+
+    @Override
+    public JsonStringImpl newJsonString( final String value ) {
+        if ( value == null ) {
+            return null;
+        }
+        return new JsonStringImpl( value );
+    }
+
+    @Override
     public JsonValue readFrom( final JsonReader jsonReader ) throws IOException {
         if ( jsonReader == null ) {
             throw new IllegalArgumentException( "JSON reader cannot be null" );
         }
-        return readFrom( (JsonReaderImpl) jsonReader );
+        return readFrom( ( JsonReaderImpl ) jsonReader );
     }
 
     private JsonValue readFrom( final JsonReaderImpl jsonReader ) throws IOException {

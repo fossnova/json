@@ -36,7 +36,6 @@ final class JsonStringImpl implements JsonString {
         return value;
     }
 
-    // implemented java.lang.Object methods
     @Override
     public int hashCode() {
         return value.hashCode();
