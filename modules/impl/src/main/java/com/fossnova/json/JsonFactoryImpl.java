@@ -31,7 +31,6 @@ import static org.fossnova.json.stream.JsonEvent.STRING;
 import java.io.IOException;
 
 import org.fossnova.json.JsonFactory;
-import org.fossnova.json.JsonStructure;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonReader;
@@ -54,14 +53,14 @@ public final class JsonFactoryImpl extends JsonFactory {
     }
 
     @Override
-    public JsonStructure readFrom( final JsonReader jsonReader ) throws IOException {
+    public JsonValue readFrom( final JsonReader jsonReader ) throws IOException {
         if ( jsonReader == null ) {
             throw new IllegalArgumentException( "JSON reader cannot be null" );
         }
         return readFrom( (JsonReaderImpl) jsonReader );
     }
 
-    private JsonStructure readFrom( final JsonReaderImpl jsonReader ) throws IOException {
+    private JsonValue readFrom( final JsonReaderImpl jsonReader ) throws IOException {
         if ( jsonReader.next() == OBJECT_START ) {
             return readJsonObjectFrom( jsonReader );
         } else {

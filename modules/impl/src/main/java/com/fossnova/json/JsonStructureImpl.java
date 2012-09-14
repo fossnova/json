@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.JsonStructure;
+import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonWriter;
 
 import com.fossnova.json.stream.JsonWriterImpl;
@@ -31,7 +31,7 @@ import com.fossnova.json.stream.JsonWriterImpl;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-abstract class JsonStructureImpl implements JsonStructure {
+abstract class JsonStructureImpl implements JsonValue {
 
     public final void writeTo( final JsonWriter jsonWriter ) throws IOException {
         if ( jsonWriter == null ) {

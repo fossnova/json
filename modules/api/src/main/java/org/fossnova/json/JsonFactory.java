@@ -44,6 +44,6 @@ public abstract class JsonFactory {
 
     public abstract JsonArray newJsonArray();
     
-    public abstract JsonStructure readFrom( JsonReader reader ) throws IOException;
+    public abstract JsonValue readFrom( JsonReader reader ) throws IOException;
 
 }

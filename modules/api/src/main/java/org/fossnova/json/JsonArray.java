@@ -19,12 +19,15 @@
  */
 package org.fossnova.json;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public interface JsonArray extends JsonStructure, List< JsonValue > {
+public interface JsonArray extends JsonValue, List< JsonValue > {
 
     boolean add( final String value );
 
@@ -87,5 +90,7 @@ public interface JsonArray extends JsonStructure, List< JsonValue > {
     public JsonArray subList( final int fromIndex, final int toIndex );
 
     JsonValue[] toArray();
+
+    void writeTo( JsonWriter writer ) throws IOException;
 
 }

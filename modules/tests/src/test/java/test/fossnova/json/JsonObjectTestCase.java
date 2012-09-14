@@ -33,7 +33,6 @@ import org.fossnova.json.JsonFactory;
 import org.fossnova.json.JsonNumber;
 import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonString;
-import org.fossnova.json.JsonStructure;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
@@ -99,21 +98,35 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         assertRoundTrip( COMPLEX_OBJECT );
     }
 
-    private static void assertRoundTrip( final JsonStructure jsonStructure ) throws IOException {
-        final String serializedJson = serializeJson( jsonStructure );
-        final JsonStructure deserializedJson = deserializeJson( serializedJson );
-        assertEquals( jsonStructure, deserializedJson );
+    private static void assertRoundTrip( final JsonObject jsonObject ) throws IOException {
+        final String serializedJsonObject = serializeJson( jsonObject );
+        final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
+        assertEquals( jsonObject, deserializedJsonObject );
     }
     
-    private static String serializeJson( final JsonStructure jsonStructure ) throws IOException {
+    private static void assertRoundTrip( final JsonArray jsonArray ) throws IOException {
+        final String serializedJsonObject = serializeJson( jsonArray );
+        final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
+        assertEquals( jsonArray, deserializedJsonObject );
+    }
+    
+    private static String serializeJson( final JsonObject jsonObject ) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
-        jsonStructure.writeTo( jsonWriter );
+        jsonObject.writeTo( jsonWriter );
         jsonWriter.close();
         return new String( baos.toByteArray() );
     }
     
-    private static JsonStructure deserializeJson( final String jsonString ) throws IOException {
+    private static String serializeJson( final JsonArray jsonArray ) throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
+        jsonArray.writeTo( jsonWriter );
+        jsonWriter.close();
+        return new String( baos.toByteArray() );
+    }
+    
+    private static JsonValue deserializeJson( final String jsonString ) throws IOException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
         final JsonFactory jsonFactory = JsonFactory.newInstance();

@@ -19,12 +19,15 @@
  */
 package org.fossnova.json;
 
+import java.io.IOException;
 import java.util.Map;
+
+import org.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public interface JsonObject extends JsonStructure, Map< String, JsonValue > {
+public interface JsonObject extends JsonValue, Map< String, JsonValue > {
 
     boolean containsKey( final String key );
 
@@ -45,5 +48,7 @@ public interface JsonObject extends JsonStructure, Map< String, JsonValue > {
     JsonValue put( final String key, final Number value );
 
     JsonValue remove( final String key );
+
+    void writeTo( JsonWriter writer ) throws IOException;
 
 }
