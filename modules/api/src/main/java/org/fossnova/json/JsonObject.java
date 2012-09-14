@@ -19,22 +19,12 @@
  */
 package org.fossnova.json;
 
-import java.util.Collection;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public interface JsonObject extends JsonStructure {
-
-    JsonValue put( final String key, final String value );
-
-    JsonValue put( final String key, final Boolean value );
-
-    JsonValue put( final String key, final Number value );
-
-    JsonValue put( final String key, final JsonStructure value );
+public interface JsonObject extends JsonStructure, Map< String, JsonValue > {
 
     boolean containsKey( final String key );
 
@@ -44,22 +34,16 @@ public interface JsonObject extends JsonStructure {
 
     boolean containsValue( final Number value );
 
-    boolean containsValue( final JsonStructure value );
-
-    Collection< JsonValue > values();
-
-    Set< Entry< String, JsonValue >> entrySet();
-
-    Set< String > keySet();
+    boolean containsValue( final JsonValue value );
 
     JsonValue get( final String key );
 
+    JsonValue put( final String key, final String value );
+
+    JsonValue put( final String key, final Boolean value );
+
+    JsonValue put( final String key, final Number value );
+
     JsonValue remove( final String key );
-
-    void clear();
-
-    int size();
-
-    boolean isEmpty();
 
 }

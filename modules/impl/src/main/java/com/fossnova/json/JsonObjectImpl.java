@@ -22,12 +22,10 @@ package com.fossnova.json;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
 import org.fossnova.json.JsonObject;
-import org.fossnova.json.JsonStructure;
 import org.fossnova.json.JsonValue;
 
 import com.fossnova.json.stream.JsonWriterImpl;
@@ -40,7 +38,7 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     private final Map< String, JsonValue > map;
 
     JsonObjectImpl() {
-        map = new TreeMap< String, JsonValue >( String.CASE_INSENSITIVE_ORDER );
+        map = new TreeMap< String, JsonValue >();
     }
 
     public JsonValue put( final String key, final String value ) {
@@ -55,16 +53,29 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
         return putInternal( key, toJsonNumber( value ) );
     }
 
-    public JsonValue put( final String key, final JsonStructure value ) {
+    public JsonValue put( final String key, final JsonValue value ) {
         return putInternal( key, value );
+    }
+
+    public boolean containsKey( final Object key ) {
+        return key instanceof String ? containsKey( ( String ) key ) : false;
     }
 
     public boolean containsKey( final String key ) {
         return key != null ? map.containsKey( key ) : false;
     }
 
-    public boolean containsValue( final String value ) {
-        return map.containsValue( toJsonString( value ) );
+    public boolean containsValue( final Object value ) {
+        if ( value == null || value instanceof String ) {
+            return containsValue( ( String ) value );
+        } else if ( value instanceof Number ) {
+            return containsValue( ( Number ) value );
+        } else if ( value instanceof Boolean ) {
+            return containsValue( ( Boolean ) value );
+        } else if ( value instanceof JsonValue ) {
+            return containsValue( ( JsonValue ) value );
+        }
+        return false;
     }
 
     public boolean containsValue( final Boolean value ) {
@@ -75,7 +86,11 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
         return map.containsValue( toJsonNumber( value ) );
     }
 
-    public boolean containsValue( final JsonStructure value ) {
+    public boolean containsValue( final String value ) {
+        return map.containsValue( toJsonString( value ) );
+    }
+
+    public boolean containsValue( final JsonValue value ) {
         return map.containsValue( value );
     }
 
@@ -95,12 +110,40 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
         return map.get( key );
     }
 
+    public JsonValue get( final Object key ) {
+        return key instanceof String ? get( ( String ) key ) : null;
+    }
+
     public JsonValue remove( final String key ) {
         return map.remove( key );
     }
 
+    public JsonValue remove( final Object key ) {
+        return key instanceof String ? remove( ( String ) key ) : null;
+    }
+
+    public void putAll( final JsonObject jsonObject ) {
+        if ( jsonObject != null ) {
+            map.putAll( jsonObject );
+        }
+    }
+
+    public void putAll( final Map< ? extends String, ? extends JsonValue > jsonObject ) {
+        if ( jsonObject != null ) {
+            map.putAll( jsonObject );
+        }
+    }
+
     public void clear() {
         map.clear();
+    }
+
+    public int size() {
+        return map.size();
+    }
+
+    public boolean isEmpty() {
+        return map.isEmpty();
     }
 
     @Override
@@ -119,14 +162,6 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     @Override
     public String toString() {
         return map.toString();
-    }
-
-    public int size() {
-        return map.size();
-    }
-
-    public boolean isEmpty() {
-        return map.isEmpty();
     }
 
     @Override

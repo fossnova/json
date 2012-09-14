@@ -19,29 +19,12 @@
  */
 package org.fossnova.json;
 
-import java.util.Iterator;
-import java.util.ListIterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public interface JsonArray extends JsonStructure {
-
-    int size();
-
-    boolean isEmpty();
-
-    boolean contains( final String value );
-
-    boolean contains( final Number value );
-
-    boolean contains( final Boolean value );
-
-    boolean contains( final JsonStructure value );
-
-    Iterator< JsonValue > iterator();
-
-    JsonValue[] toArray();
+public interface JsonArray extends JsonStructure, List< JsonValue > {
 
     boolean add( final String value );
 
@@ -49,27 +32,7 @@ public interface JsonArray extends JsonStructure {
 
     boolean add( final Boolean value );
 
-    boolean add( final JsonStructure value );
-
-    boolean remove( final String value );
-
-    boolean remove( final Number value );
-
-    boolean remove( final Boolean value );
-
-    boolean remove( final JsonStructure value );
-
-    void clear();
-
-    JsonValue get( final int index );
-
-    JsonValue set( final int index, final String value );
-
-    JsonValue set( final int index, final Number value );
-
-    JsonValue set( final int index, final Boolean value );
-
-    JsonValue set( final int index, final JsonStructure value );
+    boolean add( final JsonValue value );
 
     void add( final int index, final String value );
 
@@ -77,17 +40,25 @@ public interface JsonArray extends JsonStructure {
 
     void add( final int index, final Boolean value );
 
-    void add( final int index, final JsonStructure value );
+    void add( final int index, final JsonValue value );
 
-    JsonValue remove( final int index );
+    boolean contains( final String value );
 
+    boolean contains( final Number value );
+
+    boolean contains( final Boolean value );
+
+    boolean contains( final JsonValue value );
+    
+    boolean contains( final Object value );
+    
     int indexOf( final String value );
 
     int indexOf( final Number value );
 
     int indexOf( final Boolean value );
 
-    int indexOf( final JsonStructure value );
+    int indexOf( final JsonValue value );
 
     int lastIndexOf( final String value );
 
@@ -95,10 +66,26 @@ public interface JsonArray extends JsonStructure {
 
     int lastIndexOf( final Boolean value );
 
-    int lastIndexOf( final JsonStructure value );
+    int lastIndexOf( final JsonValue value );
 
-    ListIterator< JsonValue > listIterator();
+    boolean remove( final String value );
 
-    ListIterator< JsonValue > listIterator( int index );
+    boolean remove( final Number value );
+
+    boolean remove( final Boolean value );
+
+    boolean remove( final JsonValue value );
+
+    JsonValue set( final int index, final String value );
+
+    JsonValue set( final int index, final Number value );
+
+    JsonValue set( final int index, final Boolean value );
+
+    JsonValue set( final int index, final JsonValue value );
+
+    public JsonArray subList( final int fromIndex, final int toIndex );
+
+    JsonValue[] toArray();
 
 }
