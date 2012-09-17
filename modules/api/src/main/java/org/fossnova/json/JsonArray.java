@@ -92,5 +92,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
     JsonValue[] toArray();
 
     void writeTo( JsonWriter writer ) throws IOException;
+    
+    JsonArray clone();
 
 }

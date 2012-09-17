@@ -59,7 +59,7 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
         if ( value == null ) {
             return null;
         }
-        return value ? JsonBooleanImpl.TRUE : JsonBooleanImpl.FALSE;
+        return new JsonBooleanImpl( value );
     }
 
     @Override
@@ -122,7 +122,7 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
             if ( jsonEvent == NULL ) {
                 jsonValue = null;
             } else if ( jsonEvent == BOOLEAN ) {
-                jsonValue = jsonReader.getBoolean() ? JsonBooleanImpl.TRUE : JsonBooleanImpl.FALSE;
+                jsonValue = jsonReader.getBoolean() ? new JsonBooleanImpl( true ) : new JsonBooleanImpl( false );
             } else if ( jsonEvent == NUMBER ) {
                 jsonValue = new JsonNumberImpl( jsonReader.getNumber() );
             } else if ( jsonEvent == STRING ) {
@@ -148,7 +148,7 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
             if ( jsonEvent == NULL ) {
                 jsonValue = null;
             } else if ( jsonEvent == BOOLEAN ) {
-                jsonValue = jsonReader.getBoolean() ? JsonBooleanImpl.TRUE : JsonBooleanImpl.FALSE;
+                jsonValue = jsonReader.getBoolean() ? new JsonBooleanImpl( true ) : new JsonBooleanImpl( false );
             } else if ( jsonEvent == NUMBER ) {
                 jsonValue = new JsonNumberImpl( jsonReader.getNumber() );
             } else if ( jsonEvent == STRING ) {

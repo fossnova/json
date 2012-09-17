@@ -26,9 +26,16 @@ import org.fossnova.json.JsonString;
  */
 final class JsonStringImpl implements JsonString {
 
-    private final String value;
+    private String value;
 
     JsonStringImpl( final String value ) {
+        this.value = value;
+    }
+    
+    public void setString( final String value ) {
+        if ( value == null ) {
+            throw new IllegalArgumentException( "Parameter cannot be null" );
+        }
         this.value = value;
     }
 
@@ -52,5 +59,10 @@ final class JsonStringImpl implements JsonString {
     @Override
     public String toString() {
         return value;
+    }
+    
+    @Override
+    public JsonStringImpl clone() {
+        return new JsonStringImpl( value ); 
     }
 }

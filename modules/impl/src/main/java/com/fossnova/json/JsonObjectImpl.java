@@ -165,6 +165,17 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     @Override
+    public JsonObjectImpl clone() {
+        final JsonObjectImpl retVal = new JsonObjectImpl();
+        JsonValue jsonValue = null;
+        for ( final String jsonKey : map.keySet() ) {
+            jsonValue = map.get( jsonKey );
+            retVal.put( jsonKey, jsonValue != null ? jsonValue.clone() : null );
+        }
+        return retVal;
+    }
+
+    @Override
     protected void writeTo( final JsonWriterImpl jsonWriter ) throws IOException {
         jsonWriter.writeObjectStart();
         JsonValue jsonValue = null;

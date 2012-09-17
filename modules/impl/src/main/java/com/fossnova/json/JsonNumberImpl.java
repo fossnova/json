@@ -29,7 +29,7 @@ import org.fossnova.json.JsonNumber;
  */
 final class JsonNumberImpl implements JsonNumber {
 
-    private final String value;
+    private String value;
 
     JsonNumberImpl( final String value ) {
         this.value = value;
@@ -65,6 +65,44 @@ final class JsonNumberImpl implements JsonNumber {
 
     JsonNumberImpl( final BigDecimal data ) {
         value = String.valueOf( data );
+    }
+
+    public void setByte( final byte value ) {
+        this.value = String.valueOf( value );
+    }
+
+    public void setShort( final short value ) {
+        this.value = String.valueOf( value );
+    }
+
+    public void setInt( final int value ) {
+        this.value = String.valueOf( value );
+    }
+
+    public void setLong( final long value ) {
+        this.value = String.valueOf( value );
+    }
+
+    public void setFloat( final float value ) {
+        this.value = String.valueOf( value );
+    }
+
+    public void setDouble( final double value ) {
+        this.value = String.valueOf( value );
+    }
+
+    public void setBigInteger( final BigInteger value ) {
+        if ( value == null ) {
+            throw new IllegalArgumentException( "Parameter cannot be null ");
+        }
+        this.value = String.valueOf( value );
+    }
+
+    public void setBigDecimal( final BigDecimal value ) {
+        if ( value == null ) {
+            throw new IllegalArgumentException( "Parameter cannot be null ");
+        }
+        this.value = String.valueOf( value );
     }
 
     public byte getByte() {
@@ -115,5 +153,10 @@ final class JsonNumberImpl implements JsonNumber {
     @Override
     public String toString() {
         return value;
+    }
+
+    @Override
+    public JsonNumberImpl clone() {
+        return new JsonNumberImpl( value );
     }
 }

@@ -19,6 +19,9 @@
  */
 package com.fossnova.json;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 import org.fossnova.json.JsonBoolean;
 
 /**
@@ -26,23 +29,23 @@ import org.fossnova.json.JsonBoolean;
  */
 final class JsonBooleanImpl implements JsonBoolean {
 
-    static final JsonBooleanImpl TRUE = new JsonBooleanImpl( true );
-
-    static final JsonBooleanImpl FALSE = new JsonBooleanImpl( false );
-
-    private final Boolean value;
+    private boolean value;
 
     JsonBooleanImpl( final boolean value ) {
+        this.value = value;
+    }
+    
+    public void setBoolean( final boolean value ) {
         this.value = value;
     }
 
     public boolean getBoolean() {
         return value;
     }
-
+    
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return value ? TRUE.hashCode() : FALSE.hashCode();
     }
 
     @Override
@@ -55,6 +58,11 @@ final class JsonBooleanImpl implements JsonBoolean {
 
     @Override
     public String toString() {
-        return value.toString();
+        return value ? TRUE.toString() : FALSE.toString();
+    }
+    
+    @Override
+    public JsonBooleanImpl clone() {
+        return new JsonBooleanImpl( value ); 
     }
 }

@@ -23,7 +23,11 @@ package org.fossnova.json;
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 public interface JsonBoolean extends JsonValue {
+
+    void setBoolean( boolean b );
     
     boolean getBoolean();
+    
+    JsonBoolean clone();
 
 }

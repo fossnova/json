@@ -24,6 +24,10 @@ package org.fossnova.json;
  */
 public interface JsonString extends JsonValue {
     
+    void setString( String s );
+    
     String getString();
+    
+    JsonString clone();
 
 }

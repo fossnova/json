@@ -81,7 +81,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     public boolean addAll( final int index, final Collection< ? extends JsonValue > values ) {
         return list.addAll( index, values );
     }
-
+    
     public boolean contains( final String value ) {
         return list.contains( toJsonString( value ) );
     }
@@ -286,6 +286,15 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     }
 
     @Override
+    public JsonArrayImpl clone() {
+        final JsonArrayImpl retVal = new JsonArrayImpl();
+        for ( final JsonValue jsonValue : list ) {
+            retVal.add( jsonValue != null ? jsonValue.clone() : null );
+        }
+        return retVal;
+    }
+
+    @Override
     public String toString() {
         return list.toString();
     }
@@ -315,4 +324,5 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     boolean addInternal( final JsonValue value ) {
         return list.add( value );
     }
+    
 }

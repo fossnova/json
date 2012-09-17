@@ -53,7 +53,7 @@ abstract class JsonStructureImpl implements JsonValue {
         if ( value == null ) {
             return null;
         }
-        return value.booleanValue() ? JsonBooleanImpl.TRUE : JsonBooleanImpl.FALSE;
+        return new JsonBooleanImpl( value );
     }
 
     protected final JsonNumberImpl toJsonNumber( final Number value ) {
@@ -85,5 +85,9 @@ abstract class JsonStructureImpl implements JsonValue {
             return new JsonNumberImpl( ( BigDecimal ) value );
         }
         throw new IllegalStateException();
+    }
+
+    public JsonStructureImpl clone() {
+        throw new UnsupportedOperationException();
     }
 }
