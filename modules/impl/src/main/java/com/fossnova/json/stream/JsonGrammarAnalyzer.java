@@ -48,6 +48,9 @@ final class JsonGrammarAnalyzer {
 
     private final LinkedList< JsonGrammarToken > stack = new LinkedList< JsonGrammarToken >();
 
+    JsonGrammarAnalyzer() {
+    }
+
     void push( final JsonGrammarToken event ) {
         ensureCanContinue();
         if ( event == OBJECT_END ) {
@@ -95,6 +98,20 @@ final class JsonGrammarAnalyzer {
 
     boolean isCommaExpected() {
         return ( isLastOnStack( OBJECT_START ) || isLastOnStack( ARRAY_START ) ) && canWriteComma;
+    }
+
+    void ensureCanContinue() {
+        if ( finished ) {
+            throw newJsonException( getExpectingTokensMessage() );
+        }
+    }
+
+    boolean isFinished() {
+        return finished;
+    }
+
+    boolean isEmpty() {
+        return stack.size() == 0;
     }
 
     private void putObjectEnd() {
@@ -245,20 +262,6 @@ final class JsonGrammarAnalyzer {
 
     private boolean isLastButOneOnStack( final JsonGrammarToken event ) {
         return ( stack.size() >= 2 ) && ( stack.get( stack.size() - 2 ) == event );
-    }
-
-    void ensureCanContinue() {
-        if ( finished ) {
-            throw newJsonException( getExpectingTokensMessage() );
-        }
-    }
-
-    boolean isFinished() {
-        return finished;
-    }
-
-    boolean isEmpty() {
-        return stack.size() == 0;
     }
 
     private JsonException newJsonException( final String s ) {

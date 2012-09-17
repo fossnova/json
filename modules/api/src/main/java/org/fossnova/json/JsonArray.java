@@ -52,9 +52,9 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
     boolean contains( final Boolean value );
 
     boolean contains( final JsonValue value );
-    
+
     boolean contains( final Object value );
-    
+
     int indexOf( final String value );
 
     int indexOf( final Number value );
@@ -87,12 +87,11 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
 
     JsonValue set( final int index, final JsonValue value );
 
-    public JsonArray subList( final int fromIndex, final int toIndex );
+    JsonArray subList( final int fromIndex, final int toIndex );
 
     JsonValue[] toArray();
 
     void writeTo( JsonWriter writer ) throws IOException;
-    
-    JsonArray clone();
 
+    JsonArray clone();
 }

@@ -21,21 +21,12 @@ package com.fossnova.json.stream;
 
 import static com.fossnova.json.stream.JsonConstants.ARRAY_END;
 import static com.fossnova.json.stream.JsonConstants.ARRAY_START;
-import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
-import static com.fossnova.json.stream.JsonConstants.BACKSPACE;
 import static com.fossnova.json.stream.JsonConstants.COLON;
 import static com.fossnova.json.stream.JsonConstants.COMMA;
-import static com.fossnova.json.stream.JsonConstants.CR;
-import static com.fossnova.json.stream.JsonConstants.FORMFEED;
-import static com.fossnova.json.stream.JsonConstants.NL;
 import static com.fossnova.json.stream.JsonConstants.NULL;
 import static com.fossnova.json.stream.JsonConstants.OBJECT_END;
 import static com.fossnova.json.stream.JsonConstants.OBJECT_START;
-import static com.fossnova.json.stream.JsonConstants.QUOTE;
-import static com.fossnova.json.stream.JsonConstants.SOLIDUS;
-import static com.fossnova.json.stream.JsonConstants.TAB;
-import static com.fossnova.json.stream.Utils.isControl;
-import static com.fossnova.json.stream.Utils.toUnicodeString;
+import static com.fossnova.json.stream.Utils.encode;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -49,7 +40,7 @@ import org.fossnova.json.stream.JsonWriter;
  */
 public final class JsonWriterImpl implements JsonWriter {
 
-    private JsonGrammarAnalyzer analyzer = new JsonGrammarAnalyzer();
+    private JsonGrammarAnalyzer analyzer;
 
     private Writer out;
 
@@ -57,24 +48,13 @@ public final class JsonWriterImpl implements JsonWriter {
 
     JsonWriterImpl( final Writer out ) {
         this.out = out;
-    }
-
-    private void ensureOpen() {
-        if ( closed ) {
-            throw new UnsupportedOperationException( "JSON writer have been closed" );
-        }
+        analyzer = new JsonGrammarAnalyzer();
     }
 
     public void close() {
         analyzer = null;
         out = null;
         closed = true;
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        close();
-        super.finalize();
     }
 
     public JsonWriterImpl flush() throws IOException {
@@ -115,7 +95,7 @@ public final class JsonWriterImpl implements JsonWriter {
 
     public JsonWriterImpl writeString( final String data ) throws IOException {
         if ( data == null ) {
-            throw new NullPointerException( "Parameter cannot be null" );
+            throw new IllegalArgumentException( "Parameter cannot be null" );
         }
         ensureOpen();
         writeOptionalColonOrComma();
@@ -156,25 +136,25 @@ public final class JsonWriterImpl implements JsonWriter {
         return writeNumber( String.valueOf( data ) );
     }
 
+    public JsonWriterImpl writeFloat( final float data ) throws IOException {
+        return writeNumber( String.valueOf( data ) );
+    }
+
+    public JsonWriterImpl writeDouble( final double data ) throws IOException {
+        return writeNumber( String.valueOf( data ) );
+    }
+
     public JsonWriterImpl writeBigInteger( final BigInteger data ) throws IOException {
         if ( data == null ) {
-            throw new NullPointerException( "Parameter cannot be null" );
+            throw new IllegalArgumentException( "Parameter cannot be null" );
         }
         return writeNumber( String.valueOf( data ) );
     }
 
     public JsonWriterImpl writeBigDecimal( final BigDecimal data ) throws IOException {
         if ( data == null ) {
-            throw new NullPointerException( "Parameter cannot be null" );
+            throw new IllegalArgumentException( "Parameter cannot be null" );
         }
-        return writeNumber( String.valueOf( data ) );
-    }
-
-    public JsonWriterImpl writeFloat( final float data ) throws IOException {
-        return writeNumber( String.valueOf( data ) );
-    }
-
-    public JsonWriterImpl writeDouble( final double data ) throws IOException {
         return writeNumber( String.valueOf( data ) );
     }
 
@@ -204,47 +184,9 @@ public final class JsonWriterImpl implements JsonWriter {
         out.write( COMMA );
     }
 
-    private static String encode( final String s ) {
-        final int length = s.length();
-        final StringBuilder retVal = new StringBuilder( length + 16 );
-        retVal.append( QUOTE );
-        for ( int i = 0; i < length; i = s.offsetByCodePoints( i, 1 ) ) {
-            final int character = s.codePointAt( i );
-            switch ( character ) {
-                case QUOTE:
-                    retVal.append( BACKSLASH ).append( QUOTE );
-                    break;
-                case BACKSLASH:
-                    retVal.append( BACKSLASH ).append( BACKSLASH );
-                    break;
-                case SOLIDUS:
-                    retVal.append( BACKSLASH ).append( SOLIDUS );
-                    break;
-                case BACKSPACE:
-                    retVal.append( BACKSLASH ).append( 'b' );
-                    break;
-                case FORMFEED:
-                    retVal.append( BACKSLASH ).append( 'f' );
-                    break;
-                case NL:
-                    retVal.append( BACKSLASH ).append( 'n' );
-                    break;
-                case CR:
-                    retVal.append( BACKSLASH ).append( 'r' );
-                    break;
-                case TAB:
-                    retVal.append( BACKSLASH ).append( 't' );
-                    break;
-                default:
-                    if ( isControl( character ) ) {
-                        retVal.append( toUnicodeString( character ) );
-                    } else {
-                        retVal.appendCodePoint( character );
-                    }
-                    break;
-            }
+    private void ensureOpen() {
+        if ( closed ) {
+            throw new IllegalStateException( "JSON writer have been closed" );
         }
-        retVal.append( QUOTE );
-        return retVal.toString();
     }
 }

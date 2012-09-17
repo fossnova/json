@@ -1,4 +1,3 @@
-P1 configure checkstyle
 P2 Implement configuration properties
  * enable indentation
  * string length limits

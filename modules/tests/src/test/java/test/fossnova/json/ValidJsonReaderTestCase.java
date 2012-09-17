@@ -38,6 +38,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertObjectEndState( reader );
         assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 
     @Test
@@ -47,7 +48,9 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertStringState( reader, "a" );
         assertStringState( reader, "b" );
         assertObjectEndState( reader );
+        assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 
     @Test
@@ -79,7 +82,9 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertStringState( reader, "10" );
         assertBigDecimalState( reader, new BigDecimal( "100000000000000000000000000000000000000.000000000000000000000000000001" ) );
         assertObjectEndState( reader );
+        assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 
     @Test
@@ -102,7 +107,9 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertObjectEndState( reader );
         assertArrayEndState( reader );
         assertObjectEndState( reader );
+        assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 
     @Test
@@ -112,6 +119,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertArrayEndState( reader );
         assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 
     @Test
@@ -134,6 +142,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertArrayEndState( reader );
         assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 
     @Test
@@ -160,7 +169,9 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         assertArrayEndState( reader );
         assertArrayEndState( reader );
         assertArrayEndState( reader );
+        assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 
     @Test
@@ -178,7 +189,9 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         sb.append( '\t' );
         assertStringState( reader, sb.toString() );
         assertArrayEndState( reader );
+        assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 
     @Test
@@ -197,6 +210,8 @@ public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
         }
         assertStringState( reader, sb.toString() );
         assertArrayEndState( reader );
+        assertFinalState( reader );
         reader.close();
+        assertClosedState( reader );
     }
 }

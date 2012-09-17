@@ -26,39 +26,38 @@ import java.math.BigInteger;
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 public interface JsonNumber extends JsonValue {
-    
+
     void setByte( byte b );
 
     byte getByte();
-    
+
     void setShort( short s );
 
     short getShort();
 
     void setInt( int i );
-    
+
     int getInt();
-    
+
     void setLong( long l );
 
     long getLong();
-    
+
     void setFloat( float f );
 
     float getFloat();
-    
+
     void setDouble( double d );
 
     double getDouble();
-    
+
     void setBigInteger( BigInteger bi );
 
     BigInteger getBigInteger();
-    
+
     void setBigDecimal( BigDecimal bd );
 
     BigDecimal getBigDecimal();
-    
-    JsonNumber clone();
 
+    JsonNumber clone();
 }

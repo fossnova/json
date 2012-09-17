@@ -29,12 +29,14 @@ import org.fossnova.json.JsonBoolean;
  */
 final class JsonBooleanImpl implements JsonBoolean {
 
+    private static final long serialVersionUID = 1L;
+
     private boolean value;
 
     JsonBooleanImpl( final boolean value ) {
         this.value = value;
     }
-    
+
     public void setBoolean( final boolean value ) {
         this.value = value;
     }
@@ -42,7 +44,7 @@ final class JsonBooleanImpl implements JsonBoolean {
     public boolean getBoolean() {
         return value;
     }
-    
+
     @Override
     public int hashCode() {
         return value ? TRUE.hashCode() : FALSE.hashCode();
@@ -60,9 +62,9 @@ final class JsonBooleanImpl implements JsonBoolean {
     public String toString() {
         return value ? TRUE.toString() : FALSE.toString();
     }
-    
+
     @Override
     public JsonBooleanImpl clone() {
-        return new JsonBooleanImpl( value ); 
+        return new JsonBooleanImpl( value );
     }
 }

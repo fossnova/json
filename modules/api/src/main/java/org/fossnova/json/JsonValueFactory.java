@@ -43,13 +43,12 @@ public abstract class JsonValueFactory {
     public abstract JsonObject newJsonObject();
 
     public abstract JsonArray newJsonArray();
-    
-    public abstract JsonBoolean newJsonBoolean( Boolean value );
-    
-    public abstract JsonNumber newJsonNumber( Number value );
-    
-    public abstract JsonString newJsonString( String value );
-    
-    public abstract JsonValue readFrom( JsonReader reader ) throws IOException;
 
+    public abstract JsonBoolean newJsonBoolean( Boolean value );
+
+    public abstract JsonNumber newJsonNumber( Number value );
+
+    public abstract JsonString newJsonString( String value );
+
+    public abstract JsonValue readFrom( JsonReader reader ) throws IOException;
 }

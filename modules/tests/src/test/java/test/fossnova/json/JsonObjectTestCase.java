@@ -29,11 +29,11 @@ import java.io.IOException;
 
 import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonBoolean;
-import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.JsonNumber;
 import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonString;
 import org.fossnova.json.JsonValue;
+import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
 import org.fossnova.json.stream.JsonWriter;
@@ -45,14 +45,10 @@ import org.junit.Test;
 public final class JsonObjectTestCase extends AbstractJsonTestCase {
 
     private static final JsonArray SIMPLE_ARRAY = createSimpleArray();
+
     private static final JsonObject SIMPLE_OBJECT = createSimpleObject();
+
     private static final JsonObject COMPLEX_OBJECT = createComplexObject();
-    
-    private static final String COMPLEX_OBJECT_STRING =  
-        "{" +
-        "    \"1\" : \"b1\"," +
-        "    \"2\" : null," +
-        "    \"3\" : true,\"4\":1,\"5\":[null,true,0,\"foo\",[],{}],\"6\":{\"1\":null,\"2\":true,\"3\":1,\"4\":\"bar\",\"5\":[],\"6\":{}}}";
 
     @Test
     public void complexObject() throws IOException {
@@ -68,15 +64,15 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         assertTrue( COMPLEX_OBJECT.containsValue( SIMPLE_ARRAY ) );
         assertTrue( COMPLEX_OBJECT.containsValue( SIMPLE_OBJECT ) );
     }
-    
+
     @Test
     public void createJsonObjectFromStream() throws IOException {
         final JsonValueFactory jsonStructureFactory = JsonValueFactory.newInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream( "{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
         final JsonObject o = ( JsonObject ) jsonStructureFactory.readFrom( jsonReader );
-        JsonArray a = jsonStructureFactory.newJsonArray();
-        JsonObject o1 = jsonStructureFactory.newJsonObject();
+        final JsonArray a = jsonStructureFactory.newJsonArray();
+        final JsonObject o1 = jsonStructureFactory.newJsonObject();
         assertJsonString( o, "1", "b1" );
         assertJsonNull( o, "2" );
         assertJsonBoolean( o, "3", true );
@@ -90,7 +86,7 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         assertTrue( o.containsValue( a ) );
         assertTrue( o.containsValue( o1 ) );
     }
-    
+
     @Test
     public void roundTrip() throws IOException {
         assertRoundTrip( SIMPLE_ARRAY );
@@ -103,13 +99,13 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
         assertEquals( jsonObject, deserializedJsonObject );
     }
-    
+
     private static void assertRoundTrip( final JsonArray jsonArray ) throws IOException {
         final String serializedJsonObject = serializeJson( jsonArray );
         final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
         assertEquals( jsonArray, deserializedJsonObject );
     }
-    
+
     private static String serializeJson( final JsonObject jsonObject ) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
@@ -117,7 +113,7 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         jsonWriter.close();
         return new String( baos.toByteArray() );
     }
-    
+
     private static String serializeJson( final JsonArray jsonArray ) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
@@ -125,18 +121,18 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         jsonWriter.close();
         return new String( baos.toByteArray() );
     }
-    
+
     private static JsonValue deserializeJson( final String jsonString ) throws IOException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
         final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         return jsonFactory.readFrom( jsonReader );
     }
-    
+
     private static JsonArray createSimpleArray() {
         final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         final JsonArray jsonArray = jsonFactory.newJsonArray();
-        jsonArray.add( (String) null );
+        jsonArray.add( ( String ) null );
         jsonArray.add( true );
         jsonArray.add( 0 );
         jsonArray.add( "foo" );
@@ -144,11 +140,11 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         jsonArray.add( jsonFactory.newJsonObject() );
         return jsonArray;
     }
-    
+
     private static JsonObject createSimpleObject() {
         final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
-        jsonObject.put( "1", (String) null );
+        jsonObject.put( "1", ( String ) null );
         jsonObject.put( "2", true );
         jsonObject.put( "3", 1 );
         jsonObject.put( "4", "bar" );
@@ -164,9 +160,9 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
         jsonObject.put( "2", ( String ) null );
         jsonObject.put( "3", true );
         jsonObject.put( "4", 1 );
-        JsonArray simpleArray = createSimpleArray();
+        final JsonArray simpleArray = createSimpleArray();
         jsonObject.put( "5", simpleArray );
-        JsonObject simpleObject = createSimpleObject();
+        final JsonObject simpleObject = createSimpleObject();
         jsonObject.put( "6", simpleObject );
         return jsonObject;
     }

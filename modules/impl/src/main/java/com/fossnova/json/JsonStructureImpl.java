@@ -33,11 +33,13 @@ import com.fossnova.json.stream.JsonWriterImpl;
  */
 abstract class JsonStructureImpl implements JsonValue {
 
+    private static final long serialVersionUID = 1L;
+
     public final void writeTo( final JsonWriter jsonWriter ) throws IOException {
         if ( jsonWriter == null ) {
             throw new IllegalArgumentException( "JSON writer cannot be null" );
         }
-        writeTo( (JsonWriterImpl) jsonWriter );
+        writeTo( ( JsonWriterImpl ) jsonWriter );
     }
 
     protected abstract void writeTo( final JsonWriterImpl jsonWriter ) throws IOException;
@@ -61,22 +63,22 @@ abstract class JsonStructureImpl implements JsonValue {
             return null;
         }
         if ( value instanceof Byte ) {
-            return new JsonNumberImpl( ( Byte ) value.byteValue() );
+            return new JsonNumberImpl( value.byteValue() );
         }
         if ( value instanceof Short ) {
-            return new JsonNumberImpl( ( Short ) value.shortValue() );
+            return new JsonNumberImpl( value.shortValue() );
         }
         if ( value instanceof Integer ) {
-            return new JsonNumberImpl( ( Integer ) value.intValue() );
+            return new JsonNumberImpl( value.intValue() );
         }
         if ( value instanceof Long ) {
-            return new JsonNumberImpl( ( Long ) value.longValue() );
+            return new JsonNumberImpl( value.longValue() );
         }
         if ( value instanceof Float ) {
-            return new JsonNumberImpl( ( Float ) value.floatValue() );
+            return new JsonNumberImpl( value.floatValue() );
         }
         if ( value instanceof Double ) {
-            return new JsonNumberImpl( ( Double ) value.doubleValue() );
+            return new JsonNumberImpl( value.doubleValue() );
         }
         if ( value instanceof BigInteger ) {
             return new JsonNumberImpl( ( BigInteger ) value );
@@ -87,6 +89,7 @@ abstract class JsonStructureImpl implements JsonValue {
         throw new IllegalStateException();
     }
 
+    @Override
     public JsonStructureImpl clone() {
         throw new UnsupportedOperationException();
     }

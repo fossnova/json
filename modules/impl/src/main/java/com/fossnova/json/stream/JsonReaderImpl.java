@@ -19,8 +19,21 @@
  */
 package com.fossnova.json.stream;
 
+import static com.fossnova.json.stream.JsonConstants.ARRAY_END;
+import static com.fossnova.json.stream.JsonConstants.ARRAY_START;
 import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
+import static com.fossnova.json.stream.JsonConstants.COLON;
+import static com.fossnova.json.stream.JsonConstants.COMMA;
+import static com.fossnova.json.stream.JsonConstants.FALSE;
+import static com.fossnova.json.stream.JsonConstants.MINUS;
+import static com.fossnova.json.stream.JsonConstants.NULL;
+import static com.fossnova.json.stream.JsonConstants.OBJECT_END;
+import static com.fossnova.json.stream.JsonConstants.OBJECT_START;
+import static com.fossnova.json.stream.JsonConstants.QUOTE;
+import static com.fossnova.json.stream.JsonConstants.TRUE;
 import static com.fossnova.json.stream.Utils.isControl;
+import static com.fossnova.json.stream.Utils.isNumberCharacter;
+import static com.fossnova.json.stream.Utils.isStringEnd;
 import static com.fossnova.json.stream.Utils.isWhitespace;
 import static com.fossnova.json.stream.Utils.toUnicodeString;
 
@@ -41,145 +54,82 @@ public final class JsonReaderImpl implements JsonReader {
 
     private PushbackReader in;
 
-    private JsonGrammarAnalyzer analyzer = new JsonGrammarAnalyzer();
+    private JsonGrammarAnalyzer analyzer;
 
-    private String lastNumber;
+    private String jsonNumber;
 
-    private String lastString;
+    private String jsonString;
 
-    private boolean lastBoolean;
+    private boolean jsonBoolean;
+
+    private boolean closed;
+
+    private int currentChar;
 
     JsonReaderImpl( final Reader in ) {
         this.in = new PushbackReader( in );
+        analyzer = new JsonGrammarAnalyzer();
     }
 
     public void close() {
-        lastNumber = null;
-        lastString = null;
         analyzer = null;
         in = null;
+        closed = true;
+        jsonNumber = null;
+        jsonString = null;
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        close();
-        super.finalize();
+    public boolean getBoolean() {
+        if ( !isCurrentEvent( JsonEvent.BOOLEAN ) ) {
+            throw new IllegalStateException( "Current event isn't boolean" );
+        }
+        return jsonBoolean;
     }
 
     public String getNumber() {
         if ( !isCurrentEvent( JsonEvent.NUMBER ) ) {
             throw new IllegalStateException( "Current event isn't number" );
         }
-        return lastNumber;
+        return jsonNumber;
     }
 
     public String getString() {
         if ( !isCurrentEvent( JsonEvent.STRING ) ) {
             throw new IllegalStateException( "Current event isn't string" );
         }
-        return lastString;
+        return jsonString;
     }
 
-    public boolean hasNext() throws IOException {
-        final int nextChar = in.read();
-        if ( nextChar != -1 ) {
-            in.unread( nextChar );
-            return true;
-        }
-        return !analyzer.isFinished();
+    public byte getByte() {
+        return Byte.parseByte( getNumber() );
     }
 
-    public JsonEvent next() throws IOException {
-        if ( !hasNext() ) {
-            throw new JsonException( "No more tokens available" );
-        }
-        lastNumber = null;
-        lastString = null;
-        analyzer.ensureCanContinue();
-        int nextCharacter = -1;
-        boolean exitLoop = false;
-        while ( !exitLoop ) {
-            switch ( nextCharacter = in.read() ) {
-                case JsonConstants.ARRAY_START: {
-                    analyzer.push( JsonGrammarToken.ARRAY_START );
-                    exitLoop = true;
-                }
-                    break;
-                case JsonConstants.OBJECT_START: {
-                    analyzer.push( JsonGrammarToken.OBJECT_START );
-                    exitLoop = true;
-                }
-                    break;
-                case JsonConstants.ARRAY_END: {
-                    analyzer.push( JsonGrammarToken.ARRAY_END );
-                    exitLoop = true;
-                }
-                    break;
-                case JsonConstants.OBJECT_END: {
-                    analyzer.push( JsonGrammarToken.OBJECT_END );
-                    exitLoop = true;
-                }
-                    break;
-                case JsonConstants.COLON: {
-                    analyzer.push( JsonGrammarToken.COLON );
-                }
-                    break;
-                case JsonConstants.COMMA: {
-                    analyzer.push( JsonGrammarToken.COMMA );
-                }
-                    break;
-                case 'f':
-                case 't': {
-                    analyzer.push( JsonGrammarToken.BOOLEAN );
-                    in.unread( nextCharacter );
-                    readBoolean();
-                    exitLoop = true;
-                }
-                    break;
-                case 'n': {
-                    analyzer.push( JsonGrammarToken.NULL );
-                    in.unread( nextCharacter );
-                    readNull();
-                    exitLoop = true;
-                }
-                    break;
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                case JsonConstants.MINUS: {
-                    analyzer.push( JsonGrammarToken.NUMBER );
-                    in.unread( nextCharacter );
-                    readNumber();
-                    exitLoop = true;
-                }
-                    break;
-                case JsonConstants.QUOTE: {
-                    analyzer.push( JsonGrammarToken.STRING );
-                    in.unread( nextCharacter );
-                    readString();
-                    exitLoop = true;
-                }
-                    break;
-                default: {
-                    if ( isWhitespace( nextCharacter ) ) {
-                        continue;
-                    }
-                    if ( nextCharacter >= 0 ) {
-                        throw new JsonException( "Unexpected character '" + toUnicodeString( nextCharacter ) + "' while reading JSON stream" );
-                    } else {
-                        throw new JsonException( "Unexpected EOF while reading JSON stream" );
-                    }
-                }
-            }
-        }
-        return analyzer.getCurrentEvent();
+    public short getShort() {
+        return Short.parseShort( getNumber() );
+    }
+
+    public int getInt() {
+        return Integer.parseInt( getNumber() );
+    }
+
+    public long getLong() {
+        return Long.parseLong( getNumber() );
+    }
+
+    public BigInteger getBigInteger() {
+        return new BigInteger( getNumber() );
+    }
+
+    public BigDecimal getBigDecimal() {
+        return new BigDecimal( getNumber() );
+    }
+
+    public float getFloat() {
+        return Float.parseFloat( getNumber() );
+    }
+
+    public double getDouble() {
+        return Double.parseDouble( getNumber() );
     }
 
     public boolean isArrayEnd() {
@@ -214,10 +164,110 @@ public final class JsonReaderImpl implements JsonReader {
         return isCurrentEvent( JsonEvent.BOOLEAN );
     }
 
+    private boolean isCurrentEvent( final JsonEvent event ) {
+        ensureOpen();
+        return analyzer.getCurrentEvent() == event;
+    }
+
+    public boolean hasNext() throws IOException {
+        ensureOpen();
+        return !analyzer.isFinished();
+    }
+
+    public JsonEvent next() throws IOException {
+        if ( !hasNext() ) {
+            throw new IllegalStateException( "No more JSON tokens available" );
+        }
+        analyzer.ensureCanContinue();
+        boolean exitLoop = false;
+        while ( !exitLoop ) {
+            currentChar = in.read();
+            switch ( currentChar ) {
+                case ARRAY_START: {
+                    analyzer.push( JsonGrammarToken.ARRAY_START );
+                    exitLoop = true;
+                }
+                    break;
+                case OBJECT_START: {
+                    analyzer.push( JsonGrammarToken.OBJECT_START );
+                    exitLoop = true;
+                }
+                    break;
+                case ARRAY_END: {
+                    analyzer.push( JsonGrammarToken.ARRAY_END );
+                    exitLoop = true;
+                }
+                    break;
+                case OBJECT_END: {
+                    analyzer.push( JsonGrammarToken.OBJECT_END );
+                    exitLoop = true;
+                }
+                    break;
+                case COLON: {
+                    analyzer.push( JsonGrammarToken.COLON );
+                }
+                    break;
+                case COMMA: {
+                    analyzer.push( JsonGrammarToken.COMMA );
+                }
+                    break;
+                case 'f':
+                case 't': {
+                    analyzer.push( JsonGrammarToken.BOOLEAN );
+                    in.unread( currentChar );
+                    readBoolean( currentChar == 't' );
+                    exitLoop = true;
+                }
+                    break;
+                case 'n': {
+                    analyzer.push( JsonGrammarToken.NULL );
+                    in.unread( currentChar );
+                    readNull();
+                    exitLoop = true;
+                }
+                    break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                case MINUS: {
+                    analyzer.push( JsonGrammarToken.NUMBER );
+                    in.unread( currentChar );
+                    readNumber();
+                    exitLoop = true;
+                }
+                    break;
+                case QUOTE: {
+                    analyzer.push( JsonGrammarToken.STRING );
+                    in.unread( currentChar );
+                    readString();
+                    exitLoop = true;
+                }
+                    break;
+                default: {
+                    if ( isWhitespace( currentChar ) ) {
+                        continue;
+                    }
+                    if ( currentChar >= 0 ) {
+                        throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON stream" );
+                    } else {
+                        throw new JsonException( "Unexpected EOF while reading JSON stream" );
+                    }
+                }
+            }
+        }
+        return analyzer.getCurrentEvent();
+    }
+
     private void readString() throws IOException {
         final StringBuilder retVal = new StringBuilder();
         int previousChar = -1;
-        int currentChar = -1;
         in.read();
         boolean stringEndFound = false;
         while ( ( currentChar = in.read() ) != -1 ) {
@@ -258,47 +308,38 @@ public final class JsonReaderImpl implements JsonReader {
         if ( !stringEndFound ) {
             throw new JsonException( "Unexpected EOF while reading JSON string" );
         }
-        lastString = retVal.toString();
+        jsonString = retVal.toString();
     }
 
-    private void readBoolean() throws IOException {
-        final int firstChar = in.read();
-        int currentChar = -1;
-        boolean correctBooleanValue = false;
-        if ( firstChar == 't' ) {
-            if ( ( ( currentChar = in.read() ) == 'r' ) && ( ( currentChar = in.read() ) == 'u' ) && ( ( currentChar = in.read() ) == 'e' ) ) {
-                lastBoolean = true;
-                correctBooleanValue = true;
-            }
-        } else {
-            if ( ( ( currentChar = in.read() ) == 'a' ) && ( ( currentChar = in.read() ) == 'l' ) && ( ( currentChar = in.read() ) == 's' )
-                && ( ( currentChar = in.read() ) == 'e' ) ) {
-                lastBoolean = false;
-                correctBooleanValue = true;
-            }
-        }
-        if ( !correctBooleanValue ) {
+    private void readBoolean( final boolean b ) throws IOException {
+        if ( !readString( b ? TRUE : FALSE ) ) {
             if ( currentChar == -1 ) {
-                throw new JsonException( "Unexpected EOF while reading JSON " + ( firstChar == 't' ) + " token" );
+                throw new JsonException( "Unexpected EOF while reading JSON " + b + " token" );
             }
-            throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON " + ( firstChar == 't' ) + " token" );
+            throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON " + b + " token" );
         }
+        jsonBoolean = b;
     }
 
     private void readNull() throws IOException {
-        int currentChar = -1;
-        if ( ( ( currentChar = in.read() ) == 'n' ) && ( ( currentChar = in.read() ) == 'u' ) && ( ( currentChar = in.read() ) == 'l' ) && ( ( currentChar = in.read() ) == 'l' ) ) {
-            return;
+        if ( !readString( NULL ) ) {
+            if ( currentChar == -1 ) {
+                throw new JsonException( "Unexpected EOF while reading JSON null token" );
+            }
+            throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON null token" );
         }
-        if ( currentChar == -1 ) {
-            throw new JsonException( "Unexpected EOF while reading JSON null token" );
+    }
+
+    private boolean readString( final String s ) throws IOException {
+        for ( int i = 0; i < s.length(); i++ ) {
+            currentChar = in.read();
+            if ( currentChar != s.codePointAt( i ) ) return false;
         }
-        throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON null token" );
+        return true;
     }
 
     private void readNumber() throws IOException {
         final StringBuilder retVal = new StringBuilder();
-        int currentChar = -1;
         while ( ( currentChar = in.read() ) != -1 ) {
             if ( !isNumberCharacter( currentChar ) ) {
                 in.unread( currentChar );
@@ -309,63 +350,12 @@ public final class JsonReaderImpl implements JsonReader {
         if ( currentChar == -1 ) {
             throw new JsonException( "Unexpected EOF while reading JSON number" );
         }
-        lastNumber = retVal.toString();
+        jsonNumber = retVal.toString();
     }
 
-    private boolean isNumberCharacter( final int character ) {
-        if ( ( '0' <= character ) && ( character <= '9' ) ) return true;
-        if ( character == '-' ) return true;
-        if ( character == '+' ) return true;
-        if ( character == '.' ) return true;
-        if ( character == 'e' ) return true;
-        if ( character == 'E' ) return true;
-        return false;
-    }
-
-    private boolean isStringEnd( final int first, final int second ) {
-        return ( first != BACKSLASH ) && ( second == JsonConstants.QUOTE );
-    }
-
-    private boolean isCurrentEvent( final JsonEvent event ) {
-        return analyzer.getCurrentEvent() == event;
-    }
-
-    public boolean getBoolean() {
-        if ( !isCurrentEvent( JsonEvent.BOOLEAN ) ) {
-            throw new IllegalStateException( "Current event isn't boolean" );
+    private void ensureOpen() {
+        if ( closed ) {
+            throw new IllegalStateException( "JSON reader have been closed" );
         }
-        return lastBoolean;
-    }
-
-    public byte getByte() {
-        return Byte.parseByte( getNumber() );
-    }
-
-    public short getShort() {
-        return Short.parseShort( getNumber() );
-    }
-
-    public int getInt() {
-        return Integer.parseInt( getNumber() );
-    }
-
-    public long getLong() {
-        return Long.parseLong( getNumber() );
-    }
-
-    public BigInteger getBigInteger() {
-        return new BigInteger( getNumber() );
-    }
-
-    public BigDecimal getBigDecimal() {
-        return new BigDecimal( getNumber() );
-    }
-
-    public float getFloat() {
-        return Float.parseFloat( getNumber() );
-    }
-
-    public double getDouble() {
-        return Double.parseDouble( getNumber() );
     }
 }

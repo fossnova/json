@@ -23,11 +23,10 @@ package org.fossnova.json;
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 public interface JsonString extends JsonValue {
-    
-    void setString( String s );
-    
-    String getString();
-    
-    JsonString clone();
 
+    void setString( String s );
+
+    String getString();
+
+    JsonString clone();
 }

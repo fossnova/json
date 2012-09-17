@@ -29,6 +29,8 @@ import org.fossnova.json.JsonNumber;
  */
 final class JsonNumberImpl implements JsonNumber {
 
+    private static final long serialVersionUID = 1L;
+
     private String value;
 
     JsonNumberImpl( final String value ) {
@@ -93,14 +95,14 @@ final class JsonNumberImpl implements JsonNumber {
 
     public void setBigInteger( final BigInteger value ) {
         if ( value == null ) {
-            throw new IllegalArgumentException( "Parameter cannot be null ");
+            throw new IllegalArgumentException( "Parameter cannot be null " );
         }
         this.value = String.valueOf( value );
     }
 
     public void setBigDecimal( final BigDecimal value ) {
         if ( value == null ) {
-            throw new IllegalArgumentException( "Parameter cannot be null ");
+            throw new IllegalArgumentException( "Parameter cannot be null " );
         }
         this.value = String.valueOf( value );
     }

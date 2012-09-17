@@ -19,11 +19,12 @@
  */
 package org.fossnova.json;
 
+import java.io.Serializable;
+
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public interface JsonValue extends Cloneable {
+public interface JsonValue extends Cloneable, Serializable {
 
     JsonValue clone();
-
 }

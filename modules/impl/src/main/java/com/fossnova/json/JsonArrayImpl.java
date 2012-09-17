@@ -36,6 +36,8 @@ import com.fossnova.json.stream.JsonWriterImpl;
  */
 final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
 
+    private static final long serialVersionUID = 1L;
+
     private final List< JsonValue > list;
 
     JsonArrayImpl() {
@@ -81,7 +83,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     public boolean addAll( final int index, final Collection< ? extends JsonValue > values ) {
         return list.addAll( index, values );
     }
-    
+
     public boolean contains( final String value ) {
         return list.contains( toJsonString( value ) );
     }
@@ -99,7 +101,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     }
 
     public boolean contains( final Object value ) {
-        if ( value == null || value instanceof String ) {
+        if ( ( value == null ) || ( value instanceof String ) ) {
             return contains( ( String ) value );
         } else if ( value instanceof Number ) {
             return contains( ( Number ) value );
@@ -132,7 +134,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     }
 
     public int indexOf( final Object value ) {
-        if ( value == null || value instanceof String ) {
+        if ( ( value == null ) || ( value instanceof String ) ) {
             return indexOf( ( String ) value );
         } else if ( value instanceof Number ) {
             return indexOf( ( Number ) value );
@@ -161,7 +163,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     }
 
     public int lastIndexOf( final Object value ) {
-        if ( value == null || value instanceof String ) {
+        if ( ( value == null ) || ( value instanceof String ) ) {
             return lastIndexOf( ( String ) value );
         } else if ( value instanceof Number ) {
             return lastIndexOf( ( Number ) value );
@@ -198,7 +200,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     }
 
     public boolean remove( final Object value ) {
-        if ( value == null || value instanceof String ) {
+        if ( ( value == null ) || ( value instanceof String ) ) {
             return remove( ( String ) value );
         } else if ( value instanceof Number ) {
             return remove( ( Number ) value );
@@ -324,5 +326,4 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
     boolean addInternal( final JsonValue value ) {
         return list.add( value );
     }
-    
 }

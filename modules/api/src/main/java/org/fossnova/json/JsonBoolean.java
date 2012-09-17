@@ -25,9 +25,8 @@ package org.fossnova.json;
 public interface JsonBoolean extends JsonValue {
 
     void setBoolean( boolean b );
-    
-    boolean getBoolean();
-    
-    JsonBoolean clone();
 
+    boolean getBoolean();
+
+    JsonBoolean clone();
 }

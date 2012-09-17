@@ -48,6 +48,105 @@ import org.fossnova.json.stream.JsonWriter;
  */
 abstract class AbstractJsonTestCase {
 
+    static void assertClosedState( final JsonWriter writer ) throws IOException {
+        try {
+            writer.flush();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeArrayEnd();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeArrayStart();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeObjectEnd();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeObjectStart();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeNull();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeString( "" );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeBoolean( true );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeByte( ( byte ) 0 );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeShort( ( short ) 0 );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeInt( 0 );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeLong( 0L );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeFloat( 0.0F );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeDouble( 0.0 );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeBigInteger( BigInteger.ZERO );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+        try {
+            writer.writeBigDecimal( BigDecimal.ZERO );
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON writer have been closed", e.getMessage() );
+        }
+    }
+
     static void assertObjectStartState( final JsonReader reader ) throws IOException {
         assertTrue( reader.hasNext() );
         assertEquals( OBJECT_START, reader.next() );
@@ -113,10 +212,139 @@ abstract class AbstractJsonTestCase {
     }
 
     static void assertFinalState( final JsonReader reader ) throws IOException {
-        assertFalse( reader.hasNext() );
         assertNotStringException( reader );
         assertNotNumberException( reader );
         assertNotBooleanException( reader );
+        assertFalse( reader.hasNext() );
+        try {
+            reader.next();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "No more JSON tokens available", e.getMessage() );
+        }
+    }
+
+    static void assertClosedState( final JsonReader reader ) throws IOException {
+        try {
+            reader.getBoolean();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getByte();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getShort();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getInt();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getLong();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getFloat();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getDouble();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getBigInteger();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getBigDecimal();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.getString();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.hasNext();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.next();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.isArrayEnd();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.isArrayStart();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.isObjectEnd();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.isObjectStart();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.isNull();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.isBoolean();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.isNumber();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
+        try {
+            reader.isString();
+            fail();
+        } catch ( final IllegalStateException e ) {
+            assertEquals( "JSON reader have been closed", e.getMessage() );
+        }
     }
 
     static void assertStringState( final JsonReader reader, final String expected ) throws IOException {

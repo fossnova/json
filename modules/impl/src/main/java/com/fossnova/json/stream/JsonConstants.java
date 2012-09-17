@@ -65,6 +65,5 @@ final class JsonConstants {
     static final String FALSE = "false";
 
     private JsonConstants() {
-        // forbidden instantiation
     }
 }

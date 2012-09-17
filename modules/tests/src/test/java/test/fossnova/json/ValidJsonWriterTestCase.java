@@ -36,7 +36,7 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class ValidJsonWriterTestCase {
+public final class ValidJsonWriterTestCase extends AbstractJsonTestCase {
 
     private ByteArrayOutputStream baos;
 
@@ -60,6 +60,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeObjectEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         Assert.assertEquals( "{}", getWriterOutput() );
     }
 
@@ -69,6 +70,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeArrayEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         Assert.assertEquals( "[]", getWriterOutput() );
     }
 
@@ -89,6 +91,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeArrayEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         final String expected = "[\"0\",1,2,3,4,5.0,6.0,"
             + "700000000000000000000000000000000000000,800000000000000000000000000000000000000.000000000000000000000000000009,true,null]";
         Assert.assertEquals( expected, getWriterOutput() );
@@ -119,6 +122,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeArrayEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         Assert.assertEquals( "[\"0\",{\"String\":\"s\",\"boolean\":false},\"1\",[null,true,7,{},[[]]]]", getWriterOutput() );
     }
 
@@ -130,6 +134,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeObjectEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         Assert.assertEquals( "{\"a\":\"b\"}", getWriterOutput() );
     }
 
@@ -161,6 +166,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeObjectEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         final String expected = "{\"0\":\"0\",\"1\":1,\"2\":2,\"3\":3,\"4\":4,\"5\":5.0,\"6\":6.0,\"7\":true,\"8\":null,\"9\":"
             + "900000000000000000000000000000000000000,\"10\":100000000000000000000000000000000000000.000000000000000000000000000001}";
         Assert.assertEquals( expected, getWriterOutput() );
@@ -187,6 +193,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeObjectEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         Assert.assertEquals( "{\"0\":{\"String\":\"s\",\"boolean\":false},\"1\":[null,true,7,{}]}", getWriterOutput() );
     }
 
@@ -206,6 +213,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeArrayEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         Assert.assertEquals( "[\"\\\"\\\\\\/\\b\\f\\n\\r\\t\"]", getWriterOutput() );
     }
 
@@ -223,6 +231,7 @@ public final class ValidJsonWriterTestCase {
         writer.writeArrayEnd();
         writer.flush();
         writer.close();
+        assertClosedState( writer );
         final String expected = "[\"\\u0000\\u0001\\u0002\\u0003\\u0004\\u0005\\u0006\\u0007\\b\\t\\n\\u000B\\f\\r\\u000E\\u000F\\u0010\\u0011\\u0012\\u0013\\u0014\\u0015"
             + "\\u0016\\u0017\\u0018\\u0019\\u001A\\u001B\\u001C\\u001D\\u001E\\u001F\\u007F\\u0080\\u0081\\u0082\\u0083\\u0084\\u0085\\u0086\\u0087\\u0088\\u0089\\u008A"
             + "\\u008B\\u008C\\u008D\\u008E\\u008F\\u0090\\u0091\\u0092\\u0093\\u0094\\u0095\\u0096\\u0097\\u0098\\u0099\\u009A\\u009B\\u009C\\u009D\\u009E\\u009F\"]";

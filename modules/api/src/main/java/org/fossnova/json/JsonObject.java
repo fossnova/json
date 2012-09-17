@@ -50,7 +50,6 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
     JsonValue remove( final String key );
 
     void writeTo( JsonWriter writer ) throws IOException;
-    
-    JsonObject clone();
 
+    JsonObject clone();
 }

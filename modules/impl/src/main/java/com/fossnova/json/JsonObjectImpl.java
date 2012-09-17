@@ -35,6 +35,8 @@ import com.fossnova.json.stream.JsonWriterImpl;
  */
 final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
 
+    private static final long serialVersionUID = 1L;
+
     private final Map< String, JsonValue > map;
 
     JsonObjectImpl() {
@@ -66,7 +68,7 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     public boolean containsValue( final Object value ) {
-        if ( value == null || value instanceof String ) {
+        if ( ( value == null ) || ( value instanceof String ) ) {
             return containsValue( ( String ) value );
         } else if ( value instanceof Number ) {
             return containsValue( ( Number ) value );

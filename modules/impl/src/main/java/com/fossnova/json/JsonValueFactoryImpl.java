@@ -44,6 +44,9 @@ import com.fossnova.json.stream.JsonReaderImpl;
  */
 public final class JsonValueFactoryImpl extends JsonValueFactory {
 
+    public JsonValueFactoryImpl() {
+    }
+
     @Override
     public JsonObjectImpl newJsonObject() {
         return new JsonObjectImpl();

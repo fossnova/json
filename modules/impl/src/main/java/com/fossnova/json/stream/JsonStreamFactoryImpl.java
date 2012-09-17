@@ -35,7 +35,10 @@ import org.fossnova.json.stream.JsonStreamFactory;
  */
 public final class JsonStreamFactoryImpl extends JsonStreamFactory {
 
-    private static final String defaultCharset = Charset.defaultCharset().name();
+    private static final String DEFAULT_CHARSET = Charset.defaultCharset().name();
+
+    public JsonStreamFactoryImpl() {
+    }
 
     @Override
     public JsonReaderImpl newJsonReader( final Reader reader ) {
@@ -45,7 +48,7 @@ public final class JsonStreamFactoryImpl extends JsonStreamFactory {
 
     @Override
     public JsonReaderImpl newJsonReader( final InputStream stream ) throws UnsupportedEncodingException {
-        return newJsonReader( stream, defaultCharset );
+        return newJsonReader( stream, DEFAULT_CHARSET );
     }
 
     @Override
@@ -63,7 +66,7 @@ public final class JsonStreamFactoryImpl extends JsonStreamFactory {
 
     @Override
     public JsonWriterImpl newJsonWriter( final OutputStream stream ) throws UnsupportedEncodingException {
-        return newJsonWriter( stream, defaultCharset );
+        return newJsonWriter( stream, DEFAULT_CHARSET );
     }
 
     @Override
@@ -75,7 +78,7 @@ public final class JsonStreamFactoryImpl extends JsonStreamFactory {
 
     private static void assertNotNullParameter( final Object o ) {
         if ( o == null ) {
-            throw new NullPointerException( "Parameter cannot be null" );
+            throw new IllegalArgumentException( "Parameter cannot be null" );
         }
     }
 }
