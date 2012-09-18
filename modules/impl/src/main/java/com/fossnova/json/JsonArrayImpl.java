@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.RandomAccess;
 
 import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonValue;
@@ -34,7 +35,7 @@ import com.fossnova.json.stream.JsonWriterImpl;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-final class JsonArrayImpl extends JsonStructureImpl implements JsonArray {
+final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, RandomAccess {
 
     private static final long serialVersionUID = 1L;
 
