@@ -25,13 +25,28 @@ import org.fossnova.finder.FactoryFinder;
 import org.fossnova.json.stream.JsonReader;
 
 /**
+ * JSON values factory. Defines an abstract implementation of a factory for creating JSON values.
+ * All JSON values returned by this factory are not thread safe.
+ *
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @see JsonArray
+ * @see JsonBoolean
+ * @see JsonNumber
+ * @see JsonObject
+ * @see JsonString
  */
 public abstract class JsonValueFactory {
 
+    /**
+     * All implementations must provide public default constructor overriding this one.
+     */
     protected JsonValueFactory() {
     }
 
+    /**
+     * Returns new JSON value factory instance.
+     * @return new JSON value factory instance
+     */
     public static JsonValueFactory newInstance() {
         final JsonValueFactory jsonFactoryImpl = FactoryFinder.find( JsonValueFactory.class );
         if ( jsonFactoryImpl != null ) {
@@ -40,15 +55,43 @@ public abstract class JsonValueFactory {
         throw new IllegalStateException( "Factory not configured: " + JsonValueFactory.class.getName() );
     }
 
+    /**
+     * Creates new JSON object.
+     * @return JSON object instance
+     */
     public abstract JsonObject newJsonObject();
 
+    /**
+     * Creates new JSON array.
+     * @return JSON array instance
+     */
     public abstract JsonArray newJsonArray();
 
+    /**
+     * Creates new JSON boolean.
+     * @param value boolean value
+     * @return JSON boolean instance
+     */
     public abstract JsonBoolean newJsonBoolean( Boolean value );
 
+    /**
+     * Creates new JSON number.
+     * @param value number value
+     * @return JSON number instance
+     */
     public abstract JsonNumber newJsonNumber( Number value );
 
+    /**
+     * Creates new JSON string.
+     * @param value string value
+     * @return JSON string instance
+     */
     public abstract JsonString newJsonString( String value );
 
+    /**
+     * Creates either JSON array or object instance.
+     * @param reader JSON reader
+     * @return JSON array or object instance
+     */
     public abstract JsonValue readFrom( JsonReader reader ) throws IOException;
 }

@@ -29,7 +29,6 @@ import java.math.BigInteger;
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  * @see JsonStreamFactory
- * @see JsonWriter
  */
 public interface JsonReader extends Closeable {
 

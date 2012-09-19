@@ -52,7 +52,6 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
 
     @Test
     public void complexObject() throws IOException {
-        System.out.println( serializeJson( COMPLEX_OBJECT ) );
         assertJsonString( COMPLEX_OBJECT, "1", "b1" );
         assertJsonNull( COMPLEX_OBJECT, "2" );
         assertJsonBoolean( COMPLEX_OBJECT, "3", true );

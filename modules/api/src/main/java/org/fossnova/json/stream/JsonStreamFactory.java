@@ -28,10 +28,12 @@ import java.io.Writer;
 import org.fossnova.finder.FactoryFinder;
 
 /**
- * Defines an abstract implementation of a factory for getting JSON readers and
- * writers. All readers and writers returned by the factory are not thread safe.
+ * JSON streams factory. Defines an abstract implementation of a factory for getting JSON readers and
+ * writers. All readers and writers returned by this factory are not thread safe.
  * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @see JsonReader
+ * @see JsonWriter
  */
 public abstract class JsonStreamFactory {
 
@@ -42,9 +44,8 @@ public abstract class JsonStreamFactory {
     }
 
     /**
-     * Returns JSON factory instance.
-     * 
-     * @return JSON factory instance
+     * Returns new JSON stream factory instance.
+     * @return new JSON stream factory instance
      */
     public static JsonStreamFactory newInstance() {
         final JsonStreamFactory jsonFactoryImpl = FactoryFinder.find( JsonStreamFactory.class );
@@ -56,7 +57,6 @@ public abstract class JsonStreamFactory {
 
     /**
      * Creates new JSON reader.
-     * 
      * @param reader input
      * @return JSON reader instance
      */
@@ -64,7 +64,6 @@ public abstract class JsonStreamFactory {
 
     /**
      * Creates new JSON writer.
-     * 
      * @param writer output
      * @return JSON writer instance
      */
@@ -72,7 +71,6 @@ public abstract class JsonStreamFactory {
 
     /**
      * Creates new JSON reader with default character set.
-     * 
      * @param stream input
      * @return JSON reader instance
      * @throws UnsupportedEncodingException if default character set is not supported
@@ -81,7 +79,6 @@ public abstract class JsonStreamFactory {
 
     /**
      * Creates new JSON writer with default character set.
-     * 
      * @param stream output
      * @return JSON writer instance
      * @throws UnsupportedEncodingException if default character set is not supported
@@ -90,7 +87,6 @@ public abstract class JsonStreamFactory {
 
     /**
      * Creates new JSON reader  with specified character set.
-     * 
      * @param stream input
      * @param charsetName character set name
      * @return JSON reader instance
@@ -100,7 +96,6 @@ public abstract class JsonStreamFactory {
 
     /**
      * Creates new JSON writer with specified character set.
-     * 
      * @param stream output
      * @param charsetName character set name
      * @return JSON writer instance

@@ -269,10 +269,8 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
         return list.retainAll( values );
     }
 
-    public JsonArray subList( final int fromIndex, final int toIndex ) {
-        final JsonArray jsonSubArray = new JsonArrayImpl();
-        jsonSubArray.addAll( list.subList( fromIndex, toIndex ) );
-        return jsonSubArray;
+    public List< JsonValue > subList( final int fromIndex, final int toIndex ) {
+        return list.subList( fromIndex, toIndex );
     }
 
     @Override

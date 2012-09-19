@@ -23,41 +23,120 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
+ * JSON number.
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @see JsonValue
+ * @see JsonValueFactory
  */
 public interface JsonNumber extends JsonValue {
 
-    void setByte( byte b );
+    /**
+     * Sets new number value.
+     * @param value new number value
+     */
+    void setByte( byte value );
 
+    /**
+     * Gets number value.
+     * @return number value
+     * @exception NumberFormatException if JSON number is not convertible to <code>byte</code>
+     */
     byte getByte();
 
-    void setShort( short s );
+    /**
+     * Sets new number value.
+     * @param value new number value
+     */
+    void setShort( short value );
 
+    /**
+     * Gets number value.
+     * @return number value
+     * @exception NumberFormatException if JSON number is not convertible to <code>short</code>
+     */
     short getShort();
 
-    void setInt( int i );
+    /**
+     * Sets new number value.
+     * @param value new number value
+     */
+    void setInt( int value );
 
+    /**
+     * Gets number value.
+     * @return number value
+     * @exception NumberFormatException if JSON number is not convertible to <code>int</code>
+     */
     int getInt();
 
-    void setLong( long l );
+    /**
+     * Sets new number value.
+     * @param value new number value
+     */
+    void setLong( long value );
 
+    /**
+     * Gets number value.
+     * @return number value
+     * @exception NumberFormatException if JSON number is not convertible to <code>long</code>
+     */
     long getLong();
 
-    void setFloat( float f );
+    /**
+     * Sets new number value.
+     * @param value new number value
+     */
+    void setFloat( float value );
 
+    /**
+     * Gets number value.
+     * @return number value
+     * @exception NumberFormatException if JSON number is not convertible to <code>float</code>
+     */
     float getFloat();
 
-    void setDouble( double d );
+    /**
+     * Sets new number value.
+     * @param value new number value
+     */
+    void setDouble( double value );
 
+    /**
+     * Gets number value.
+     * @return number value
+     * @exception NumberFormatException if JSON number is not convertible to <code>double</code>
+     */
     double getDouble();
 
-    void setBigInteger( BigInteger bi );
+    /**
+     * Sets new number value.
+     * @param value new number value
+     */
+    void setBigInteger( BigInteger value );
 
+    /**
+     * Gets number value.
+     * @return number value
+     * @exception NumberFormatException if JSON number is not convertible to <code>BigInteger</code>
+     */
     BigInteger getBigInteger();
 
-    void setBigDecimal( BigDecimal bd );
+    /**
+     * Sets new number value.
+     * @param value new number value
+     */
+    void setBigDecimal( BigDecimal value );
 
+    /**
+     * Gets number value.
+     * @return number value
+     * @exception NumberFormatException if JSON number is not convertible to <code>BigDecimal</code>
+     */
     BigDecimal getBigDecimal();
 
+    /**
+     * Clones this JSON number.
+     * @return new JSON number clone.
+     */
     JsonNumber clone();
 }

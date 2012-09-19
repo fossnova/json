@@ -20,13 +20,28 @@
 package org.fossnova.json;
 
 /**
+ * JSON boolean.
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @see JsonValue
+ * @see JsonValueFactory
  */
 public interface JsonBoolean extends JsonValue {
 
-    void setBoolean( boolean b );
+    /**
+     * Sets new boolean value.
+     * @param value new boolean value
+     */
+    void setBoolean( boolean value );
 
+    /**
+     * Gets boolean value.
+     * @return boolean value
+     */
     boolean getBoolean();
 
+    /**
+     * Clones this JSON boolean.
+     * @return new JSON boolean clone.
+     */
     JsonBoolean clone();
 }

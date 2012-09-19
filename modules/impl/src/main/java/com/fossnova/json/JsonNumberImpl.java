@@ -37,36 +37,36 @@ final class JsonNumberImpl implements JsonNumber {
         this.value = value;
     }
 
-    JsonNumberImpl( final byte data ) {
-        value = String.valueOf( data );
+    JsonNumberImpl( final byte value ) {
+        this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final short data ) {
-        value = String.valueOf( data );
+    JsonNumberImpl( final short value ) {
+        this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final int data ) {
-        value = String.valueOf( data );
+    JsonNumberImpl( final int value ) {
+        this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final long data ) {
-        value = String.valueOf( data );
+    JsonNumberImpl( final long value ) {
+        this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final float data ) {
-        value = String.valueOf( data );
+    JsonNumberImpl( final float value ) {
+        this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final double data ) {
-        value = String.valueOf( data );
+    JsonNumberImpl( final double value ) {
+        this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final BigInteger data ) {
-        value = String.valueOf( data );
+    JsonNumberImpl( final BigInteger value ) {
+        this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final BigDecimal data ) {
-        value = String.valueOf( data );
+    JsonNumberImpl( final BigDecimal value ) {
+        this.value = String.valueOf( value );
     }
 
     public void setByte( final byte value ) {

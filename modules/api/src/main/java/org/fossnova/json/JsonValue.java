@@ -22,9 +22,14 @@ package org.fossnova.json;
 import java.io.Serializable;
 
 /**
+ * JSON value abstraction. All JSON values are serializable and cloneable.
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 public interface JsonValue extends Cloneable, Serializable {
 
+    /**
+     * Clones this JSON value.
+     * @return new JSON value clone.
+     */
     JsonValue clone();
 }

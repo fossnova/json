@@ -18,9 +18,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 /**
- * <I>Streaming API for JSON (StAJ)</I> for reading and writing <A href="http://www.json.org/">JSON</A> documents.
+ * <I>JSON Object Model (JOM)</I> for representing and interacting with <A href="http://www.json.org/">JSON</A> objects and arrays. 
  *
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-package org.fossnova.json.stream;
+package org.fossnova.json;
 
