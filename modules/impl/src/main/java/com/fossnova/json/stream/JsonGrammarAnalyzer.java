@@ -114,6 +114,10 @@ final class JsonGrammarAnalyzer {
         return stack.size() == 0;
     }
 
+    void setCannotContinue() {
+        finished = true;
+    }
+
     private void putObjectEnd() {
         // preconditions
         if ( !isLastOnStack( OBJECT_START ) || ( currentEvent == null ) ) {
@@ -267,9 +271,5 @@ final class JsonGrammarAnalyzer {
     private JsonException newJsonException( final String s ) {
         setCannotContinue();
         return new JsonException( s );
-    }
-
-    private void setCannotContinue() {
-        finished = true;
     }
 }

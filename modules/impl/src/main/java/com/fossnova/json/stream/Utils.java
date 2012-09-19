@@ -28,12 +28,24 @@ import static com.fossnova.json.stream.JsonConstants.QUOTE;
 import static com.fossnova.json.stream.JsonConstants.SOLIDUS;
 import static com.fossnova.json.stream.JsonConstants.TAB;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 final class Utils {
 
+    private static final Pattern JSON_NUMBER_PATTERN = Pattern.compile( "-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+\\-]?\\d+)?" );
+
     private Utils() {
+    }
+
+    static boolean isNumberString( final String numberString ) {
+        final Matcher jsonNumberMatcher = JSON_NUMBER_PATTERN.matcher( numberString );
+        if ( !jsonNumberMatcher.find() ) return false;
+        jsonNumberMatcher.group();
+        return !jsonNumberMatcher.find();
     }
 
     static boolean isControl( final int c ) {

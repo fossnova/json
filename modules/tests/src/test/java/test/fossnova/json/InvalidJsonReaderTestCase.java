@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 import org.junit.Test;
 
@@ -3142,7 +3143,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         assertArrayStartState( reader );
         try {
             assertBigDecimalState( reader, BigDecimal.ZERO );
-        } catch ( final NumberFormatException ignore ) {}
+        } catch ( final JsonException ignore ) {}
     }
 
     private void read_arrayStart_wrongFloat() throws IOException {

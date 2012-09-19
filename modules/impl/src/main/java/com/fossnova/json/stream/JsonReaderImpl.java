@@ -33,6 +33,7 @@ import static com.fossnova.json.stream.JsonConstants.QUOTE;
 import static com.fossnova.json.stream.JsonConstants.TRUE;
 import static com.fossnova.json.stream.Utils.isControl;
 import static com.fossnova.json.stream.Utils.isNumberCharacter;
+import static com.fossnova.json.stream.Utils.isNumberString;
 import static com.fossnova.json.stream.Utils.isStringEnd;
 import static com.fossnova.json.stream.Utils.isWhitespace;
 import static com.fossnova.json.stream.Utils.toUnicodeString;
@@ -255,9 +256,9 @@ public final class JsonReaderImpl implements JsonReader {
                         continue;
                     }
                     if ( currentChar >= 0 ) {
-                        throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON stream" );
+                        throw newJsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON stream" );
                     } else {
-                        throw new JsonException( "Unexpected EOF while reading JSON stream" );
+                        throw newJsonException( "Unexpected EOF while reading JSON stream" );
                     }
                 }
             }
@@ -276,7 +277,7 @@ public final class JsonReaderImpl implements JsonReader {
                 break;
             }
             if ( isControl( currentChar ) ) {
-                throw new JsonException( "Unexpected control character '" + toUnicodeString( currentChar ) + "' while reading JSON string" );
+                throw newJsonException( "Unexpected control character '" + toUnicodeString( currentChar ) + "' while reading JSON string" );
             }
             if ( ( currentChar == BACKSLASH ) && ( previousChar != BACKSLASH ) ) {
                 previousChar = currentChar;
@@ -306,7 +307,7 @@ public final class JsonReaderImpl implements JsonReader {
             previousChar = ( char ) -1;
         }
         if ( !stringEndFound ) {
-            throw new JsonException( "Unexpected EOF while reading JSON string" );
+            throw newJsonException( "Unexpected EOF while reading JSON string" );
         }
         jsonString = retVal.toString();
     }
@@ -314,9 +315,9 @@ public final class JsonReaderImpl implements JsonReader {
     private void readBoolean( final boolean b ) throws IOException {
         if ( !readString( b ? TRUE : FALSE ) ) {
             if ( currentChar == -1 ) {
-                throw new JsonException( "Unexpected EOF while reading JSON " + b + " token" );
+                throw newJsonException( "Unexpected EOF while reading JSON " + b + " token" );
             }
-            throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON " + b + " token" );
+            throw newJsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON " + b + " token" );
         }
         jsonBoolean = b;
     }
@@ -324,9 +325,9 @@ public final class JsonReaderImpl implements JsonReader {
     private void readNull() throws IOException {
         if ( !readString( NULL ) ) {
             if ( currentChar == -1 ) {
-                throw new JsonException( "Unexpected EOF while reading JSON null token" );
+                throw newJsonException( "Unexpected EOF while reading JSON null token" );
             }
-            throw new JsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON null token" );
+            throw newJsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON null token" );
         }
     }
 
@@ -348,9 +349,17 @@ public final class JsonReaderImpl implements JsonReader {
             retVal.appendCodePoint( currentChar );
         }
         if ( currentChar == -1 ) {
-            throw new JsonException( "Unexpected EOF while reading JSON number" );
+            throw newJsonException( "Unexpected EOF while reading JSON number" );
         }
         jsonNumber = retVal.toString();
+        if ( !isNumberString( jsonNumber ) ) {
+            throw newJsonException( "Incorrect JSON number: '" + jsonNumber + "'" );
+        }
+    }
+
+    private JsonException newJsonException( final String message ) {
+        analyzer.setCannotContinue();
+        return new JsonException( message );
     }
 
     private void ensureOpen() {
