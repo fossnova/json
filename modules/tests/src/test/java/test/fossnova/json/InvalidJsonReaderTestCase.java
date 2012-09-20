@@ -19,6 +19,8 @@
  */
 package test.fossnova.json;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -382,6 +384,12 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         read_objectStart_string_colon_objectStart_objectEnd_comma_string_false();
         read_objectStart_string_colon_objectStart_objectEnd_comma_string_true();
         read_objectStart_string_colon_objectStart_objectEnd_comma_string_null();
+    }
+
+    @Test
+    public void uniqueObjectKeys() throws IOException {
+        read_objectStart_string_null_string();
+        read_objectStart_string_objectStart_string_null_objectEnd_string();
     }
 
     @Test
@@ -3160,5 +3168,34 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonTestCase {
         try {
             assertDoubleState( reader, 0.0 );
         } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_objectStart_string_null_string() throws IOException {
+        final String sameKey = "same key";
+        final JsonReader reader = getJsonReader( "{\"" + sameKey + "\":null,\"" + sameKey + "\"" );
+        assertObjectStartState( reader );
+        assertStringState( reader, sameKey );
+        assertNullState( reader );
+        try {
+            reader.next();
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON keys have to be unique. The key '" + sameKey + "' already exists", e.getMessage() );
+        }
+    }
+
+    private void read_objectStart_string_objectStart_string_null_objectEnd_string() throws IOException {
+        final String sameKey = "same key";
+        final JsonReader reader = getJsonReader( "{\"" + sameKey + "\":{\"" + sameKey + "\":null},\"" + sameKey + "\"" );
+        assertObjectStartState( reader );
+        assertStringState( reader, sameKey );
+        assertObjectStartState( reader );
+        assertStringState( reader, sameKey );
+        assertNullState( reader );
+        assertObjectEndState( reader );
+        try {
+            reader.next();
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON keys have to be unique. The key '" + sameKey + "' already exists", e.getMessage() );
+        }
     }
 }

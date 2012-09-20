@@ -100,6 +100,7 @@ public final class JsonWriterImpl implements JsonWriter {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.push( JsonGrammarToken.STRING );
+        analyzer.pushString( data );
         out.write( encode( data ) );
         return this;
     }

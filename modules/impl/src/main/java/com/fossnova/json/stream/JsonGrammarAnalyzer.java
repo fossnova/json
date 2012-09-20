@@ -30,7 +30,9 @@ import static com.fossnova.json.stream.JsonGrammarToken.OBJECT_END;
 import static com.fossnova.json.stream.JsonGrammarToken.OBJECT_START;
 import static com.fossnova.json.stream.JsonGrammarToken.STRING;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonException;
@@ -45,6 +47,8 @@ final class JsonGrammarAnalyzer {
     private JsonEvent currentEvent;
 
     private boolean finished;
+
+    private final LinkedList< Set< String >> jsonKeys = new LinkedList< Set< String >>();
 
     private final LinkedList< JsonGrammarToken > stack = new LinkedList< JsonGrammarToken >();
 
@@ -85,6 +89,15 @@ final class JsonGrammarAnalyzer {
             currentEvent = null;
         } else {
             throw new IllegalStateException();
+        }
+    }
+
+    void pushString( final String jsonKey ) {
+        if ( isLastOnStack( STRING ) ) {
+            final boolean containsKey = !jsonKeys.getLast().add( jsonKey );
+            if ( containsKey ) {
+                throw newJsonException( "JSON keys have to be unique. The key '" + jsonKey + "' already exists" );
+            }
         }
     }
 
@@ -132,6 +145,8 @@ final class JsonGrammarAnalyzer {
         } else if ( isLastOnStack( ARRAY_START ) ) {
             canWriteComma = true;
         }
+        jsonKeys.getLast().clear();
+        jsonKeys.removeLast();
         if ( isEmpty() ) {
             setCannotContinue();
         }
@@ -193,6 +208,7 @@ final class JsonGrammarAnalyzer {
         }
         // implementation
         stack.add( OBJECT_START );
+        jsonKeys.addLast( new HashSet< String >() );
     }
 
     private void putArrayStart() {

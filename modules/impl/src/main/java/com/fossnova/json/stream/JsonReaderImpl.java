@@ -248,6 +248,7 @@ public final class JsonReaderImpl implements JsonReader {
                     analyzer.push( JsonGrammarToken.STRING );
                     in.unread( currentChar );
                     readString();
+                    analyzer.pushString( jsonString );
                     exitLoop = true;
                 }
                     break;

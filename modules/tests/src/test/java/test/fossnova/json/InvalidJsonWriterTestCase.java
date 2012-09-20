@@ -172,6 +172,12 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
         write_objectStart_string_null_string_arrayEnd();
     }
 
+    @Test
+    public void uniqueObjectKeys() throws IOException {
+        write_objectStart_string_null_string();
+        write_objectStart_string_objectStart_string_null_objectEnd_string();
+    }
+
     private void write_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         try {
@@ -1166,9 +1172,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_string_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
+        writer.writeString( "1" );
         writer.writeString( "" );
-        writer.writeString( "" );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1180,9 +1186,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_byte_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeByte( ( byte ) 0 );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1194,9 +1200,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_short_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeShort( ( short ) 0 );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1208,9 +1214,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_int_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeInt( 0 );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1222,9 +1228,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_long_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeLong( 0L );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1236,9 +1242,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_bigInteger_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeBigInteger( BigInteger.ZERO );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1250,9 +1256,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_bigDecimal_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeBigDecimal( BigDecimal.ZERO );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1264,9 +1270,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_float_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeFloat( 0.0F );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1278,9 +1284,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_double_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeDouble( 0.0 );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1292,9 +1298,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_false_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeBoolean( false );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1306,9 +1312,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_true_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeBoolean( true );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1320,9 +1326,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_null_string_objectEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeNull();
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeObjectEnd();
             fail();
@@ -1334,9 +1340,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_string_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
+        writer.writeString( "1" );
         writer.writeString( "" );
-        writer.writeString( "" );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1348,9 +1354,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_byte_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeByte( ( byte ) 0 );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1362,9 +1368,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_short_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeShort( ( short ) 0 );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1376,9 +1382,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_int_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeInt( 0 );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1390,9 +1396,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_long_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeLong( 0L );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1404,9 +1410,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_bigInteger_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeBigInteger( BigInteger.ZERO );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1418,9 +1424,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_bigDecimal_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeBigDecimal( BigDecimal.ZERO );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1432,9 +1438,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_float_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeFloat( 0.0F );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1446,9 +1452,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_double_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeDouble( 0.0 );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1460,9 +1466,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_false_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeBoolean( false );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1474,9 +1480,9 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_true_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeBoolean( true );
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
@@ -1488,14 +1494,45 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonTestCase {
     private void write_objectStart_string_null_string_arrayEnd() throws IOException {
         final JsonWriter writer = getJsonWriter();
         writer.writeObjectStart();
-        writer.writeString( "" );
+        writer.writeString( "1" );
         writer.writeNull();
-        writer.writeString( "" );
+        writer.writeString( "2" );
         try {
             writer.writeArrayEnd();
             fail();
         } catch ( final JsonException e ) {
             assertEquals( "Expecting :", e.getMessage() );
+        }
+    }
+
+    private void write_objectStart_string_null_string() throws IOException {
+        final String sameKey = "same key";
+        final JsonWriter writer = getJsonWriter();
+        writer.writeObjectStart();
+        writer.writeString( sameKey );
+        writer.writeNull();
+        try {
+            writer.writeString( sameKey );
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON keys have to be unique. The key '" + sameKey + "' already exists", e.getMessage() );
+        }
+    }
+
+    private void write_objectStart_string_objectStart_string_null_objectEnd_string() throws IOException {
+        final String sameKey = "same key";
+        final JsonWriter writer = getJsonWriter();
+        writer.writeObjectStart();
+        writer.writeString( sameKey );
+        writer.writeObjectStart();
+        writer.writeString( "same key" );
+        writer.writeNull();
+        writer.writeObjectEnd();
+        try {
+            writer.writeString( sameKey );
+            fail();
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON keys have to be unique. The key '" + sameKey + "' already exists", e.getMessage() );
         }
     }
 }
