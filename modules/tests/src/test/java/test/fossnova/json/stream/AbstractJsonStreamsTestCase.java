@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package test.fossnova.json;
+package test.fossnova.json.stream;
 
 import static org.fossnova.json.stream.JsonEvent.ARRAY_END;
 import static org.fossnova.json.stream.JsonEvent.ARRAY_START;
@@ -29,6 +29,7 @@ import static org.fossnova.json.stream.JsonEvent.OBJECT_START;
 import static org.fossnova.json.stream.JsonEvent.STRING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -38,6 +39,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.fossnova.json.JsonArray;
+import org.fossnova.json.JsonBoolean;
+import org.fossnova.json.JsonNumber;
+import org.fossnova.json.JsonObject;
+import org.fossnova.json.JsonString;
+import org.fossnova.json.JsonValue;
+import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
@@ -46,7 +54,7 @@ import org.fossnova.json.stream.JsonWriter;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-abstract class AbstractJsonTestCase {
+abstract class AbstractJsonStreamsTestCase {
 
     static void assertClosedState( final JsonWriter writer ) throws IOException {
         try {
@@ -537,5 +545,104 @@ abstract class AbstractJsonTestCase {
     static JsonWriter getJsonWriter() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         return JsonStreamFactory.newInstance().newJsonWriter( baos );
+    }
+
+    static void assertRoundTrip( final JsonObject jsonObject ) throws IOException {
+        final String serializedJsonObject = serializeJson( jsonObject );
+        final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
+        assertEquals( jsonObject, deserializedJsonObject );
+    }
+
+    static void assertRoundTrip( final JsonArray jsonArray ) throws IOException {
+        final String serializedJsonObject = serializeJson( jsonArray );
+        final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
+        assertEquals( jsonArray, deserializedJsonObject );
+    }
+
+    static String serializeJson( final JsonObject jsonObject ) throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
+        jsonObject.writeTo( jsonWriter );
+        jsonWriter.close();
+        return new String( baos.toByteArray() );
+    }
+
+    static String serializeJson( final JsonArray jsonArray ) throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
+        jsonArray.writeTo( jsonWriter );
+        jsonWriter.close();
+        return new String( baos.toByteArray() );
+    }
+
+    static JsonValue deserializeJson( final String jsonString ) throws IOException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
+        final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
+        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        return jsonFactory.readFrom( jsonReader );
+    }
+
+    static JsonArray createSimpleArray() {
+        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonArray jsonArray = jsonFactory.newJsonArray();
+        jsonArray.add( ( String ) null );
+        jsonArray.add( true );
+        jsonArray.add( 0 );
+        jsonArray.add( "foo" );
+        jsonArray.add( jsonFactory.newJsonArray() );
+        jsonArray.add( jsonFactory.newJsonObject() );
+        return jsonArray;
+    }
+
+    static JsonObject createSimpleObject() {
+        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonObject jsonObject = jsonFactory.newJsonObject();
+        jsonObject.put( "1", ( String ) null );
+        jsonObject.put( "2", true );
+        jsonObject.put( "3", 1 );
+        jsonObject.put( "4", "bar" );
+        jsonObject.put( "5", jsonFactory.newJsonArray() );
+        jsonObject.put( "6", jsonFactory.newJsonObject() );
+        return jsonObject;
+    }
+
+    static JsonObject createComplexObject() {
+        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonObject jsonObject = jsonFactory.newJsonObject();
+        jsonObject.put( "1", "b1" );
+        jsonObject.put( "2", ( String ) null );
+        jsonObject.put( "3", true );
+        jsonObject.put( "4", 1 );
+        final JsonArray simpleArray = createSimpleArray();
+        jsonObject.put( "5", simpleArray );
+        final JsonObject simpleObject = createSimpleObject();
+        jsonObject.put( "6", simpleObject );
+        return jsonObject;
+    }
+
+    static void assertJsonString( final JsonObject o, final String key, final String expectedValue ) {
+        final JsonValue jsonValue = o.get( key );
+        assertTrue( jsonValue instanceof JsonString );
+        final JsonString jsonString = ( JsonString ) jsonValue;
+        assertEquals( expectedValue, jsonString.getString() );
+    }
+
+    static void assertJsonBoolean( final JsonObject o, final String key, final boolean expectedValue ) {
+        final JsonValue jsonValue = o.get( key );
+        assertTrue( jsonValue instanceof JsonBoolean );
+        final JsonBoolean jsonBoolean = ( JsonBoolean ) jsonValue;
+        assertEquals( expectedValue, jsonBoolean.getBoolean() );
+    }
+
+    static void assertJsonNumber( final JsonObject o, final String key, final int expectedValue ) {
+        final JsonValue jsonValue = o.get( key );
+        assertTrue( jsonValue instanceof JsonNumber );
+        final JsonNumber jsonNumber = ( JsonNumber ) jsonValue;
+        assertEquals( expectedValue, jsonNumber.getInt() );
+    }
+
+    static void assertJsonNull( final JsonObject o, final String key ) {
+        assertTrue( o.keySet().contains( key ) );
+        assertNull( o.get( key ) );
     }
 }

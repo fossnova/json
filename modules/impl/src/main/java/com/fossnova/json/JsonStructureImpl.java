@@ -22,6 +22,9 @@ package com.fossnova.json;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonWriter;
@@ -87,6 +90,26 @@ abstract class JsonStructureImpl implements JsonValue {
             return new JsonNumberImpl( ( BigDecimal ) value );
         }
         throw new IllegalStateException();
+    }
+
+    protected final Collection< JsonValue > toJsonValuesCollection( final Collection< ? > values ) {
+        if ( values == null ) return null;
+        final HashSet< JsonValue > jsonValues = new HashSet< JsonValue >();
+        final Iterator< ? > i = values.iterator();
+        Object value = null;
+        while ( i.hasNext() ) {
+            value = i.next();
+            if ( value instanceof String ) {
+                jsonValues.add( toJsonString( ( String ) value ) );
+            } else if ( value instanceof Number ) {
+                jsonValues.add( toJsonNumber( ( Number ) value ) );
+            } else if ( value instanceof Boolean ) {
+                jsonValues.add( toJsonBoolean( ( Boolean ) value ) );
+            } else {
+                jsonValues.add( ( JsonValue ) value );
+            }
+        }
+        return jsonValues;
     }
 
     @Override

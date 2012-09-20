@@ -21,6 +21,7 @@ package com.fossnova.json;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -39,8 +40,11 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
 
     private final Map< String, JsonValue > map;
 
+    private final Map< String, JsonValue > userView;
+
     JsonObjectImpl() {
         map = new TreeMap< String, JsonValue >();
+        userView = Collections.unmodifiableMap( map );
     }
 
     public JsonValue put( final String key, final String value ) {
@@ -60,11 +64,11 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     public boolean containsKey( final Object key ) {
-        return key instanceof String ? containsKey( ( String ) key ) : false;
+        return containsKey( ( String ) key );
     }
 
     public boolean containsKey( final String key ) {
-        return key != null ? map.containsKey( key ) : false;
+        return map.containsKey( key );
     }
 
     public boolean containsValue( final Object value ) {
@@ -74,10 +78,9 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
             return containsValue( ( Number ) value );
         } else if ( value instanceof Boolean ) {
             return containsValue( ( Boolean ) value );
-        } else if ( value instanceof JsonValue ) {
+        } else {
             return containsValue( ( JsonValue ) value );
         }
-        return false;
     }
 
     public boolean containsValue( final Boolean value ) {
@@ -97,15 +100,15 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     public Collection< JsonValue > values() {
-        return map.values();
+        return userView.values();
     }
 
     public Set< Entry< String, JsonValue >> entrySet() {
-        return map.entrySet();
+        return userView.entrySet();
     }
 
     public Set< String > keySet() {
-        return map.keySet();
+        return userView.keySet();
     }
 
     public JsonValue get( final String key ) {
@@ -113,7 +116,7 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     public JsonValue get( final Object key ) {
-        return key instanceof String ? get( ( String ) key ) : null;
+        return get( ( String ) key );
     }
 
     public JsonValue remove( final String key ) {
@@ -121,19 +124,11 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     public JsonValue remove( final Object key ) {
-        return key instanceof String ? remove( ( String ) key ) : null;
-    }
-
-    public void putAll( final JsonObject jsonObject ) {
-        if ( jsonObject != null ) {
-            map.putAll( jsonObject );
-        }
+        return remove( ( String ) key );
     }
 
     public void putAll( final Map< ? extends String, ? extends JsonValue > jsonObject ) {
-        if ( jsonObject != null ) {
-            map.putAll( jsonObject );
-        }
+        map.putAll( jsonObject );
     }
 
     public void clear() {

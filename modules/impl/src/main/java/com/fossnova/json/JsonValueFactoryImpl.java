@@ -59,17 +59,13 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
 
     @Override
     public JsonBooleanImpl newJsonBoolean( final Boolean value ) {
-        if ( value == null ) {
-            return null;
-        }
+        assertNotNullParameter( value );
         return new JsonBooleanImpl( value );
     }
 
     @Override
     public JsonNumberImpl newJsonNumber( final Number value ) {
-        if ( value == null ) {
-            return null;
-        }
+        assertNotNullParameter( value );
         if ( value instanceof Byte ) {
             return new JsonNumberImpl( ( Byte ) value );
         } else if ( value instanceof Short ) {
@@ -92,26 +88,24 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
 
     @Override
     public JsonStringImpl newJsonString( final String value ) {
-        if ( value == null ) {
-            return null;
-        }
+        assertNotNullParameter( value );
         return new JsonStringImpl( value );
     }
 
     @Override
     public JsonValue readFrom( final JsonReader jsonReader ) throws IOException {
-        if ( jsonReader == null ) {
-            throw new IllegalArgumentException( "JSON reader cannot be null" );
-        }
+        assertNotNullParameter( jsonReader );
         return readFrom( ( JsonReaderImpl ) jsonReader );
     }
 
     private JsonValue readFrom( final JsonReaderImpl jsonReader ) throws IOException {
-        if ( jsonReader.next() == OBJECT_START ) {
+        final JsonEvent jsonEvent = jsonReader.next();
+        if ( jsonEvent == OBJECT_START ) {
             return readJsonObjectFrom( jsonReader );
-        } else {
+        } else if ( jsonEvent == ARRAY_START ) {
             return readJsonArrayFrom( jsonReader );
         }
+        throw new IllegalStateException( "JSON reader have to point to array or object" );
     }
 
     private JsonObjectImpl readJsonObjectFrom( final JsonReaderImpl jsonReader ) throws IOException {
@@ -167,5 +161,11 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
             jsonEvent = jsonReader.next();
         }
         return jsonArray;
+    }
+
+    private static void assertNotNullParameter( final Object o ) {
+        if ( o == null ) {
+            throw new IllegalArgumentException( "Parameter cannot be null" );
+        }
     }
 }

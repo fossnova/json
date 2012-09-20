@@ -22,6 +22,7 @@ package com.fossnova.json;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -41,8 +42,11 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
 
     private final List< JsonValue > list;
 
+    private final List< JsonValue > userView;
+
     JsonArrayImpl() {
         list = new ArrayList< JsonValue >();
+        userView = Collections.unmodifiableList( list );
     }
 
     public boolean add( final String value ) {
@@ -108,14 +112,16 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
             return contains( ( Number ) value );
         } else if ( value instanceof Boolean ) {
             return contains( ( Boolean ) value );
-        } else if ( value instanceof JsonValue ) {
+        } else {
             return contains( ( JsonValue ) value );
         }
-        return false;
     }
 
     public boolean containsAll( final Collection< ? > values ) {
-        return list.containsAll( values );
+        for ( final Object o : values ) {
+            if ( !contains( o ) ) return false;
+        }
+        return true;
     }
 
     public int indexOf( final String value ) {
@@ -141,10 +147,9 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
             return indexOf( ( Number ) value );
         } else if ( value instanceof Boolean ) {
             return indexOf( ( Boolean ) value );
-        } else if ( value instanceof JsonValue ) {
+        } else {
             return indexOf( ( JsonValue ) value );
         }
-        return -1;
     }
 
     public int lastIndexOf( final String value ) {
@@ -170,14 +175,13 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
             return lastIndexOf( ( Number ) value );
         } else if ( value instanceof Boolean ) {
             return lastIndexOf( ( Boolean ) value );
-        } else if ( value instanceof JsonValue ) {
+        } else {
             return lastIndexOf( ( JsonValue ) value );
         }
-        return -1;
     }
 
     public Iterator< JsonValue > iterator() {
-        return list.iterator();
+        return userView.iterator();
     }
 
     public JsonValue get( final int index ) {
@@ -207,10 +211,9 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
             return remove( ( Number ) value );
         } else if ( value instanceof Boolean ) {
             return remove( ( Boolean ) value );
-        } else if ( value instanceof JsonValue ) {
+        } else {
             return remove( ( JsonValue ) value );
         }
-        return false;
     }
 
     public JsonValue remove( final int index ) {
@@ -218,7 +221,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
     }
 
     public boolean removeAll( final Collection< ? > values ) {
-        return list.removeAll( values );
+        return list.removeAll( toJsonValuesCollection( values ) );
     }
 
     public int size() {
@@ -250,11 +253,11 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
     }
 
     public ListIterator< JsonValue > listIterator() {
-        return list.listIterator();
+        return userView.listIterator();
     }
 
     public ListIterator< JsonValue > listIterator( final int index ) {
-        return list.listIterator( index );
+        return userView.listIterator( index );
     }
 
     public JsonValue[] toArray() {
@@ -266,11 +269,11 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
     }
 
     public boolean retainAll( final Collection< ? > values ) {
-        return list.retainAll( values );
+        return list.retainAll( toJsonValuesCollection( values ) );
     }
 
     public List< JsonValue > subList( final int fromIndex, final int toIndex ) {
-        return list.subList( fromIndex, toIndex );
+        return userView.subList( fromIndex, toIndex );
     }
 
     @Override

@@ -20,58 +20,54 @@
 package test.fossnova.json;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.fossnova.json.JsonArray;
-import org.fossnova.json.JsonBoolean;
-import org.fossnova.json.JsonNumber;
 import org.fossnova.json.JsonObject;
-import org.fossnova.json.JsonString;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
-import org.fossnova.json.stream.JsonWriter;
 import org.junit.Test;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonObjectTestCase extends AbstractJsonTestCase {
-
-    private static final JsonArray SIMPLE_ARRAY = createSimpleArray();
-
-    private static final JsonObject SIMPLE_OBJECT = createSimpleObject();
-
-    private static final JsonObject COMPLEX_OBJECT = createComplexObject();
+public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
 
     @Test
-    public void complexObject() throws IOException {
-        assertJsonString( COMPLEX_OBJECT, "1", "b1" );
-        assertJsonNull( COMPLEX_OBJECT, "2" );
-        assertJsonBoolean( COMPLEX_OBJECT, "3", true );
-        assertJsonNumber( COMPLEX_OBJECT, "4", 1 );
-        assertTrue( COMPLEX_OBJECT.containsKey( "4" ) );
-        assertTrue( COMPLEX_OBJECT.containsValue( 1 ) );
-        assertTrue( COMPLEX_OBJECT.containsValue( true ) );
-        assertTrue( COMPLEX_OBJECT.containsValue( ( Boolean ) null ) );
-        assertTrue( COMPLEX_OBJECT.containsValue( SIMPLE_ARRAY ) );
-        assertTrue( COMPLEX_OBJECT.containsValue( SIMPLE_OBJECT ) );
+    public void jsonStructureFactoryNewObject() throws IOException {
+        final JsonObject complexObject = createComplexObject();
+        assertJsonString( complexObject, "1", "b1" );
+        assertJsonNull( complexObject, "2" );
+        assertJsonBoolean( complexObject, "3", true );
+        assertJsonNumber( complexObject, "4", 1 );
+        assertTrue( complexObject.containsKey( "4" ) );
+        assertTrue( complexObject.containsValue( 1 ) );
+        assertTrue( complexObject.containsValue( true ) );
+        assertTrue( complexObject.containsValue( ( Boolean ) null ) );
+        assertTrue( complexObject.containsValue( createSimpleArray() ) );
+        assertTrue( complexObject.containsValue( createSimpleObject() ) );
     }
 
     @Test
-    public void createJsonObjectFromStream() throws IOException {
-        final JsonValueFactory jsonStructureFactory = JsonValueFactory.newInstance();
+    public void jsonStructureFactoryReadFrom() throws IOException {
+        final JsonValueFactory jsonValueFactory = JsonValueFactory.newInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream( "{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
-        final JsonObject o = ( JsonObject ) jsonStructureFactory.readFrom( jsonReader );
-        final JsonArray a = jsonStructureFactory.newJsonArray();
-        final JsonObject o1 = jsonStructureFactory.newJsonObject();
+        final JsonObject o = ( JsonObject ) jsonValueFactory.readFrom( jsonReader );
+        final JsonArray a = jsonValueFactory.newJsonArray();
+        final JsonObject o1 = jsonValueFactory.newJsonObject();
         assertJsonString( o, "1", "b1" );
         assertJsonNull( o, "2" );
         assertJsonBoolean( o, "3", true );
@@ -88,107 +84,178 @@ public final class JsonObjectTestCase extends AbstractJsonTestCase {
 
     @Test
     public void roundTrip() throws IOException {
-        assertRoundTrip( SIMPLE_ARRAY );
-        assertRoundTrip( SIMPLE_OBJECT );
-        assertRoundTrip( COMPLEX_OBJECT );
+        assertRoundTrip( createSimpleObject() );
+        assertRoundTrip( createComplexObject() );
     }
 
-    private static void assertRoundTrip( final JsonObject jsonObject ) throws IOException {
-        final String serializedJsonObject = serializeJson( jsonObject );
-        final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
-        assertEquals( jsonObject, deserializedJsonObject );
+    @Test
+    public void containsKey() throws IOException {
+        final JsonObject jsonObject = createSimpleObject();
+        assertTrue( jsonObject.containsKey( "1" ) );
+        assertFalse( jsonObject.containsKey( "7" ) );
+        assertTrue( jsonObject.containsKey( ( Object ) "1" ) );
+        assertFalse( jsonObject.containsKey( ( Object ) "7" ) );
     }
 
-    private static void assertRoundTrip( final JsonArray jsonArray ) throws IOException {
-        final String serializedJsonObject = serializeJson( jsonArray );
-        final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
-        assertEquals( jsonArray, deserializedJsonObject );
+    @Test
+    public void containsValue() throws IOException {
+        final JsonValueFactory factory = JsonValueFactory.newInstance();
+        final JsonObject jsonObject = createSimpleObject();
+        assertTrue( jsonObject.containsValue( ( String ) null ) );
+        assertTrue( jsonObject.containsValue( true ) );
+        assertTrue( jsonObject.containsValue( 1 ) );
+        assertTrue( jsonObject.containsValue( "bar" ) );
+        assertFalse( jsonObject.containsValue( false ) );
+        assertFalse( jsonObject.containsValue( 0 ) );
+        assertFalse( jsonObject.containsValue( "foo" ) );
+        assertTrue( jsonObject.containsValue( ( JsonValue ) null ) );
+        assertTrue( jsonObject.containsValue( factory.newJsonBoolean( true ) ) );
+        assertTrue( jsonObject.containsValue( factory.newJsonNumber( 1 ) ) );
+        assertTrue( jsonObject.containsValue( factory.newJsonString( "bar" ) ) );
+        assertFalse( jsonObject.containsValue( factory.newJsonBoolean( false ) ) );
+        assertFalse( jsonObject.containsValue( factory.newJsonNumber( 0 ) ) );
+        assertFalse( jsonObject.containsValue( factory.newJsonString( "foo" ) ) );
+        assertTrue( jsonObject.containsValue( ( Object ) null ) );
+        assertTrue( jsonObject.containsValue( ( Object ) true ) );
+        assertTrue( jsonObject.containsValue( ( Object ) 1 ) );
+        assertTrue( jsonObject.containsValue( ( Object ) "bar" ) );
+        assertFalse( jsonObject.containsValue( ( Object ) false ) );
+        assertFalse( jsonObject.containsValue( ( Object ) 0 ) );
+        assertFalse( jsonObject.containsValue( ( Object ) "foo" ) );
+        assertTrue( jsonObject.containsValue( ( Object ) null ) );
+        assertTrue( jsonObject.containsValue( ( Object ) factory.newJsonBoolean( true ) ) );
+        assertTrue( jsonObject.containsValue( ( Object ) factory.newJsonNumber( 1 ) ) );
+        assertTrue( jsonObject.containsValue( ( Object ) factory.newJsonString( "bar" ) ) );
+        assertFalse( jsonObject.containsValue( ( Object ) factory.newJsonBoolean( false ) ) );
+        assertFalse( jsonObject.containsValue( ( Object ) factory.newJsonNumber( 0 ) ) );
+        assertFalse( jsonObject.containsValue( ( Object ) factory.newJsonString( "foo" ) ) );
     }
 
-    private static String serializeJson( final JsonObject jsonObject ) throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
-        jsonObject.writeTo( jsonWriter );
-        jsonWriter.close();
-        return new String( baos.toByteArray() );
+    @Test
+    public void get() throws IOException {
+        final JsonValueFactory factory = JsonValueFactory.newInstance();
+        final JsonObject jsonObject = createComplexObject();
+        assertEquals( jsonObject.get( "1" ), factory.newJsonString( "b1" ) );
+        assertEquals( jsonObject.get( "2" ), null );
+        assertEquals( jsonObject.get( "3" ), factory.newJsonBoolean( true ) );
+        assertEquals( jsonObject.get( "4" ), factory.newJsonNumber( 1 ) );
+        assertEquals( jsonObject.get( "5" ), createSimpleArray() );
+        assertEquals( jsonObject.get( "6" ), createSimpleObject() );
+        assertEquals( jsonObject.get( "7" ), null );
+        assertEquals( jsonObject.get( ( Object ) "1" ), factory.newJsonString( "b1" ) );
+        assertEquals( jsonObject.get( ( Object ) "2" ), null );
+        assertEquals( jsonObject.get( ( Object ) "3" ), factory.newJsonBoolean( true ) );
+        assertEquals( jsonObject.get( ( Object ) "4" ), factory.newJsonNumber( 1 ) );
+        assertEquals( jsonObject.get( ( Object ) "5" ), createSimpleArray() );
+        assertEquals( jsonObject.get( ( Object ) "6" ), createSimpleObject() );
+        assertEquals( jsonObject.get( ( Object ) "7" ), null );
     }
 
-    private static String serializeJson( final JsonArray jsonArray ) throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
-        jsonArray.writeTo( jsonWriter );
-        jsonWriter.close();
-        return new String( baos.toByteArray() );
+    @Test
+    public void entrySet() throws IOException {
+        final JsonObject jsonObject = createComplexObject();
+        final Set< Entry< String, JsonValue > > entrySet = jsonObject.entrySet();
+        assertNotNull( entrySet );
+        assertTrue( entrySet.size() == 6 );
     }
 
-    private static JsonValue deserializeJson( final String jsonString ) throws IOException {
-        final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
-        final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
-        return jsonFactory.readFrom( jsonReader );
+    @Test
+    public void keySet() throws IOException {
+        final JsonObject jsonObject = createComplexObject();
+        final Set< String > keySet = jsonObject.keySet();
+        assertNotNull( keySet );
+        assertTrue( keySet.size() == 6 );
     }
 
-    private static JsonArray createSimpleArray() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
-        final JsonArray jsonArray = jsonFactory.newJsonArray();
-        jsonArray.add( ( String ) null );
-        jsonArray.add( true );
-        jsonArray.add( 0 );
-        jsonArray.add( "foo" );
-        jsonArray.add( jsonFactory.newJsonArray() );
-        jsonArray.add( jsonFactory.newJsonObject() );
-        return jsonArray;
+    @Test
+    public void values() throws IOException {
+        final JsonObject jsonObject = createComplexObject();
+        final Collection< JsonValue > values = jsonObject.values();
+        assertNotNull( values );
+        assertTrue( values.size() == 6 );
     }
 
-    private static JsonObject createSimpleObject() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
-        final JsonObject jsonObject = jsonFactory.newJsonObject();
-        jsonObject.put( "1", ( String ) null );
-        jsonObject.put( "2", true );
-        jsonObject.put( "3", 1 );
-        jsonObject.put( "4", "bar" );
-        jsonObject.put( "5", jsonFactory.newJsonArray() );
-        jsonObject.put( "6", jsonFactory.newJsonObject() );
-        return jsonObject;
+    @Test
+    public void sizeClearIsEmpty() throws IOException {
+        final JsonObject jsonObject = createComplexObject();
+        assertTrue( 6 == jsonObject.size() );
+        assertFalse( jsonObject.isEmpty() );
+        jsonObject.clear();
+        assertTrue( 0 == jsonObject.size() );
+        assertTrue( jsonObject.isEmpty() );
     }
 
-    private static JsonObject createComplexObject() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
-        final JsonObject jsonObject = jsonFactory.newJsonObject();
-        jsonObject.put( "1", "b1" );
-        jsonObject.put( "2", ( String ) null );
-        jsonObject.put( "3", true );
-        jsonObject.put( "4", 1 );
-        final JsonArray simpleArray = createSimpleArray();
-        jsonObject.put( "5", simpleArray );
-        final JsonObject simpleObject = createSimpleObject();
-        jsonObject.put( "6", simpleObject );
-        return jsonObject;
+    @Test
+    public void remove() throws IOException {
+        final JsonObject jsonObject = createComplexObject();
+        assertTrue( 6 == jsonObject.size() );
+        assertTrue( jsonObject.containsKey( "1" ) );
+        assertTrue( jsonObject.containsKey( "2" ) );
+        assertTrue( jsonObject.containsValue( "b1" ) );
+        assertTrue( jsonObject.containsValue( ( String ) null ) );
+        jsonObject.remove( ( Object ) "1" );
+        jsonObject.remove( "2" );
+        assertTrue( 4 == jsonObject.size() );
+        assertFalse( jsonObject.containsKey( "1" ) );
+        assertFalse( jsonObject.containsKey( "2" ) );
+        assertFalse( jsonObject.containsValue( "b1" ) );
+        assertFalse( jsonObject.containsValue( ( String ) null ) );
     }
 
-    private static void assertJsonString( final JsonObject o, final String key, final String expectedValue ) {
-        final JsonValue jsonValue = o.get( key );
-        assertTrue( jsonValue instanceof JsonString );
-        final JsonString jsonString = ( JsonString ) jsonValue;
-        assertEquals( expectedValue, jsonString.getString() );
+    @Test
+    public void putAll() throws IOException {
+        final JsonObject jsonObject1 = JsonValueFactory.newInstance().newJsonObject();
+        final JsonObject jsonObject2 = createSimpleObject();
+        jsonObject1.putAll( jsonObject2 );
+        assertEquals( jsonObject1, jsonObject2 );
     }
 
-    private static void assertJsonBoolean( final JsonObject o, final String key, final boolean expectedValue ) {
-        final JsonValue jsonValue = o.get( key );
-        assertTrue( jsonValue instanceof JsonBoolean );
-        final JsonBoolean jsonBoolean = ( JsonBoolean ) jsonValue;
-        assertEquals( expectedValue, jsonBoolean.getBoolean() );
-    }
-
-    private static void assertJsonNumber( final JsonObject o, final String key, final int expectedValue ) {
-        final JsonValue jsonValue = o.get( key );
-        assertTrue( jsonValue instanceof JsonNumber );
-        final JsonNumber jsonNumber = ( JsonNumber ) jsonValue;
-        assertEquals( expectedValue, jsonNumber.getInt() );
-    }
-
-    private static void assertJsonNull( final JsonObject o, final String key ) {
-        assertTrue( o.keySet().contains( key ) );
-        assertNull( o.get( key ) );
+    @Test
+    public void cloneMethod() throws IOException {
+        final JsonObject orig = createComplexObject();
+        final JsonObject clone = orig.clone();
+        assertNotSame( orig, clone );
+        assertNotSame( orig.get( "1" ), clone.get( "1" ) );
+        assertEquals( orig.get( "1" ), clone.get( "1" ) );
+        assertSame( orig.get( "2" ), clone.get( "2" ) );
+        assertEquals( null, clone.get( "2" ) );
+        assertNotSame( orig.get( "3" ), clone.get( "3" ) );
+        assertEquals( orig.get( "3" ), clone.get( "3" ) );
+        assertNotSame( orig.get( "4" ), clone.get( "4" ) );
+        assertEquals( orig.get( "4" ), clone.get( "4" ) );
+        assertNotSame( orig.get( "5" ), clone.get( "5" ) );
+        assertEquals( orig.get( "5" ), clone.get( "5" ) );
+        assertNotSame( orig.get( "6" ), clone.get( "6" ) );
+        assertEquals( orig.get( "6" ), clone.get( "6" ) );
+        final JsonArray origArray = ( JsonArray ) orig.get( "5" );
+        final JsonArray cloneArray = ( JsonArray ) clone.get( "5" );
+        assertTrue( origArray.get( 0 ) == cloneArray.get( 0 ) );
+        assertTrue( cloneArray.get( 0 ) == null );
+        assertNotSame( origArray.get( 1 ), cloneArray.get( 1 ) );
+        assertEquals( origArray.get( 1 ), cloneArray.get( 1 ) );
+        assertNotSame( origArray.get( 2 ), cloneArray.get( 2 ) );
+        assertEquals( origArray.get( 2 ), cloneArray.get( 2 ) );
+        assertNotSame( origArray.get( 3 ), cloneArray.get( 3 ) );
+        assertEquals( origArray.get( 3 ), cloneArray.get( 3 ) );
+        assertNotSame( origArray.get( 4 ), cloneArray.get( 4 ) );
+        assertEquals( origArray.get( 4 ), cloneArray.get( 4 ) );
+        assertNotSame( origArray.get( 5 ), cloneArray.get( 5 ) );
+        assertEquals( origArray.get( 5 ), cloneArray.get( 5 ) );
+        final JsonObject origObject = ( JsonObject ) orig.get( "6" );
+        final JsonObject cloneObject = ( JsonObject ) clone.get( "6" );
+        assertTrue( origObject.get( "1" ) == cloneObject.get( "1" ) );
+        assertTrue( cloneObject.get( "1" ) == null );
+        assertNotSame( origObject.get( "2" ), cloneObject.get( "2" ) );
+        assertEquals( origObject.get( "2" ), cloneObject.get( "2" ) );
+        assertNotSame( origObject.get( "3" ), cloneObject.get( "3" ) );
+        assertEquals( origObject.get( "3" ), cloneObject.get( "3" ) );
+        assertNotSame( origObject.get( "4" ), cloneObject.get( "4" ) );
+        assertEquals( origObject.get( "4" ), cloneObject.get( "4" ) );
+        assertNotSame( origObject.get( "5" ), cloneObject.get( "5" ) );
+        assertEquals( origObject.get( "5" ), cloneObject.get( "5" ) );
+        assertNotSame( origObject.get( "6" ), cloneObject.get( "6" ) );
+        assertEquals( origObject.get( "6" ), cloneObject.get( "6" ) );
+        orig.put( "1", 1 );
+        assertFalse( orig.equals( clone ) );
     }
 }

@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package test.fossnova.json;
+package test.fossnova.json.stream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,7 +36,7 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class ValidJsonWriterTestCase extends AbstractJsonTestCase {
+public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
 
     private ByteArrayOutputStream baos;
 

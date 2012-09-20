@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package test.fossnova.json;
+package test.fossnova.json.stream;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -29,7 +29,7 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class ValidJsonReaderTestCase extends AbstractJsonTestCase {
+public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
 
     @Test
     public void emptyObjectWithWhitespaces() throws IOException {
