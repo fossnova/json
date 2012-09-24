@@ -34,6 +34,7 @@ import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonString;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.JsonValueFactory;
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
 import org.fossnova.json.stream.JsonWriter;
@@ -43,19 +44,19 @@ import org.fossnova.json.stream.JsonWriter;
  */
 abstract class AbstractJsonValuesTestCase {
 
-    static void assertRoundTrip( final JsonObject jsonObject ) throws IOException {
+    static void assertRoundTrip( final JsonObject jsonObject ) throws IOException, JsonException {
         final String serializedJsonObject = serializeJson( jsonObject );
         final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
         assertEquals( jsonObject, deserializedJsonObject );
     }
 
-    static void assertRoundTrip( final JsonArray jsonArray ) throws IOException {
+    static void assertRoundTrip( final JsonArray jsonArray ) throws IOException, JsonException {
         final String serializedJsonObject = serializeJson( jsonArray );
         final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
         assertEquals( jsonArray, deserializedJsonObject );
     }
 
-    static String serializeJson( final JsonObject jsonObject ) throws IOException {
+    static String serializeJson( final JsonObject jsonObject ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
         jsonObject.writeTo( jsonWriter );
@@ -63,7 +64,7 @@ abstract class AbstractJsonValuesTestCase {
         return new String( baos.toByteArray() );
     }
 
-    static String serializeJson( final JsonArray jsonArray ) throws IOException {
+    static String serializeJson( final JsonArray jsonArray ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
         jsonArray.writeTo( jsonWriter );
@@ -71,7 +72,7 @@ abstract class AbstractJsonValuesTestCase {
         return new String( baos.toByteArray() );
     }
 
-    static JsonValue deserializeJson( final String jsonString ) throws IOException {
+    static JsonValue deserializeJson( final String jsonString ) throws IOException, JsonException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
         final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();

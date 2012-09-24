@@ -21,7 +21,6 @@ package org.fossnova.json.stream;
 
 /**
  * JSON encoding parsing events.
- * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 public enum JsonEvent {

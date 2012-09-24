@@ -21,10 +21,9 @@ package org.fossnova.json.stream;
 
 /**
  * JSON encoding exception.
- * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonException extends RuntimeException {
+public final class JsonException extends Exception {
 
     /**
      * Serialization version UID.
@@ -39,7 +38,6 @@ public final class JsonException extends RuntimeException {
 
     /**
      * Constructor.
-     * 
      * @param msg message
      */
     public JsonException( final String msg ) {
@@ -48,7 +46,6 @@ public final class JsonException extends RuntimeException {
 
     /**
      * Constructor.
-     * 
      * @param msg message
      * @param t reason
      */
@@ -58,7 +55,6 @@ public final class JsonException extends RuntimeException {
 
     /**
      * Constructor.
-     * 
      * @param t reason
      */
     public JsonException( final Throwable t ) {

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ import org.junit.Test;
 public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
 
     @Test
-    public void emptyObjectWithWhitespaces() throws IOException {
+    public void emptyObjectWithWhitespaces() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "{ \t\r\n}" );
         assertObjectStartState( reader );
         assertObjectEndState( reader );
@@ -42,7 +43,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void simpleObjectWithWhitespaces() throws IOException {
+    public void simpleObjectWithWhitespaces() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "{\r\n\t\"a\" : \"b\"\r\n}" );
         assertObjectStartState( reader );
         assertStringState( reader, "a" );
@@ -54,7 +55,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void moreComplexObject() throws IOException {
+    public void moreComplexObject() throws IOException, JsonException {
         final String data = "{\"0\":\"0\",\"1\":1,\"2\":2,\"3\":3,\"4\":4,\"5\":5.0,\"6\":6.0,\"7\":true,\"8\":null,\"9\":"
             + "900000000000000000000000000000000000000,\"10\":100000000000000000000000000000000000000.000000000000000000000000000001}";
         final JsonReader reader = getJsonReader( data );
@@ -88,7 +89,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void theMostComplexObject() throws IOException {
+    public void theMostComplexObject() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "{\"0\":{\"String\":\"s\",\"boolean\":false},\"1\":[null,true,7,{}]}" );
         assertObjectStartState( reader );
         assertStringState( reader, "0" );
@@ -113,7 +114,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void emptyArrayWithWhitespaces() throws IOException {
+    public void emptyArrayWithWhitespaces() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "[ \t\r\n]" );
         assertArrayStartState( reader );
         assertArrayEndState( reader );
@@ -123,7 +124,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void moreComplexArrayWithWhitespaces() throws IOException {
+    public void moreComplexArrayWithWhitespaces() throws IOException, JsonException {
         final String data = "[ \"0\" \r\n, 1 \r\n, 2 \r\n, 3 \r\n, 4 \r\n, 5.0 \r\n, 6.0\r\n, "
             + "700000000000000000000000000000000000000,800000000000000000000000000000000000000.000000000000000000000000000009 \r\n, true \r\n, null \r\n]";
         final JsonReader reader = getJsonReader( data );
@@ -146,7 +147,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void theMostComplexArray() throws IOException {
+    public void theMostComplexArray() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "[\"0\",{\"String\":\"s\",\"boolean\":false},\"1\",[null,true,7,{},[[]]]]" );
         assertArrayStartState( reader );
         assertStringState( reader, "0" );
@@ -175,7 +176,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void escapesEncoding() throws IOException {
+    public void escapesEncoding() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "[\"\\\"\\\\\\/\\b\\f\\n\\r\\t\"]" );
         assertArrayStartState( reader );
         final StringBuilder sb = new StringBuilder();
@@ -195,7 +196,7 @@ public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void controlsEncoding() throws IOException {
+    public void controlsEncoding() throws IOException, JsonException {
         final String data = "[\"\\u0000\\u0001\\u0002\\u0003\\u0004\\u0005\\u0006\\u0007\\b\\t\\n\\u000B\\f\\r\\u000E\\u000F\\u0010\\u0011\\u0012\\u0013\\u0014\\u0015"
             + "\\u0016\\u0017\\u0018\\u0019\\u001A\\u001B\\u001C\\u001D\\u001E\\u001F\\u007F\\u0080\\u0081\\u0082\\u0083\\u0084\\u0085\\u0086\\u0087\\u0088\\u0089\\u008A"
             + "\\u008B\\u008C\\u008D\\u008E\\u008F\\u0090\\u0091\\u0092\\u0093\\u0094\\u0095\\u0096\\u0097\\u0098\\u0099\\u009A\\u009B\\u009C\\u009D\\u009E\\u009F\"]";

@@ -170,12 +170,12 @@ public final class JsonReaderImpl implements JsonReader {
         return analyzer.getCurrentEvent() == event;
     }
 
-    public boolean hasNext() throws IOException {
+    public boolean hasNext() throws IOException, JsonException {
         ensureOpen();
         return !analyzer.isFinished();
     }
 
-    public JsonEvent next() throws IOException {
+    public JsonEvent next() throws IOException, JsonException {
         if ( !hasNext() ) {
             throw new IllegalStateException( "No more JSON tokens available" );
         }
@@ -267,7 +267,7 @@ public final class JsonReaderImpl implements JsonReader {
         return analyzer.getCurrentEvent();
     }
 
-    private void readString() throws IOException {
+    private void readString() throws IOException, JsonException {
         final StringBuilder retVal = new StringBuilder();
         int previousChar = -1;
         in.read();
@@ -313,7 +313,7 @@ public final class JsonReaderImpl implements JsonReader {
         jsonString = retVal.toString();
     }
 
-    private void readBoolean( final boolean b ) throws IOException {
+    private void readBoolean( final boolean b ) throws IOException, JsonException {
         if ( !readString( b ? TRUE : FALSE ) ) {
             if ( currentChar == -1 ) {
                 throw newJsonException( "Unexpected EOF while reading JSON " + b + " token" );
@@ -323,7 +323,7 @@ public final class JsonReaderImpl implements JsonReader {
         jsonBoolean = b;
     }
 
-    private void readNull() throws IOException {
+    private void readNull() throws IOException, JsonException {
         if ( !readString( NULL ) ) {
             if ( currentChar == -1 ) {
                 throw newJsonException( "Unexpected EOF while reading JSON null token" );
@@ -340,7 +340,7 @@ public final class JsonReaderImpl implements JsonReader {
         return true;
     }
 
-    private void readNumber() throws IOException {
+    private void readNumber() throws IOException, JsonException {
         final StringBuilder retVal = new StringBuilder();
         while ( ( currentChar = in.read() ) != -1 ) {
             if ( !isNumberCharacter( currentChar ) ) {

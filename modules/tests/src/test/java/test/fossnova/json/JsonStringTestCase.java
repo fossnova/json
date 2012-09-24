@@ -22,8 +22,6 @@ package test.fossnova.json;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import java.io.IOException;
-
 import org.fossnova.json.JsonString;
 import org.fossnova.json.JsonValueFactory;
 import org.junit.Test;
@@ -34,7 +32,7 @@ import org.junit.Test;
 public final class JsonStringTestCase extends AbstractJsonValuesTestCase {
 
     @Test
-    public void gettersAndSetters() throws IOException {
+    public void gettersAndSetters() {
         final JsonString jsonString = JsonValueFactory.newInstance().newJsonString( "foo" );
         assertEquals( "foo", jsonString.getString() );
         jsonString.setString( "bar" );
@@ -42,7 +40,7 @@ public final class JsonStringTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void cloneMethod() throws IOException {
+    public void cloneMethod() {
         final JsonString origString = JsonValueFactory.newInstance().newJsonString( "foo" );
         final JsonString clonedString = origString.clone();
         assertTrue( origString != clonedString );

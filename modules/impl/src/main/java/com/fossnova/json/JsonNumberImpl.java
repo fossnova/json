@@ -95,14 +95,14 @@ final class JsonNumberImpl implements JsonNumber {
 
     public void setBigInteger( final BigInteger value ) {
         if ( value == null ) {
-            throw new IllegalArgumentException( "Parameter cannot be null " );
+            throw new NullPointerException( "Parameter cannot be null " );
         }
         this.value = String.valueOf( value );
     }
 
     public void setBigDecimal( final BigDecimal value ) {
         if ( value == null ) {
-            throw new IllegalArgumentException( "Parameter cannot be null " );
+            throw new NullPointerException( "Parameter cannot be null " );
         }
         this.value = String.valueOf( value );
     }

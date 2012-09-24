@@ -55,7 +55,7 @@ final class JsonGrammarAnalyzer {
     JsonGrammarAnalyzer() {
     }
 
-    void push( final JsonGrammarToken event ) {
+    void push( final JsonGrammarToken event ) throws JsonException {
         ensureCanContinue();
         if ( event == OBJECT_END ) {
             putObjectEnd();
@@ -92,7 +92,7 @@ final class JsonGrammarAnalyzer {
         }
     }
 
-    void pushString( final String jsonKey ) {
+    void pushString( final String jsonKey ) throws JsonException {
         if ( isLastOnStack( STRING ) ) {
             final boolean containsKey = !jsonKeys.getLast().add( jsonKey );
             if ( containsKey ) {
@@ -113,7 +113,7 @@ final class JsonGrammarAnalyzer {
         return ( isLastOnStack( OBJECT_START ) || isLastOnStack( ARRAY_START ) ) && canWriteComma;
     }
 
-    void ensureCanContinue() {
+    void ensureCanContinue() throws JsonException {
         if ( finished ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
@@ -131,7 +131,7 @@ final class JsonGrammarAnalyzer {
         finished = true;
     }
 
-    private void putObjectEnd() {
+    private void putObjectEnd() throws JsonException {
         // preconditions
         if ( !isLastOnStack( OBJECT_START ) || ( currentEvent == null ) ) {
             throw newJsonException( getExpectingTokensMessage() );
@@ -152,7 +152,7 @@ final class JsonGrammarAnalyzer {
         }
     }
 
-    private void putArrayEnd() {
+    private void putArrayEnd() throws JsonException {
         // preconditions
         if ( !isLastOnStack( ARRAY_START ) || ( currentEvent == null ) ) {
             throw newJsonException( getExpectingTokensMessage() );
@@ -171,7 +171,7 @@ final class JsonGrammarAnalyzer {
         }
     }
 
-    private void putValue() {
+    private void putValue() throws JsonException {
         // preconditions
         if ( canWriteComma || ( !isLastOnStack( ARRAY_START ) && !isLastOnStack( COLON ) ) ) {
             throw newJsonException( getExpectingTokensMessage() );
@@ -184,7 +184,7 @@ final class JsonGrammarAnalyzer {
         canWriteComma = true;
     }
 
-    private void putString() {
+    private void putString() throws JsonException {
         // preconditions
         if ( canWriteComma || ( !isLastOnStack( OBJECT_START ) && !isLastOnStack( ARRAY_START ) && !isLastOnStack( COLON ) ) ) {
             throw newJsonException( getExpectingTokensMessage() );
@@ -201,7 +201,7 @@ final class JsonGrammarAnalyzer {
         canWriteComma = true;
     }
 
-    private void putObjectStart() {
+    private void putObjectStart() throws JsonException {
         // preconditions
         if ( canWriteComma || ( !isEmpty() && !isLastOnStack( ARRAY_START ) && !isLastOnStack( COLON ) ) ) {
             throw newJsonException( getExpectingTokensMessage() );
@@ -211,7 +211,7 @@ final class JsonGrammarAnalyzer {
         jsonKeys.addLast( new HashSet< String >() );
     }
 
-    private void putArrayStart() {
+    private void putArrayStart() throws JsonException {
         // preconditions
         if ( canWriteComma || ( !isEmpty() && !isLastOnStack( ARRAY_START ) && !isLastOnStack( COLON ) ) ) {
             throw newJsonException( getExpectingTokensMessage() );
@@ -220,7 +220,7 @@ final class JsonGrammarAnalyzer {
         stack.add( ARRAY_START );
     }
 
-    private void putColon() {
+    private void putColon() throws JsonException {
         // preconditions
         if ( !isLastOnStack( STRING ) ) {
             throw newJsonException( getExpectingTokensMessage() );
@@ -229,7 +229,7 @@ final class JsonGrammarAnalyzer {
         stack.add( COLON );
     }
 
-    private void putComma() {
+    private void putComma() throws JsonException {
         // preconditions
         if ( !canWriteComma ) {
             throw newJsonException( getExpectingTokensMessage() );

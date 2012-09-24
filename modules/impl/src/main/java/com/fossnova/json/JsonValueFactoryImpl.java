@@ -35,6 +35,7 @@ import java.math.BigInteger;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.stream.JsonEvent;
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 
 import com.fossnova.json.stream.JsonReaderImpl;
@@ -93,12 +94,12 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
     }
 
     @Override
-    public JsonValue readFrom( final JsonReader jsonReader ) throws IOException {
+    public JsonValue readFrom( final JsonReader jsonReader ) throws IOException, JsonException {
         assertNotNullParameter( jsonReader );
         return readFrom( ( JsonReaderImpl ) jsonReader );
     }
 
-    private JsonValue readFrom( final JsonReaderImpl jsonReader ) throws IOException {
+    private JsonValue readFrom( final JsonReaderImpl jsonReader ) throws IOException, JsonException {
         final JsonEvent jsonEvent = jsonReader.next();
         if ( jsonEvent == OBJECT_START ) {
             return readJsonObjectFrom( jsonReader );
@@ -108,7 +109,7 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
         throw new IllegalStateException( "JSON reader have to point to array or object" );
     }
 
-    private JsonObjectImpl readJsonObjectFrom( final JsonReaderImpl jsonReader ) throws IOException {
+    private JsonObjectImpl readJsonObjectFrom( final JsonReaderImpl jsonReader ) throws IOException, JsonException {
         final JsonObjectImpl jsonObject = newJsonObject();
         JsonEvent jsonEvent = jsonReader.next();
         String jsonKey = null;
@@ -137,7 +138,7 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
         return jsonObject;
     }
 
-    private JsonArrayImpl readJsonArrayFrom( final JsonReaderImpl jsonReader ) throws IOException {
+    private JsonArrayImpl readJsonArrayFrom( final JsonReaderImpl jsonReader ) throws IOException, JsonException {
         final JsonArrayImpl jsonArray = newJsonArray();
         JsonEvent jsonEvent = jsonReader.next();
         JsonValue jsonValue = null;
@@ -165,7 +166,7 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
 
     private static void assertNotNullParameter( final Object o ) {
         if ( o == null ) {
-            throw new IllegalArgumentException( "Parameter cannot be null" );
+            throw new NullPointerException( "Parameter cannot be null" );
         }
     }
 }

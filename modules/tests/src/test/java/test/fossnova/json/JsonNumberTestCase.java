@@ -22,7 +22,6 @@ package test.fossnova.json;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -36,7 +35,7 @@ import org.junit.Test;
 public final class JsonNumberTestCase extends AbstractJsonValuesTestCase {
 
     @Test
-    public void gettersAndSetters() throws IOException {
+    public void gettersAndSetters() {
         final JsonNumber jsonNumber = JsonValueFactory.newInstance().newJsonNumber( 0 );
         assertEquals( BigDecimal.ZERO, jsonNumber.getBigDecimal() );
         jsonNumber.setBigDecimal( BigDecimal.ONE );
@@ -58,7 +57,7 @@ public final class JsonNumberTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void cloneMethod() throws IOException {
+    public void cloneMethod() {
         final JsonNumber origNumber = JsonValueFactory.newInstance().newJsonNumber( 1 );
         final JsonNumber clonedNumber = origNumber.clone();
         assertTrue( origNumber != clonedNumber );

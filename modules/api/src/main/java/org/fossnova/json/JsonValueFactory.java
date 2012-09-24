@@ -22,6 +22,7 @@ package org.fossnova.json;
 import java.io.IOException;
 
 import org.fossnova.finder.FactoryFinder;
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 
 /**
@@ -92,6 +93,8 @@ public abstract class JsonValueFactory {
      * Creates either JSON array or object instance.
      * @param reader JSON reader
      * @return JSON array or object instance
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
      */
-    public abstract JsonValue readFrom( JsonReader reader ) throws IOException;
+    public abstract JsonValue readFrom( JsonReader reader ) throws IOException, JsonException;
 }

@@ -78,7 +78,7 @@ public final class JsonStreamFactoryImpl extends JsonStreamFactory {
 
     private static void assertNotNullParameter( final Object o ) {
         if ( o == null ) {
-            throw new IllegalArgumentException( "Parameter cannot be null" );
+            throw new NullPointerException( "Parameter cannot be null" );
         }
     }
 }

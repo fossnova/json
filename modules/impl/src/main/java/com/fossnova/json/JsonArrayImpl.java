@@ -30,6 +30,7 @@ import java.util.RandomAccess;
 
 import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonValue;
+import org.fossnova.json.stream.JsonException;
 
 import com.fossnova.json.stream.JsonWriterImpl;
 
@@ -304,7 +305,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
     }
 
     @Override
-    protected void writeTo( final JsonWriterImpl jsonWriter ) throws IOException {
+    protected void writeTo( final JsonWriterImpl jsonWriter ) throws IOException, JsonException {
         jsonWriter.writeArrayStart();
         for ( final JsonValue jsonValue : list ) {
             if ( jsonValue == null ) {

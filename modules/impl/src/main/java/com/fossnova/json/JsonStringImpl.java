@@ -36,7 +36,7 @@ final class JsonStringImpl implements JsonString {
 
     public void setString( final String value ) {
         if ( value == null ) {
-            throw new IllegalArgumentException( "Parameter cannot be null" );
+            throw new NullPointerException( "Parameter cannot be null" );
         }
         this.value = value;
     }

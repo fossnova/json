@@ -34,6 +34,7 @@ import java.util.Set;
 import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonValueFactory;
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
 import org.junit.Test;
@@ -44,7 +45,7 @@ import org.junit.Test;
 public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
 
     @Test
-    public void jsonStructureFactoryNewObject() throws IOException {
+    public void jsonStructureFactoryNewObject() {
         final JsonArray complexArray = createComplexArray();
         assertJsonNull( complexArray, 0 );
         assertJsonBoolean( complexArray, 1, false );
@@ -59,7 +60,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void jsonStructureFactoryReadFrom() throws IOException {
+    public void jsonStructureFactoryReadFrom() throws IOException, JsonException {
         final JsonValueFactory jsonValueFactory = JsonValueFactory.newInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream(
             "[null,false,1,\"2\",[null,true,0,\"foo\",[],{}],{\"1\":null,\"2\":true,\"3\":1,\"4\":\"bar\",\"5\":[],\"6\":{}}]".getBytes() );
@@ -78,13 +79,13 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void roundTrip() throws IOException {
+    public void roundTrip() throws IOException, JsonException {
         assertRoundTrip( createSimpleArray() );
         assertRoundTrip( createComplexArray() );
     }
 
     @Test
-    public void cloneMethod() throws IOException {
+    public void cloneMethod() {
         final JsonArray orig = createComplexArray();
         final JsonArray clone = orig.clone();
         assertNotSame( orig, clone );
@@ -129,7 +130,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void add() throws IOException {
+    public void add() {
         final JsonValueFactory factory = JsonValueFactory.newInstance();
         final JsonArray jsonArray = createComplexArray();
         jsonArray.add( 6, ( String ) null );
@@ -146,7 +147,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void addAll() throws IOException {
+    public void addAll() {
         final JsonValueFactory factory = JsonValueFactory.newInstance();
         final JsonArray jsonArray = createComplexArray();
         jsonArray.addAll( createSimpleArray() );
@@ -186,7 +187,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void contains() throws IOException {
+    public void contains() {
         final JsonArray jsonArray = createComplexArray();
         assertTrue( jsonArray.contains( ( String ) null ) );
         assertTrue( jsonArray.contains( false ) );
@@ -203,7 +204,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void containsAll() throws IOException {
+    public void containsAll() {
         final JsonValueFactory factory = JsonValueFactory.newInstance();
         final JsonArray jsonArray = createComplexArray();
         final Set< Object > simpleValues = new HashSet< Object >();
@@ -221,7 +222,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void indexOf() throws IOException {
+    public void indexOf() {
         final JsonArray jsonArray = createComplexArray();
         assertTrue( jsonArray.indexOf( ( String ) null ) == 0 );
         assertTrue( jsonArray.indexOf( false ) == 1 );
@@ -238,7 +239,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void lastIndexOf() throws IOException {
+    public void lastIndexOf() {
         final JsonArray jsonArray = createComplexArray();
         jsonArray.addAll( createComplexArray() );
         assertTrue( jsonArray.lastIndexOf( ( String ) null ) == 6 );
@@ -256,7 +257,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void remove() throws IOException {
+    public void remove() {
         final JsonArray jsonArray = createComplexArray();
         jsonArray.remove( ( String ) null );
         jsonArray.remove( false );
@@ -268,7 +269,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void removeObject() throws IOException {
+    public void removeObject() {
         final JsonArray jsonArray = createComplexArray();
         jsonArray.remove( ( Object ) null );
         jsonArray.remove( ( Object ) false );
@@ -280,7 +281,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void removeAll() throws IOException {
+    public void removeAll() {
         final JsonArray jsonArray = createComplexArray();
         final Set< Object > values = new HashSet< Object >();
         values.add( null );
@@ -294,7 +295,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void retainAll() throws IOException {
+    public void retainAll() {
         final JsonArray jsonArray = createComplexArray();
         final Set< Object > values = new HashSet< Object >();
         values.add( null );
@@ -308,7 +309,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void removeAllByObjects() throws IOException {
+    public void removeAllByObjects() {
         final JsonValueFactory factory = JsonValueFactory.newInstance();
         final JsonArray jsonArray = createComplexArray();
         final Set< Object > values = new HashSet< Object >();
@@ -323,7 +324,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void removeAtIndex() throws IOException {
+    public void removeAtIndex() {
         final JsonArray jsonArray = createComplexArray();
         jsonArray.remove( 5 );
         jsonArray.remove( 4 );
@@ -335,7 +336,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void set() throws IOException {
+    public void set() {
         final JsonValueFactory factory = JsonValueFactory.newInstance();
         final JsonArray jsonArray = createComplexArray();
         jsonArray.set( 0, createSimpleArray() );

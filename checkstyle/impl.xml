@@ -238,7 +238,7 @@
         <module name="SuperFinalize"/>
         <!-- Restricts throws statements to a specified count. -->
         <module name="ThrowsCount">
-            <property name="max" value="1"/>
+            <property name="max" value="2"/>
         </module>
         <!-- A check for TODO comments. -->
         <module name="TodoComment">

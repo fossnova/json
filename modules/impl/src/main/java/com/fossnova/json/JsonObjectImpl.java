@@ -28,6 +28,7 @@ import java.util.TreeMap;
 
 import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonValue;
+import org.fossnova.json.stream.JsonException;
 
 import com.fossnova.json.stream.JsonWriterImpl;
 
@@ -173,7 +174,7 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     @Override
-    protected void writeTo( final JsonWriterImpl jsonWriter ) throws IOException {
+    protected void writeTo( final JsonWriterImpl jsonWriter ) throws IOException, JsonException {
         jsonWriter.writeObjectStart();
         JsonValue jsonValue = null;
         for ( final String jsonKey : map.keySet() ) {
@@ -199,7 +200,7 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
 
     JsonValue putInternal( final String key, final JsonValue value ) {
         if ( key == null ) {
-            throw new IllegalArgumentException( "JSON key cannot be null" );
+            throw new NullPointerException( "JSON key cannot be null" );
         }
         return map.put( key, value );
     }

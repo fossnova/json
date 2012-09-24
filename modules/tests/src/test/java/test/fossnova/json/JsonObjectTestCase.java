@@ -36,6 +36,7 @@ import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.JsonValueFactory;
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
 import org.junit.Test;
@@ -46,7 +47,7 @@ import org.junit.Test;
 public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
 
     @Test
-    public void jsonStructureFactoryNewObject() throws IOException {
+    public void jsonStructureFactoryNewObject() {
         final JsonObject complexObject = createComplexObject();
         assertJsonString( complexObject, "1", "b1" );
         assertJsonNull( complexObject, "2" );
@@ -61,7 +62,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void jsonStructureFactoryReadFrom() throws IOException {
+    public void jsonStructureFactoryReadFrom() throws IOException, JsonException {
         final JsonValueFactory jsonValueFactory = JsonValueFactory.newInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream( "{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
@@ -83,13 +84,13 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void roundTrip() throws IOException {
+    public void roundTrip() throws IOException, JsonException {
         assertRoundTrip( createSimpleObject() );
         assertRoundTrip( createComplexObject() );
     }
 
     @Test
-    public void containsKey() throws IOException {
+    public void containsKey() {
         final JsonObject jsonObject = createSimpleObject();
         assertTrue( jsonObject.containsKey( "1" ) );
         assertFalse( jsonObject.containsKey( "7" ) );
@@ -98,7 +99,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void containsValue() throws IOException {
+    public void containsValue() {
         final JsonValueFactory factory = JsonValueFactory.newInstance();
         final JsonObject jsonObject = createSimpleObject();
         assertTrue( jsonObject.containsValue( ( String ) null ) );
@@ -132,7 +133,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void get() throws IOException {
+    public void get() {
         final JsonValueFactory factory = JsonValueFactory.newInstance();
         final JsonObject jsonObject = createComplexObject();
         assertEquals( jsonObject.get( "1" ), factory.newJsonString( "b1" ) );
@@ -152,7 +153,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void entrySet() throws IOException {
+    public void entrySet() {
         final JsonObject jsonObject = createComplexObject();
         final Set< Entry< String, JsonValue > > entrySet = jsonObject.entrySet();
         assertNotNull( entrySet );
@@ -160,7 +161,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void keySet() throws IOException {
+    public void keySet() {
         final JsonObject jsonObject = createComplexObject();
         final Set< String > keySet = jsonObject.keySet();
         assertNotNull( keySet );
@@ -168,7 +169,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void values() throws IOException {
+    public void values() {
         final JsonObject jsonObject = createComplexObject();
         final Collection< JsonValue > values = jsonObject.values();
         assertNotNull( values );
@@ -176,7 +177,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void sizeClearIsEmpty() throws IOException {
+    public void sizeClearIsEmpty() {
         final JsonObject jsonObject = createComplexObject();
         assertTrue( 6 == jsonObject.size() );
         assertFalse( jsonObject.isEmpty() );
@@ -186,7 +187,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void remove() throws IOException {
+    public void remove() {
         final JsonObject jsonObject = createComplexObject();
         assertTrue( 6 == jsonObject.size() );
         assertTrue( jsonObject.containsKey( "1" ) );
@@ -203,7 +204,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void putAll() throws IOException {
+    public void putAll() {
         final JsonObject jsonObject1 = JsonValueFactory.newInstance().newJsonObject();
         final JsonObject jsonObject2 = createSimpleObject();
         jsonObject1.putAll( jsonObject2 );
@@ -211,7 +212,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void cloneMethod() throws IOException {
+    public void cloneMethod() {
         final JsonObject orig = createComplexObject();
         final JsonObject clone = orig.clone();
         assertNotSame( orig, clone );

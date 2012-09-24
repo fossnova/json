@@ -56,7 +56,7 @@ import org.fossnova.json.stream.JsonWriter;
  */
 abstract class AbstractJsonStreamsTestCase {
 
-    static void assertClosedState( final JsonWriter writer ) throws IOException {
+    static void assertClosedState( final JsonWriter writer ) throws IOException, JsonException {
         try {
             writer.flush();
             fail();
@@ -155,7 +155,7 @@ abstract class AbstractJsonStreamsTestCase {
         }
     }
 
-    static void assertObjectStartState( final JsonReader reader ) throws IOException {
+    static void assertObjectStartState( final JsonReader reader ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         assertEquals( OBJECT_START, reader.next() );
         assertTrue( reader.isObjectStart() );
@@ -171,7 +171,7 @@ abstract class AbstractJsonStreamsTestCase {
         assertNotBooleanException( reader );
     }
 
-    static void assertObjectEndState( final JsonReader reader ) throws IOException {
+    static void assertObjectEndState( final JsonReader reader ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         assertEquals( OBJECT_END, reader.next() );
         assertFalse( reader.isObjectStart() );
@@ -187,7 +187,7 @@ abstract class AbstractJsonStreamsTestCase {
         assertNotBooleanException( reader );
     }
 
-    static void assertArrayStartState( final JsonReader reader ) throws IOException {
+    static void assertArrayStartState( final JsonReader reader ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         assertEquals( ARRAY_START, reader.next() );
         assertFalse( reader.isObjectStart() );
@@ -203,7 +203,7 @@ abstract class AbstractJsonStreamsTestCase {
         assertNotBooleanException( reader );
     }
 
-    static void assertArrayEndState( final JsonReader reader ) throws IOException {
+    static void assertArrayEndState( final JsonReader reader ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         assertEquals( ARRAY_END, reader.next() );
         assertFalse( reader.isObjectStart() );
@@ -219,7 +219,7 @@ abstract class AbstractJsonStreamsTestCase {
         assertNotBooleanException( reader );
     }
 
-    static void assertFinalState( final JsonReader reader ) throws IOException {
+    static void assertFinalState( final JsonReader reader ) throws IOException, JsonException {
         assertNotStringException( reader );
         assertNotNumberException( reader );
         assertNotBooleanException( reader );
@@ -232,7 +232,7 @@ abstract class AbstractJsonStreamsTestCase {
         }
     }
 
-    static void assertClosedState( final JsonReader reader ) throws IOException {
+    static void assertClosedState( final JsonReader reader ) throws IOException, JsonException {
         try {
             reader.getBoolean();
             fail();
@@ -355,7 +355,7 @@ abstract class AbstractJsonStreamsTestCase {
         }
     }
 
-    static void assertStringState( final JsonReader reader, final String expected ) throws IOException {
+    static void assertStringState( final JsonReader reader, final String expected ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         assertEquals( STRING, reader.next() );
         assertFalse( reader.isObjectStart() );
@@ -371,7 +371,7 @@ abstract class AbstractJsonStreamsTestCase {
         assertNotBooleanException( reader );
     }
 
-    static void assertJsonException( final JsonReader reader, final String expected ) throws IOException {
+    static void assertJsonException( final JsonReader reader, final String expected ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         try {
             reader.next();
@@ -381,47 +381,47 @@ abstract class AbstractJsonStreamsTestCase {
         }
     }
 
-    static void assertByteState( final JsonReader reader, final byte expected ) throws IOException {
+    static void assertByteState( final JsonReader reader, final byte expected ) throws IOException, JsonException {
         assertNumberState( reader );
         assertEquals( expected, reader.getByte() );
     }
 
-    static void assertShortState( final JsonReader reader, final short expected ) throws IOException {
+    static void assertShortState( final JsonReader reader, final short expected ) throws IOException, JsonException {
         assertNumberState( reader );
         assertEquals( expected, reader.getShort() );
     }
 
-    static void assertIntState( final JsonReader reader, final int expected ) throws IOException {
+    static void assertIntState( final JsonReader reader, final int expected ) throws IOException, JsonException {
         assertNumberState( reader );
         assertEquals( expected, reader.getInt() );
     }
 
-    static void assertLongState( final JsonReader reader, final long expected ) throws IOException {
+    static void assertLongState( final JsonReader reader, final long expected ) throws IOException, JsonException {
         assertNumberState( reader );
         assertEquals( expected, reader.getLong() );
     }
 
-    static void assertBigIntegerState( final JsonReader reader, final BigInteger expected ) throws IOException {
+    static void assertBigIntegerState( final JsonReader reader, final BigInteger expected ) throws IOException, JsonException {
         assertNumberState( reader );
         assertEquals( expected, reader.getBigInteger() );
     }
 
-    static void assertBigDecimalState( final JsonReader reader, final BigDecimal expected ) throws IOException {
+    static void assertBigDecimalState( final JsonReader reader, final BigDecimal expected ) throws IOException, JsonException {
         assertNumberState( reader );
         assertEquals( expected, reader.getBigDecimal() );
     }
 
-    static void assertFloatState( final JsonReader reader, final float expected ) throws IOException {
+    static void assertFloatState( final JsonReader reader, final float expected ) throws IOException, JsonException {
         assertNumberState( reader );
         assertTrue( Math.abs( reader.getFloat() - expected ) <= 0.0000001 );
     }
 
-    static void assertDoubleState( final JsonReader reader, final double expected ) throws IOException {
+    static void assertDoubleState( final JsonReader reader, final double expected ) throws IOException, JsonException {
         assertNumberState( reader );
         assertTrue( Math.abs( reader.getDouble() - expected ) <= 0.0000001 );
     }
 
-    static void assertBooleanState( final JsonReader reader, final boolean expected ) throws IOException {
+    static void assertBooleanState( final JsonReader reader, final boolean expected ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         assertEquals( BOOLEAN, reader.next() );
         assertFalse( reader.isObjectStart() );
@@ -437,7 +437,7 @@ abstract class AbstractJsonStreamsTestCase {
         assertNotNumberException( reader );
     }
 
-    static void assertNullState( final JsonReader reader ) throws IOException {
+    static void assertNullState( final JsonReader reader ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         assertEquals( NULL, reader.next() );
         assertFalse( reader.isObjectStart() );
@@ -453,7 +453,7 @@ abstract class AbstractJsonStreamsTestCase {
         assertNotBooleanException( reader );
     }
 
-    private static void assertNumberState( final JsonReader reader ) throws IOException {
+    private static void assertNumberState( final JsonReader reader ) throws IOException, JsonException {
         assertTrue( reader.hasNext() );
         assertEquals( NUMBER, reader.next() );
         assertFalse( reader.isObjectStart() );
@@ -547,19 +547,19 @@ abstract class AbstractJsonStreamsTestCase {
         return JsonStreamFactory.newInstance().newJsonWriter( baos );
     }
 
-    static void assertRoundTrip( final JsonObject jsonObject ) throws IOException {
+    static void assertRoundTrip( final JsonObject jsonObject ) throws IOException, JsonException {
         final String serializedJsonObject = serializeJson( jsonObject );
         final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
         assertEquals( jsonObject, deserializedJsonObject );
     }
 
-    static void assertRoundTrip( final JsonArray jsonArray ) throws IOException {
+    static void assertRoundTrip( final JsonArray jsonArray ) throws IOException, JsonException {
         final String serializedJsonObject = serializeJson( jsonArray );
         final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
         assertEquals( jsonArray, deserializedJsonObject );
     }
 
-    static String serializeJson( final JsonObject jsonObject ) throws IOException {
+    static String serializeJson( final JsonObject jsonObject ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
         jsonObject.writeTo( jsonWriter );
@@ -567,7 +567,7 @@ abstract class AbstractJsonStreamsTestCase {
         return new String( baos.toByteArray() );
     }
 
-    static String serializeJson( final JsonArray jsonArray ) throws IOException {
+    static String serializeJson( final JsonArray jsonArray ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
         jsonArray.writeTo( jsonWriter );
@@ -575,7 +575,7 @@ abstract class AbstractJsonStreamsTestCase {
         return new String( baos.toByteArray() );
     }
 
-    static JsonValue deserializeJson( final String jsonString ) throws IOException {
+    static JsonValue deserializeJson( final String jsonString ) throws IOException, JsonException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
         final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();

@@ -26,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonStreamFactory;
 import org.fossnova.json.stream.JsonWriter;
 import org.junit.After;
@@ -55,7 +56,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void emptyObject() throws IOException {
+    public void emptyObject() throws IOException, JsonException {
         writer.writeObjectStart();
         writer.writeObjectEnd();
         writer.flush();
@@ -65,7 +66,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void emptyArray() throws IOException {
+    public void emptyArray() throws IOException, JsonException {
         writer.writeArrayStart();
         writer.writeArrayEnd();
         writer.flush();
@@ -75,7 +76,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void moreComplexArray() throws IOException {
+    public void moreComplexArray() throws IOException, JsonException {
         writer.writeArrayStart();
         writer.writeString( "0" );
         writer.writeByte( ( byte ) 1 );
@@ -98,7 +99,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void theMostComplexArray() throws IOException {
+    public void theMostComplexArray() throws IOException, JsonException {
         writer.writeArrayStart();
         writer.writeString( "0" );
         writer.writeObjectStart();
@@ -127,7 +128,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void simpleObject() throws IOException {
+    public void simpleObject() throws IOException, JsonException {
         writer.writeObjectStart();
         writer.writeString( "a" );
         writer.writeString( "b" );
@@ -139,7 +140,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void moreComplexObject() throws IOException {
+    public void moreComplexObject() throws IOException, JsonException {
         writer.writeObjectStart();
         writer.writeString( "0" );
         writer.writeString( "0" );
@@ -173,7 +174,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void theMostComplexObject() throws IOException {
+    public void theMostComplexObject() throws IOException, JsonException {
         writer.writeObjectStart();
         writer.writeString( "0" );
         writer.writeObjectStart();
@@ -198,7 +199,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void escapesEncoding() throws IOException {
+    public void escapesEncoding() throws IOException, JsonException {
         writer.writeArrayStart();
         final StringBuilder sb = new StringBuilder();
         sb.append( '\"' );
@@ -218,7 +219,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
-    public void controlsEncoding() throws IOException {
+    public void controlsEncoding() throws IOException, JsonException {
         writer.writeArrayStart();
         final StringBuilder sb = new StringBuilder();
         for ( char c = '\u0000'; c <= '\u001F'; c++ ) {

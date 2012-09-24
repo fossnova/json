@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.fossnova.json.JsonValue;
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonWriter;
 
 import com.fossnova.json.stream.JsonWriterImpl;
@@ -38,14 +39,14 @@ abstract class JsonStructureImpl implements JsonValue {
 
     private static final long serialVersionUID = 1L;
 
-    public final void writeTo( final JsonWriter jsonWriter ) throws IOException {
+    public final void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException {
         if ( jsonWriter == null ) {
-            throw new IllegalArgumentException( "JSON writer cannot be null" );
+            throw new NullPointerException( "JSON writer cannot be null" );
         }
         writeTo( ( JsonWriterImpl ) jsonWriter );
     }
 
-    protected abstract void writeTo( final JsonWriterImpl jsonWriter ) throws IOException;
+    protected abstract void writeTo( final JsonWriterImpl jsonWriter ) throws IOException, JsonException;
 
     protected final JsonStringImpl toJsonString( final String value ) {
         if ( value == null ) {

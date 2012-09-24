@@ -22,6 +22,7 @@ package org.fossnova.json;
 import java.io.IOException;
 import java.util.List;
 
+import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonWriter;
 
 /**
@@ -270,9 +271,10 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
     /**
      * Serializes this JSON array to the writer.
      * @param writer to write to
-     * @throws IOException if some I/O error occurs.
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
      */
-    void writeTo( JsonWriter writer ) throws IOException;
+    void writeTo( JsonWriter writer ) throws IOException, JsonException;
 
     /**
      * Clones this JSON array.

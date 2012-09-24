@@ -26,7 +26,6 @@ import java.math.BigInteger;
 
 /**
  * JSON reader.
- * 
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  * @see JsonStreamFactory
  */
@@ -35,25 +34,24 @@ public interface JsonReader extends Closeable {
     /**
      * Detects if there is next JSON parsing event available.
      * Users should call this method before calling {@link #next()} method.
-     * 
      * @return true if there are more JSON parsing events, false otherwise
-     * @throws IOException if I/O error occurs
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
      */
-    boolean hasNext() throws IOException;
+    boolean hasNext() throws IOException, JsonException;
 
     /**
      * Returns next JSON parsing event.
      * Users should call {@link #hasNext()} before calling this method.
-     * 
      * @return JsonEvent next event
-     * @throws IOException if I/O error occurs
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
      */
-    JsonEvent next() throws IOException;
+    JsonEvent next() throws IOException, JsonException;
 
     /**
      * Returns <code>true</code> if current JSON parsing event is JSON <code>object start</code> token, false otherwise.
      * Users have to call {@link #next()} before calling this method.
-     * 
      * @return true if the parsing cursor position points to JSON object start token, false otherwise
      */
     boolean isObjectStart();
@@ -61,7 +59,6 @@ public interface JsonReader extends Closeable {
     /**
      * Returns <code>true</code> if current JSON parsing event is JSON <code>object end</code> token, false otherwise.
      * Users have to call {@link #next()} before calling this method.
-     * 
      * @return true if the parsing cursor position points to JSON object end token, false otherwise
      */
     boolean isObjectEnd();
@@ -69,7 +66,6 @@ public interface JsonReader extends Closeable {
     /**
      * Returns <code>true</code> if current JSON parsing event is JSON <code>array start</code> token, false otherwise.
      * Users have to call {@link #next()} before calling this method.
-     * 
      * @return true if the parsing cursor position points to JSON array start token, false otherwise
      */
     boolean isArrayStart();
@@ -77,7 +73,6 @@ public interface JsonReader extends Closeable {
     /**
      * Returns <code>true</code> if current JSON parsing event is JSON <code>array end</code> token, false otherwise.
      * Users have to call {@link #next()} before calling this method.
-     * 
      * @return true if the parsing cursor position points to JSON array end token, false otherwise
      */
     boolean isArrayEnd();
@@ -85,7 +80,6 @@ public interface JsonReader extends Closeable {
     /**
      * Returns <code>true</code> if current JSON parsing event is JSON <code>null</code> token, false otherwise.
      * Users have to call {@link #next()} before calling this method.
-     * 
      * @return true if the parsing cursor position points to JSON null token, false otherwise
      */
     boolean isNull();
@@ -93,7 +87,6 @@ public interface JsonReader extends Closeable {
     /**
      * Returns <code>true</code> if current JSON parsing event is JSON <code>string</code>, false otherwise.
      * Users have to call {@link #next()} before calling this method.
-     * 
      * @return true if the parsing cursor position points to JSON string, false otherwise
      */
     boolean isString();
@@ -101,7 +94,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>String</code>.
      * Users have to call {@link #next()} and should call {@link #isString()} before calling this method.
-     * 
      * @return string the parsing cursor is pointing to
      * @exception IllegalStateException if cursor isn't pointing to JSON String
      */
@@ -110,7 +102,6 @@ public interface JsonReader extends Closeable {
     /**
      * Returns <code>true</code> if current JSON parsing event is JSON <code>boolean</code> token, false otherwise.
      * Users have to call {@link #next()} before calling this method.
-     * 
      * @return true if the parsing cursor points to JSON boolean tokens, false otherwise
      */
     boolean isBoolean();
@@ -118,7 +109,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>boolean</code>.
      * Users have to call {@link #next()} and should call {@link #isBoolean()} before calling this method.
-     * 
      * @return boolean value the parsing cursor is pointing to
      * @exception IllegalStateException if cursor isn't pointing to JSON boolean token
      */
@@ -127,7 +117,6 @@ public interface JsonReader extends Closeable {
     /**
      * Returns <code>true</code> if current JSON parsing event is JSON <code>number</code>, false otherwise.
      * Users have to call {@link #next()} before calling this method.
-     * 
      * @return true if the parsing cursor points to JSON number, false otherwise
      */
     boolean isNumber();
@@ -135,7 +124,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>byte</code>.
      * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
-     * 
      * @return byte value the parsing cursor is pointing to
      * @exception NumberFormatException if JSON number is not convertible to <code>byte</code>
      */
@@ -144,7 +132,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>short</code>.
      * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
-     * 
      * @return short value the parsing cursor is pointing to
      * @exception NumberFormatException if JSON number is not convertible to <code>short</code>
      */
@@ -153,7 +140,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>int</code>.
      * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
-     * 
      * @return integer value the parsing cursor is pointing to
      * @exception NumberFormatException if JSON number is not convertible to <code>int</code>
      */
@@ -162,7 +148,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>long</code>.
      * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
-     * 
      * @return long value the parsing cursor is pointing to
      * @exception NumberFormatException if JSON number is not convertible to <code>long</code>
      */
@@ -171,7 +156,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>float</code>.
      * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
-     * 
      * @return float value the parsing cursor is pointing to
      * @exception NumberFormatException if JSON number is not convertible to <code>float</code>
      */
@@ -180,7 +164,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>double</code>.
      * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
-     * 
      * @return double value the parsing cursor is pointing to
      * @exception NumberFormatException if JSON number is not convertible to <code>double</code>
      */
@@ -189,7 +172,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>BigInteger</code>.
      * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
-     * 
      * @return BigInteger value the parsing cursor is pointing to
      * @exception NumberFormatException if JSON number is not convertible to <code>BigInteger</code>
      */
@@ -198,7 +180,6 @@ public interface JsonReader extends Closeable {
     /**
      * Converts available context data to <code>BigDecimal</code>.
      * Users have to call {@link #next()} and should call {@link #isNumber()} before calling this method.
-     * 
      * @return BigDecimal value the parsing cursor is pointing to
      * @exception NumberFormatException if JSON number is not convertible to <code>BigDecimal</code>
      */
@@ -206,8 +187,6 @@ public interface JsonReader extends Closeable {
 
     /**
      * Free resources associated with this reader. Never closes underlying output stream or reader.
-     *
-     * @throws IOException if I/O error occurs
      */
     void close();
 }
