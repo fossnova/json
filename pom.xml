@@ -36,7 +36,7 @@
     <maven.compiler.plugin.version>2.3.1</maven.compiler.plugin.version>
     <maven.javadoc.plugin.version>2.8.1</maven.javadoc.plugin.version>
     <maven.surefire.plugin.version>2.4.3</maven.surefire.plugin.version>
-    <fossnova.factory.finder.version>1.0.0.Beta1-SNAPSHOT</fossnova.factory.finder.version>
+    <fossnova.factory.finder.version>1.0.0.Beta1</fossnova.factory.finder.version>
     <junit.version>4.10</junit.version>
   </properties>
 
