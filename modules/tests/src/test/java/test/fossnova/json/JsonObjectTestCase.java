@@ -84,9 +84,15 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     }
 
     @Test
-    public void roundTrip() throws IOException, JsonException {
-        assertRoundTrip( createSimpleObject() );
-        assertRoundTrip( createComplexObject() );
+    public void jsonSerializationRoundTrip() throws IOException, JsonException {
+        assertJsonSerializationRoundTrip( createSimpleObject() );
+        assertJsonSerializationRoundTrip( createComplexObject() );
+    }
+
+    @Test
+    public void javaSerializationRoundTrip() throws IOException, ClassNotFoundException {
+        assertJavaSerializationRoundTrip( createSimpleObject() );
+        assertJavaSerializationRoundTrip( createComplexObject() );
     }
 
     @Test

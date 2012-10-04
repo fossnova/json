@@ -26,6 +26,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonBoolean;
@@ -44,19 +46,31 @@ import org.fossnova.json.stream.JsonWriter;
  */
 abstract class AbstractJsonValuesTestCase {
 
-    static void assertRoundTrip( final JsonObject jsonObject ) throws IOException, JsonException {
-        final String serializedJsonObject = serializeJson( jsonObject );
-        final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
+    static void assertJsonSerializationRoundTrip( final JsonObject jsonObject ) throws IOException, JsonException {
+        final String serializedJsonObject = jsonSerialization( jsonObject );
+        final JsonValue deserializedJsonObject = jsonDeserialization( serializedJsonObject );
         assertEquals( jsonObject, deserializedJsonObject );
     }
 
-    static void assertRoundTrip( final JsonArray jsonArray ) throws IOException, JsonException {
-        final String serializedJsonObject = serializeJson( jsonArray );
-        final JsonValue deserializedJsonObject = deserializeJson( serializedJsonObject );
+    static void assertJsonSerializationRoundTrip( final JsonArray jsonArray ) throws IOException, JsonException {
+        final String serializedJsonObject = jsonSerialization( jsonArray );
+        final JsonValue deserializedJsonObject = jsonDeserialization( serializedJsonObject );
         assertEquals( jsonArray, deserializedJsonObject );
     }
 
-    static String serializeJson( final JsonObject jsonObject ) throws IOException, JsonException {
+    static void assertJavaSerializationRoundTrip( final JsonObject jsonObject ) throws IOException, ClassNotFoundException {
+        final byte[] serializedJsonObject = javaSerialization( jsonObject );
+        final JsonValue deserializedJsonObject = javaDeserialization( serializedJsonObject );
+        assertEquals( jsonObject, deserializedJsonObject );
+    }
+
+    static void assertJavaSerializationRoundTrip( final JsonArray jsonArray ) throws IOException, ClassNotFoundException {
+        final byte[] serializedJsonObject = javaSerialization( jsonArray );
+        final JsonValue deserializedJsonObject = javaDeserialization( serializedJsonObject );
+        assertEquals( jsonArray, deserializedJsonObject );
+    }
+
+    private static String jsonSerialization( final JsonObject jsonObject ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
         jsonObject.writeTo( jsonWriter );
@@ -64,7 +78,7 @@ abstract class AbstractJsonValuesTestCase {
         return new String( baos.toByteArray() );
     }
 
-    static String serializeJson( final JsonArray jsonArray ) throws IOException, JsonException {
+    private static String jsonSerialization( final JsonArray jsonArray ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
         jsonArray.writeTo( jsonWriter );
@@ -72,11 +86,33 @@ abstract class AbstractJsonValuesTestCase {
         return new String( baos.toByteArray() );
     }
 
-    static JsonValue deserializeJson( final String jsonString ) throws IOException, JsonException {
+    private static JsonValue jsonDeserialization( final String jsonString ) throws IOException, JsonException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
         final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         return jsonFactory.readFrom( jsonReader );
+    }
+
+    private static JsonValue javaDeserialization( final byte[] jsonData ) throws IOException, ClassNotFoundException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream( jsonData );
+        final ObjectInputStream ois = new ObjectInputStream( bais );
+        return ( JsonValue ) ois.readObject();
+    }
+
+    private static byte[] javaSerialization( final JsonObject jsonObject ) throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( jsonObject );
+        oos.close();
+        return baos.toByteArray();
+    }
+
+    private static byte[] javaSerialization( final JsonArray jsonArray ) throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( jsonArray );
+        oos.close();
+        return baos.toByteArray();
     }
 
     static JsonArray createSimpleArray() {
