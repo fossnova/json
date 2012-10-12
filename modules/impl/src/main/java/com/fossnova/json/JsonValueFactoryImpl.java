@@ -29,6 +29,9 @@ import static org.fossnova.json.stream.JsonEvent.OBJECT_START;
 import static org.fossnova.json.stream.JsonEvent.STRING;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -37,6 +40,7 @@ import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
+import org.fossnova.json.stream.JsonStreamFactory;
 
 import com.fossnova.json.stream.JsonReaderImpl;
 
@@ -94,9 +98,34 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
     }
 
     @Override
-    public JsonValue readFrom( final JsonReader jsonReader ) throws IOException, JsonException {
-        assertNotNullParameter( jsonReader );
-        return readFrom( ( JsonReaderImpl ) jsonReader );
+    public JsonValue readFrom( final JsonReader input ) throws IOException, JsonException {
+        assertNotNullParameter( input );
+        return readFrom( ( JsonReaderImpl ) input );
+    }
+
+    @Override
+    public JsonValue readFrom( final Reader input ) throws IOException, JsonException {
+        final JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input );
+        return readFrom( reader );
+    }
+
+    @Override
+    public JsonValue readFrom( final String input ) throws IOException, JsonException {
+        assertNotNullParameter( input );
+        final Reader reader = new StringReader( input );
+        return readFrom( reader );
+    }
+
+    @Override
+    public JsonValue readFrom( final InputStream input ) throws IOException, JsonException {
+        final JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input );
+        return readFrom( reader );
+    }
+
+    @Override
+    public JsonValue readFrom( final InputStream input, final String charsetName ) throws IOException, JsonException {
+        final JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input, charsetName );
+        return readFrom( reader );
     }
 
     private JsonValue readFrom( final JsonReaderImpl jsonReader ) throws IOException, JsonException {

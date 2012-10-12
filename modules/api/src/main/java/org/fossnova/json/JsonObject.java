@@ -20,6 +20,8 @@
 package org.fossnova.json;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
 import java.util.Map;
 
 import org.fossnova.json.stream.JsonException;
@@ -119,11 +121,36 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
 
     /**
      * Serializes this JSON object to the writer.
-     * @param writer to write to
+     * @param output to write to
      * @throws IOException if some I/O error occurs
      * @throws JsonException if wrong JSON is detected
      */
-    void writeTo( JsonWriter writer ) throws IOException, JsonException;
+    void writeTo( JsonWriter output ) throws IOException, JsonException;
+
+    /**
+     * Serializes this JSON object to the writer.
+     * @param output to write to
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
+     */
+    void writeTo( Writer output ) throws IOException, JsonException;
+
+    /**
+     * Serializes this JSON object to the stream using default character set.
+     * @param output to write to
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
+     */
+    void writeTo( OutputStream output ) throws IOException, JsonException;
+
+    /**
+     * Serializes this JSON object to the writer using specified character set.
+     * @param output to write to
+     * @param charsetName character set name
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
+     */
+    void writeTo( OutputStream output, String charsetName ) throws IOException, JsonException;
 
     /**
      * Clones this JSON object.

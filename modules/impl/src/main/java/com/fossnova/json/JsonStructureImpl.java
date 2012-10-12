@@ -20,6 +20,8 @@
 package com.fossnova.json;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -28,6 +30,7 @@ import java.util.Iterator;
 
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonException;
+import org.fossnova.json.stream.JsonStreamFactory;
 import org.fossnova.json.stream.JsonWriter;
 
 import com.fossnova.json.stream.JsonWriterImpl;
@@ -39,13 +42,28 @@ abstract class JsonStructureImpl implements JsonValue {
 
     private static final long serialVersionUID = 1L;
 
-    public final void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException {
-        if ( jsonWriter == null ) {
+    public final void writeTo( final JsonWriter output ) throws IOException, JsonException {
+        if ( output == null ) {
             throw new NullPointerException( "JSON writer cannot be null" );
         }
-        writeTo( ( JsonWriterImpl ) jsonWriter );
+        writeTo( ( JsonWriterImpl ) output );
     }
 
+    public final void writeTo( final Writer output ) throws IOException, JsonException {
+        final JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output );
+        writeTo( writer );
+    }
+    
+    public final void writeTo( final OutputStream output ) throws IOException, JsonException {
+        final JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output );
+        writeTo( writer );
+    }
+    
+    public final void writeTo( final OutputStream output, final String charsetName ) throws IOException, JsonException {
+        final JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output, charsetName );
+        writeTo( writer );
+    }
+    
     protected abstract void writeTo( final JsonWriterImpl jsonWriter ) throws IOException, JsonException;
 
     protected final JsonStringImpl toJsonString( final String value ) {

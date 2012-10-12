@@ -20,6 +20,8 @@
 package org.fossnova.json;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 
 import org.fossnova.finder.FactoryFinder;
 import org.fossnova.json.stream.JsonException;
@@ -91,10 +93,47 @@ public abstract class JsonValueFactory {
 
     /**
      * Creates either JSON array or object instance.
-     * @param reader JSON reader
+     * @param input to read JSON from
      * @return JSON array or object instance
      * @throws IOException if some I/O error occurs
      * @throws JsonException if wrong JSON is detected
      */
-    public abstract JsonValue readFrom( JsonReader reader ) throws IOException, JsonException;
+    public abstract JsonValue readFrom( JsonReader input ) throws IOException, JsonException;
+
+    /**
+     * Creates either JSON array or object instance.
+     * @param input to read JSON from
+     * @return JSON array or object instance
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
+     */
+    public abstract JsonValue readFrom( Reader input ) throws IOException, JsonException;
+
+    /**
+     * Creates either JSON array or object instance.
+     * @param input to read JSON from
+     * @return JSON array or object instance
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
+     */
+    public abstract JsonValue readFrom( String input ) throws IOException, JsonException;
+    
+    /**
+     * Creates either JSON array or object instance.
+     * @param input to read JSON from
+     * @return JSON array or object instance
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
+     */
+    public abstract JsonValue readFrom( InputStream input ) throws IOException, JsonException;
+    
+    /**
+     * Creates either JSON array or object instance.
+     * @param data JSON available via input stream
+     * @param charsetName character set name
+     * @return JSON array or object instance
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
+     */
+    public abstract JsonValue readFrom( InputStream data, String charsetName ) throws IOException, JsonException;
 }
