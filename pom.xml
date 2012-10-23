@@ -29,14 +29,27 @@
   <artifactId>fossnova-json-parent</artifactId>
   <packaging>pom</packaging>
   <version>1.0.0.Beta2-SNAPSHOT</version>
+  <url>http://fossnova.org/json</url>
+
+  <parent>
+    <groupId>org.fossnova</groupId>
+    <artifactId>fossnova-maven-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <scm>
+    <connection>scm:git:git@github.com:fossnova/json.git</connection>
+    <developerConnection>scm:git:git@github.com:fossnova/json.git</developerConnection>
+    <url>http://github.com/fossnova/json</url>
+  </scm>
+
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/fossnova/json/issues</url>
+  </issueManagement>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.checkstyle.plugin.version>2.6</maven.checkstyle.plugin.version>
-    <maven.compiler.plugin.version>2.3.1</maven.compiler.plugin.version>
-    <maven.javadoc.plugin.version>2.8.1</maven.javadoc.plugin.version>
-    <maven.surefire.plugin.version>2.4.3</maven.surefire.plugin.version>
-    <fossnova.factory.finder.version>1.0.0.Beta1</fossnova.factory.finder.version>
+    <fossnova.factory.finder.version>1.0.0.Beta2-SNAPSHOT</fossnova.factory.finder.version>
     <junit.version>4.10</junit.version>
   </properties>
 
@@ -72,65 +85,5 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${maven.checkstyle.plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven.surefire.plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven.javadoc.plugin.version}</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>check-style</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>checkstyle</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-          <source>1.5</source>
-          <target>1.5</target>
-          <showDeprecation>true</showDeprecation>
-          <showWarnings>true</showWarnings>
-          <optimize>true</optimize>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <forkMode>pertest</forkMode>
-          <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
