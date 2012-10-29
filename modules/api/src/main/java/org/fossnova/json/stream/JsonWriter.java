@@ -20,6 +20,7 @@
 package org.fossnova.json.stream;
 
 import java.io.Closeable;
+import java.io.Flushable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -29,7 +30,7 @@ import java.math.BigInteger;
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  * @see JsonStreamFactory
  */
-public interface JsonWriter extends Closeable {
+public interface JsonWriter extends Flushable, Closeable {
 
     /**
      * Writes JSON <code>object start</code> token.
@@ -163,10 +164,9 @@ public interface JsonWriter extends Closeable {
 
     /**
      * Writes all cached data.
-     * @return this writer instance
      * @throws IOException if some I/O error occurs
      */
-    JsonWriter flush() throws IOException;
+    void flush() throws IOException;
 
     /**
      * Free resources associated with this writer. Never closes underlying input stream or writer.

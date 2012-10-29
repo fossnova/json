@@ -58,10 +58,9 @@ public final class JsonWriterImpl implements JsonWriter {
         closed = true;
     }
 
-    public JsonWriterImpl flush() throws IOException {
+    public void flush() throws IOException {
         ensureOpen();
         out.flush();
-        return this;
     }
 
     public JsonWriterImpl writeObjectStart() throws IOException, JsonException {
