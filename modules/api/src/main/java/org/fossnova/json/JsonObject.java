@@ -137,7 +137,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
     void writeTo( Writer output ) throws IOException, JsonException;
 
     /**
-     * Serializes this JSON object to the stream using default character set.
+     * Serializes this JSON object to the stream using <code>UTF-8</code> character set.
      * @param output to write to
      * @throws IOException if some I/O error occurs
      * @throws JsonException if wrong JSON is detected

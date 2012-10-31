@@ -69,21 +69,21 @@ public abstract class JsonStreamFactory {
     public abstract JsonWriter newJsonWriter( Writer writer );
 
     /**
-     * Creates new JSON reader with default character set.
+     * Creates new JSON reader with <code>UTF-8</code> character set.
      * @param stream input
      * @return JSON reader instance
      */
     public abstract JsonReader newJsonReader( InputStream stream );
 
     /**
-     * Creates new JSON writer with default character set.
+     * Creates new JSON writer with <code>UTF-8</code> character set.
      * @param stream output
      * @return JSON writer instance
      */
     public abstract JsonWriter newJsonWriter( OutputStream stream );
 
     /**
-     * Creates new JSON reader  with specified character set.
+     * Creates new JSON reader with specified character set.
      * @param stream input
      * @param charset character set
      * @return JSON reader instance

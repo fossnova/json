@@ -288,7 +288,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
     void writeTo( Writer output ) throws IOException, JsonException;
 
     /**
-     * Serializes this JSON array to the stream using default character set.
+     * Serializes this JSON array to the stream using <code>UTF-8</code> character set.
      * @param output to write to
      * @throws IOException if some I/O error occurs
      * @throws JsonException if wrong JSON is detected
