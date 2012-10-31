@@ -22,7 +22,6 @@ package test.fossnova.json.stream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -44,7 +43,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     private JsonWriter writer;
 
     @Before
-    public void init() throws UnsupportedEncodingException {
+    public void init() {
         baos = new ByteArrayOutputStream();
         writer = JsonStreamFactory.newInstance().newJsonWriter( new OutputStreamWriter( baos ) );
     }
@@ -239,7 +238,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
         Assert.assertEquals( expected, getWriterOutput() );
     }
 
-    private String getWriterOutput() throws UnsupportedEncodingException {
-        return baos.toString( "UTF-8" );
+    private String getWriterOutput() {
+        return baos.toString();
     }
 }

@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
@@ -35,7 +34,7 @@ import org.fossnova.json.stream.JsonStreamFactory;
  */
 public final class JsonStreamFactoryImpl extends JsonStreamFactory {
 
-    private static final String DEFAULT_CHARSET = Charset.defaultCharset().name();
+    private static final Charset DEFAULT_CHARSET = Charset.defaultCharset();
 
     public JsonStreamFactoryImpl() {
     }
@@ -47,15 +46,15 @@ public final class JsonStreamFactoryImpl extends JsonStreamFactory {
     }
 
     @Override
-    public JsonReaderImpl newJsonReader( final InputStream stream ) throws UnsupportedEncodingException {
+    public JsonReaderImpl newJsonReader( final InputStream stream ) {
         return newJsonReader( stream, DEFAULT_CHARSET );
     }
 
     @Override
-    public JsonReaderImpl newJsonReader( final InputStream stream, final String charsetName ) throws UnsupportedEncodingException {
+    public JsonReaderImpl newJsonReader( final InputStream stream, final Charset charset ) {
         assertNotNullParameter( stream );
-        assertNotNullParameter( charsetName );
-        return newJsonReader( new InputStreamReader( stream, charsetName ) );
+        assertNotNullParameter( charset );
+        return newJsonReader( new InputStreamReader( stream, charset ) );
     }
 
     @Override
@@ -65,15 +64,15 @@ public final class JsonStreamFactoryImpl extends JsonStreamFactory {
     }
 
     @Override
-    public JsonWriterImpl newJsonWriter( final OutputStream stream ) throws UnsupportedEncodingException {
+    public JsonWriterImpl newJsonWriter( final OutputStream stream ) {
         return newJsonWriter( stream, DEFAULT_CHARSET );
     }
 
     @Override
-    public JsonWriterImpl newJsonWriter( final OutputStream stream, final String charsetName ) throws UnsupportedEncodingException {
+    public JsonWriterImpl newJsonWriter( final OutputStream stream, final Charset charset ) {
         assertNotNullParameter( stream );
-        assertNotNullParameter( charsetName );
-        return newJsonWriter( new OutputStreamWriter( stream, charsetName ) );
+        assertNotNullParameter( charset );
+        return newJsonWriter( new OutputStreamWriter( stream, charset ) );
     }
 
     private static void assertNotNullParameter( final Object o ) {

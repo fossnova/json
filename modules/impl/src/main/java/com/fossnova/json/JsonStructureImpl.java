@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -59,8 +60,8 @@ abstract class JsonStructureImpl implements JsonValue {
         writeTo( writer );
     }
     
-    public final void writeTo( final OutputStream output, final String charsetName ) throws IOException, JsonException {
-        final JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output, charsetName );
+    public final void writeTo( final OutputStream output, final Charset charset ) throws IOException, JsonException {
+        final JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output, charset );
         writeTo( writer );
     }
     

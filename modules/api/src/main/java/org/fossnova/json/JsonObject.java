@@ -22,6 +22,7 @@ package org.fossnova.json;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import org.fossnova.json.stream.JsonException;
@@ -146,11 +147,11 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
     /**
      * Serializes this JSON object to the writer using specified character set.
      * @param output to write to
-     * @param charsetName character set name
+     * @param charset character set
      * @throws IOException if some I/O error occurs
      * @throws JsonException if wrong JSON is detected
      */
-    void writeTo( OutputStream output, String charsetName ) throws IOException, JsonException;
+    void writeTo( OutputStream output, Charset charset ) throws IOException, JsonException;
 
     /**
      * Clones this JSON object.

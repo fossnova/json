@@ -22,8 +22,8 @@ package org.fossnova.json.stream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 import org.fossnova.finder.FactoryFinder;
 
@@ -72,33 +72,29 @@ public abstract class JsonStreamFactory {
      * Creates new JSON reader with default character set.
      * @param stream input
      * @return JSON reader instance
-     * @throws UnsupportedEncodingException if default character set is not supported
      */
-    public abstract JsonReader newJsonReader( InputStream stream ) throws UnsupportedEncodingException;
+    public abstract JsonReader newJsonReader( InputStream stream );
 
     /**
      * Creates new JSON writer with default character set.
      * @param stream output
      * @return JSON writer instance
-     * @throws UnsupportedEncodingException if default character set is not supported
      */
-    public abstract JsonWriter newJsonWriter( OutputStream stream ) throws UnsupportedEncodingException;
+    public abstract JsonWriter newJsonWriter( OutputStream stream );
 
     /**
      * Creates new JSON reader  with specified character set.
      * @param stream input
-     * @param charsetName character set name
+     * @param charset character set
      * @return JSON reader instance
-     * @throws UnsupportedEncodingException if specified character set is not supported
      */
-    public abstract JsonReader newJsonReader( InputStream stream, String charsetName ) throws UnsupportedEncodingException;
+    public abstract JsonReader newJsonReader( InputStream stream, Charset charset );
 
     /**
      * Creates new JSON writer with specified character set.
      * @param stream output
-     * @param charsetName character set name
+     * @param charset character set
      * @return JSON writer instance
-     * @throws UnsupportedEncodingException if specified character set is not supported
      */
-    public abstract JsonWriter newJsonWriter( OutputStream stream, String charsetName ) throws UnsupportedEncodingException;
+    public abstract JsonWriter newJsonWriter( OutputStream stream, Charset charset );
 }

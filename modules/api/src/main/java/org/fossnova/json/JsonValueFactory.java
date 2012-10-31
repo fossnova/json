@@ -22,6 +22,7 @@ package org.fossnova.json;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.Charset;
 
 import org.fossnova.finder.FactoryFinder;
 import org.fossnova.json.stream.JsonException;
@@ -130,10 +131,10 @@ public abstract class JsonValueFactory {
     /**
      * Creates either JSON array or object instance.
      * @param data JSON available via input stream
-     * @param charsetName character set name
+     * @param charset character set
      * @return JSON array or object instance
      * @throws IOException if some I/O error occurs
      * @throws JsonException if wrong JSON is detected
      */
-    public abstract JsonValue readFrom( InputStream data, String charsetName ) throws IOException, JsonException;
+    public abstract JsonValue readFrom( InputStream data, Charset charset ) throws IOException, JsonException;
 }

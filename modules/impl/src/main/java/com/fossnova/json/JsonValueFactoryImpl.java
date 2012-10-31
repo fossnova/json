@@ -34,6 +34,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.JsonValueFactory;
@@ -123,8 +124,8 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
     }
 
     @Override
-    public JsonValue readFrom( final InputStream input, final String charsetName ) throws IOException, JsonException {
-        final JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input, charsetName );
+    public JsonValue readFrom( final InputStream input, final Charset charset ) throws IOException, JsonException {
+        final JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input, charset );
         return readFrom( reader );
     }
 
