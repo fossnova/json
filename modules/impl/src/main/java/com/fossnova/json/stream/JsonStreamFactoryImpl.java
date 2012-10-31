@@ -34,7 +34,7 @@ import org.fossnova.json.stream.JsonStreamFactory;
  */
 public final class JsonStreamFactoryImpl extends JsonStreamFactory {
 
-    private static final Charset DEFAULT_CHARSET = Charset.defaultCharset();
+    private static final Charset DEFAULT_CHARSET = Charset.forName( "UTF-8" );
 
     public JsonStreamFactoryImpl() {
     }
