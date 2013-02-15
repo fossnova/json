@@ -28,16 +28,15 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 
-import org.fossnova.json.JsonArray;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonException;
 
-import com.fossnova.json.stream.JsonWriterImpl;
+import com.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, RandomAccess {
+final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArray, RandomAccess {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,7 +44,7 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
 
     private final List< JsonValue > userView;
 
-    JsonArrayImpl() {
+    JsonArray() {
         list = new ArrayList< JsonValue >();
         userView = Collections.unmodifiableList( list );
     }
@@ -285,14 +284,14 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
     @Override
     public boolean equals( final Object o ) {
         if ( o == this ) return true;
-        if ( !( o instanceof JsonArrayImpl ) ) return false;
-        final JsonArrayImpl a = ( JsonArrayImpl ) o;
+        if ( !( o instanceof JsonArray ) ) return false;
+        final JsonArray a = ( JsonArray ) o;
         return list.equals( a.list );
     }
 
     @Override
-    public JsonArrayImpl clone() {
-        final JsonArrayImpl retVal = new JsonArrayImpl();
+    public JsonArray clone() {
+        final JsonArray retVal = new JsonArray();
         for ( final JsonValue jsonValue : list ) {
             retVal.add( jsonValue != null ? jsonValue.clone() : null );
         }
@@ -305,19 +304,19 @@ final class JsonArrayImpl extends JsonStructureImpl implements JsonArray, Random
     }
 
     @Override
-    protected void writeTo( final JsonWriterImpl jsonWriter ) throws IOException, JsonException {
+    protected void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException {
         jsonWriter.writeArrayStart();
         for ( final JsonValue jsonValue : list ) {
             if ( jsonValue == null ) {
                 jsonWriter.writeNull();
-            } else if ( jsonValue instanceof JsonBooleanImpl ) {
-                jsonWriter.writeBoolean( ( ( JsonBooleanImpl ) jsonValue ).getBoolean() );
-            } else if ( jsonValue instanceof JsonNumberImpl ) {
-                jsonWriter.writeNumber( ( ( JsonNumberImpl ) jsonValue ).toString() );
-            } else if ( jsonValue instanceof JsonStringImpl ) {
-                jsonWriter.writeString( ( ( JsonStringImpl ) jsonValue ).getString() );
-            } else if ( jsonValue instanceof JsonStructureImpl ) {
-                ( ( JsonStructureImpl ) jsonValue ).writeTo( jsonWriter );
+            } else if ( jsonValue instanceof JsonBoolean ) {
+                jsonWriter.writeBoolean( ( ( JsonBoolean ) jsonValue ).getBoolean() );
+            } else if ( jsonValue instanceof JsonNumber ) {
+                jsonWriter.writeNumber( ( ( JsonNumber ) jsonValue ).toString() );
+            } else if ( jsonValue instanceof JsonString ) {
+                jsonWriter.writeString( ( ( JsonString ) jsonValue ).getString() );
+            } else if ( jsonValue instanceof JsonStructure ) {
+                ( ( JsonStructure ) jsonValue ).writeTo( jsonWriter );
             } else {
                 throw new IllegalStateException();
             }

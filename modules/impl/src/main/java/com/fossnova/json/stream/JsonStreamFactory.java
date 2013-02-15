@@ -27,49 +27,47 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import org.fossnova.json.stream.JsonStreamFactory;
-
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonStreamFactoryImpl extends JsonStreamFactory {
+public final class JsonStreamFactory extends org.fossnova.json.stream.JsonStreamFactory {
 
     private static final Charset DEFAULT_CHARSET = Charset.forName( "UTF-8" );
 
-    public JsonStreamFactoryImpl() {
+    public JsonStreamFactory() {
     }
 
     @Override
-    public JsonReaderImpl newJsonReader( final Reader reader ) {
+    public JsonReader newJsonReader( final Reader reader ) {
         assertNotNullParameter( reader );
-        return new JsonReaderImpl( reader );
+        return new JsonReader( reader );
     }
 
     @Override
-    public JsonReaderImpl newJsonReader( final InputStream stream ) {
+    public JsonReader newJsonReader( final InputStream stream ) {
         return newJsonReader( stream, DEFAULT_CHARSET );
     }
 
     @Override
-    public JsonReaderImpl newJsonReader( final InputStream stream, final Charset charset ) {
+    public JsonReader newJsonReader( final InputStream stream, final Charset charset ) {
         assertNotNullParameter( stream );
         assertNotNullParameter( charset );
         return newJsonReader( new InputStreamReader( stream, charset ) );
     }
 
     @Override
-    public JsonWriterImpl newJsonWriter( final Writer writer ) {
+    public JsonWriter newJsonWriter( final Writer writer ) {
         assertNotNullParameter( writer );
-        return new JsonWriterImpl( writer );
+        return new JsonWriter( writer );
     }
 
     @Override
-    public JsonWriterImpl newJsonWriter( final OutputStream stream ) {
+    public JsonWriter newJsonWriter( final OutputStream stream ) {
         return newJsonWriter( stream, DEFAULT_CHARSET );
     }
 
     @Override
-    public JsonWriterImpl newJsonWriter( final OutputStream stream, final Charset charset ) {
+    public JsonWriter newJsonWriter( final OutputStream stream, final Charset charset ) {
         assertNotNullParameter( stream );
         assertNotNullParameter( charset );
         return newJsonWriter( new OutputStreamWriter( stream, charset ) );

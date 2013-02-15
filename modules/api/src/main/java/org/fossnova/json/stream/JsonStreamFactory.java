@@ -47,11 +47,11 @@ public abstract class JsonStreamFactory {
      * @return new JSON stream factory instance
      */
     public static JsonStreamFactory newInstance() {
-        final JsonStreamFactory jsonFactoryImpl = FactoryFinder.find( JsonStreamFactory.class );
-        if ( jsonFactoryImpl != null ) {
-            return jsonFactoryImpl;
+        final JsonStreamFactory jsonFactory = FactoryFinder.find( JsonStreamFactory.class );
+        if ( jsonFactory == null ) {
+            throw new IllegalStateException( "Factory not configured: " + JsonStreamFactory.class.getName() );
         }
-        throw new IllegalStateException( "Factory not configured: " + JsonStreamFactory.class.getName() );
+        return jsonFactory;
     }
 
     /**

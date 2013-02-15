@@ -19,52 +19,50 @@
  */
 package com.fossnova.json;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
-
-import org.fossnova.json.JsonBoolean;
-
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-final class JsonBooleanImpl implements JsonBoolean {
+final class JsonString implements org.fossnova.json.JsonString {
 
     private static final long serialVersionUID = 1L;
 
-    private boolean value;
+    private String value;
 
-    JsonBooleanImpl( final boolean value ) {
+    JsonString( final String value ) {
         this.value = value;
     }
 
-    public void setBoolean( final boolean value ) {
+    public void setString( final String value ) {
+        if ( value == null ) {
+            throw new NullPointerException( "Parameter cannot be null" );
+        }
         this.value = value;
     }
 
-    public boolean getBoolean() {
+    public String getString() {
         return value;
     }
 
     @Override
     public int hashCode() {
-        return value ? TRUE.hashCode() : FALSE.hashCode();
+        return value.hashCode();
     }
 
     @Override
     public boolean equals( final Object o ) {
         if ( o == this ) return true;
-        if ( !( o instanceof JsonBooleanImpl ) ) return false;
-        final JsonBooleanImpl b = ( JsonBooleanImpl ) o;
-        return b.value == value;
+        if ( !( o instanceof JsonString ) ) return false;
+        final JsonString s = ( JsonString ) o;
+        return value.equals( s.value );
     }
 
     @Override
     public String toString() {
-        return value ? TRUE.toString() : FALSE.toString();
+        return value;
     }
 
     @Override
-    public JsonBooleanImpl clone() {
-        return new JsonBooleanImpl( value );
+    public JsonString clone() {
+        return new JsonString( value );
     }
 }

@@ -37,76 +37,74 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 
 import org.fossnova.json.JsonValue;
-import org.fossnova.json.JsonValueFactory;
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonException;
-import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
 
-import com.fossnova.json.stream.JsonReaderImpl;
+import com.fossnova.json.stream.JsonReader;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonValueFactoryImpl extends JsonValueFactory {
+public final class JsonValueFactory extends org.fossnova.json.JsonValueFactory {
 
-    public JsonValueFactoryImpl() {
+    public JsonValueFactory() {
     }
 
     @Override
-    public JsonObjectImpl newJsonObject() {
-        return new JsonObjectImpl();
+    public JsonObject newJsonObject() {
+        return new JsonObject();
     }
 
     @Override
-    public JsonArrayImpl newJsonArray() {
-        return new JsonArrayImpl();
+    public JsonArray newJsonArray() {
+        return new JsonArray();
     }
 
     @Override
-    public JsonBooleanImpl newJsonBoolean( final Boolean value ) {
+    public JsonBoolean newJsonBoolean( final Boolean value ) {
         assertNotNullParameter( value );
-        return new JsonBooleanImpl( value );
+        return new JsonBoolean( value );
     }
 
     @Override
-    public JsonNumberImpl newJsonNumber( final Number value ) {
+    public JsonNumber newJsonNumber( final Number value ) {
         assertNotNullParameter( value );
         if ( value instanceof Byte ) {
-            return new JsonNumberImpl( ( Byte ) value );
+            return new JsonNumber( ( Byte ) value );
         } else if ( value instanceof Short ) {
-            return new JsonNumberImpl( ( Short ) value );
+            return new JsonNumber( ( Short ) value );
         } else if ( value instanceof Integer ) {
-            return new JsonNumberImpl( ( Integer ) value );
+            return new JsonNumber( ( Integer ) value );
         } else if ( value instanceof Long ) {
-            return new JsonNumberImpl( ( Long ) value );
+            return new JsonNumber( ( Long ) value );
         } else if ( value instanceof Float ) {
-            return new JsonNumberImpl( ( Float ) value );
+            return new JsonNumber( ( Float ) value );
         } else if ( value instanceof Double ) {
-            return new JsonNumberImpl( ( Double ) value );
+            return new JsonNumber( ( Double ) value );
         } else if ( value instanceof BigInteger ) {
-            return new JsonNumberImpl( ( BigInteger ) value );
+            return new JsonNumber( ( BigInteger ) value );
         } else if ( value instanceof BigDecimal ) {
-            return new JsonNumberImpl( ( BigDecimal ) value );
+            return new JsonNumber( ( BigDecimal ) value );
         }
         throw new IllegalStateException();
     }
 
     @Override
-    public JsonStringImpl newJsonString( final String value ) {
+    public JsonString newJsonString( final String value ) {
         assertNotNullParameter( value );
-        return new JsonStringImpl( value );
+        return new JsonString( value );
     }
 
     @Override
-    public JsonValue readFrom( final JsonReader input ) throws IOException, JsonException {
+    public JsonValue readFrom( final org.fossnova.json.stream.JsonReader input ) throws IOException, JsonException {
         assertNotNullParameter( input );
-        return readFrom( ( JsonReaderImpl ) input );
+        return readFrom( ( JsonReader ) input );
     }
 
     @Override
     public JsonValue readFrom( final Reader input ) throws IOException, JsonException {
-        final JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input );
+        final org.fossnova.json.stream.JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input );
         return readFrom( reader );
     }
 
@@ -119,17 +117,17 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
 
     @Override
     public JsonValue readFrom( final InputStream input ) throws IOException, JsonException {
-        final JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input );
+        final org.fossnova.json.stream.JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input );
         return readFrom( reader );
     }
 
     @Override
     public JsonValue readFrom( final InputStream input, final Charset charset ) throws IOException, JsonException {
-        final JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input, charset );
+        final org.fossnova.json.stream.JsonReader reader = JsonStreamFactory.newInstance().newJsonReader( input, charset );
         return readFrom( reader );
     }
 
-    private JsonValue readFrom( final JsonReaderImpl jsonReader ) throws IOException, JsonException {
+    private JsonValue readFrom( final JsonReader jsonReader ) throws IOException, JsonException {
         final JsonEvent jsonEvent = jsonReader.next();
         if ( jsonEvent == OBJECT_START ) {
             return readJsonObjectFrom( jsonReader );
@@ -139,8 +137,8 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
         throw new IllegalStateException( "JSON reader have to point to array or object" );
     }
 
-    private JsonObjectImpl readJsonObjectFrom( final JsonReaderImpl jsonReader ) throws IOException, JsonException {
-        final JsonObjectImpl jsonObject = newJsonObject();
+    private JsonObject readJsonObjectFrom( final JsonReader jsonReader ) throws IOException, JsonException {
+        final JsonObject jsonObject = newJsonObject();
         JsonEvent jsonEvent = jsonReader.next();
         String jsonKey = null;
         JsonValue jsonValue = null;
@@ -150,11 +148,11 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
             if ( jsonEvent == NULL ) {
                 jsonValue = null;
             } else if ( jsonEvent == BOOLEAN ) {
-                jsonValue = jsonReader.getBoolean() ? new JsonBooleanImpl( true ) : new JsonBooleanImpl( false );
+                jsonValue = jsonReader.getBoolean() ? new JsonBoolean( true ) : new JsonBoolean( false );
             } else if ( jsonEvent == NUMBER ) {
-                jsonValue = new JsonNumberImpl( jsonReader.getNumber() );
+                jsonValue = new JsonNumber( jsonReader.getNumber() );
             } else if ( jsonEvent == STRING ) {
-                jsonValue = new JsonStringImpl( jsonReader.getString() );
+                jsonValue = new JsonString( jsonReader.getString() );
             } else if ( jsonEvent == OBJECT_START ) {
                 jsonValue = readJsonObjectFrom( jsonReader );
             } else if ( jsonEvent == ARRAY_START ) {
@@ -168,19 +166,19 @@ public final class JsonValueFactoryImpl extends JsonValueFactory {
         return jsonObject;
     }
 
-    private JsonArrayImpl readJsonArrayFrom( final JsonReaderImpl jsonReader ) throws IOException, JsonException {
-        final JsonArrayImpl jsonArray = newJsonArray();
+    private JsonArray readJsonArrayFrom( final JsonReader jsonReader ) throws IOException, JsonException {
+        final JsonArray jsonArray = newJsonArray();
         JsonEvent jsonEvent = jsonReader.next();
         JsonValue jsonValue = null;
         while ( jsonEvent != ARRAY_END ) {
             if ( jsonEvent == NULL ) {
                 jsonValue = null;
             } else if ( jsonEvent == BOOLEAN ) {
-                jsonValue = jsonReader.getBoolean() ? new JsonBooleanImpl( true ) : new JsonBooleanImpl( false );
+                jsonValue = jsonReader.getBoolean() ? new JsonBoolean( true ) : new JsonBoolean( false );
             } else if ( jsonEvent == NUMBER ) {
-                jsonValue = new JsonNumberImpl( jsonReader.getNumber() );
+                jsonValue = new JsonNumber( jsonReader.getNumber() );
             } else if ( jsonEvent == STRING ) {
-                jsonValue = new JsonStringImpl( jsonReader.getString() );
+                jsonValue = new JsonString( jsonReader.getString() );
             } else if ( jsonEvent == OBJECT_START ) {
                 jsonValue = readJsonObjectFrom( jsonReader );
             } else if ( jsonEvent == ARRAY_START ) {

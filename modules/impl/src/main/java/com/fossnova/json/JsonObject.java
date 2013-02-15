@@ -26,16 +26,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.fossnova.json.JsonObject;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonException;
 
-import com.fossnova.json.stream.JsonWriterImpl;
+import com.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
+final class JsonObject extends JsonStructure implements org.fossnova.json.JsonObject {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +42,7 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
 
     private final Map< String, JsonValue > userView;
 
-    JsonObjectImpl() {
+    JsonObject() {
         map = new TreeMap< String, JsonValue >();
         userView = Collections.unmodifiableMap( map );
     }
@@ -152,8 +151,8 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     @Override
     public boolean equals( final Object o ) {
         if ( o == this ) return true;
-        if ( !( o instanceof JsonObjectImpl ) ) return false;
-        final JsonObjectImpl a = ( JsonObjectImpl ) o;
+        if ( !( o instanceof JsonObject ) ) return false;
+        final JsonObject a = ( JsonObject ) o;
         return map.equals( a.map );
     }
 
@@ -163,8 +162,8 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     @Override
-    public JsonObjectImpl clone() {
-        final JsonObjectImpl retVal = new JsonObjectImpl();
+    public JsonObject clone() {
+        final JsonObject retVal = new JsonObject();
         JsonValue jsonValue = null;
         for ( final String jsonKey : map.keySet() ) {
             jsonValue = map.get( jsonKey );
@@ -174,7 +173,7 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
     }
 
     @Override
-    protected void writeTo( final JsonWriterImpl jsonWriter ) throws IOException, JsonException {
+    protected void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException {
         jsonWriter.writeObjectStart();
         JsonValue jsonValue = null;
         for ( final String jsonKey : map.keySet() ) {
@@ -182,14 +181,14 @@ final class JsonObjectImpl extends JsonStructureImpl implements JsonObject {
             jsonValue = map.get( jsonKey );
             if ( jsonValue == null ) {
                 jsonWriter.writeNull();
-            } else if ( jsonValue instanceof JsonBooleanImpl ) {
-                jsonWriter.writeBoolean( ( ( JsonBooleanImpl ) jsonValue ).getBoolean() );
-            } else if ( jsonValue instanceof JsonNumberImpl ) {
-                jsonWriter.writeNumber( ( ( JsonNumberImpl ) jsonValue ).toString() );
-            } else if ( jsonValue instanceof JsonStringImpl ) {
-                jsonWriter.writeString( ( ( JsonStringImpl ) jsonValue ).getString() );
-            } else if ( jsonValue instanceof JsonStructureImpl ) {
-                ( ( JsonStructureImpl ) jsonValue ).writeTo( jsonWriter );
+            } else if ( jsonValue instanceof JsonBoolean ) {
+                jsonWriter.writeBoolean( ( ( JsonBoolean ) jsonValue ).getBoolean() );
+            } else if ( jsonValue instanceof JsonNumber ) {
+                jsonWriter.writeNumber( ( ( JsonNumber ) jsonValue ).toString() );
+            } else if ( jsonValue instanceof JsonString ) {
+                jsonWriter.writeString( ( ( JsonString ) jsonValue ).getString() );
+            } else if ( jsonValue instanceof JsonStructure ) {
+                ( ( JsonStructure ) jsonValue ).writeTo( jsonWriter );
             } else {
                 throw new IllegalStateException();
             }

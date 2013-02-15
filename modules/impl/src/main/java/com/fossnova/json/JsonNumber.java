@@ -22,50 +22,48 @@ package com.fossnova.json;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.json.JsonNumber;
-
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-final class JsonNumberImpl implements JsonNumber {
+final class JsonNumber implements org.fossnova.json.JsonNumber {
 
     private static final long serialVersionUID = 1L;
 
     private String value;
 
-    JsonNumberImpl( final String value ) {
+    JsonNumber( final String value ) {
         this.value = value;
     }
 
-    JsonNumberImpl( final byte value ) {
+    JsonNumber( final byte value ) {
         this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final short value ) {
+    JsonNumber( final short value ) {
         this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final int value ) {
+    JsonNumber( final int value ) {
         this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final long value ) {
+    JsonNumber( final long value ) {
         this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final float value ) {
+    JsonNumber( final float value ) {
         this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final double value ) {
+    JsonNumber( final double value ) {
         this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final BigInteger value ) {
+    JsonNumber( final BigInteger value ) {
         this.value = String.valueOf( value );
     }
 
-    JsonNumberImpl( final BigDecimal value ) {
+    JsonNumber( final BigDecimal value ) {
         this.value = String.valueOf( value );
     }
 
@@ -147,8 +145,8 @@ final class JsonNumberImpl implements JsonNumber {
     @Override
     public boolean equals( final Object o ) {
         if ( o == this ) return true;
-        if ( !( o instanceof JsonNumberImpl ) ) return false;
-        final JsonNumberImpl n = ( JsonNumberImpl ) o;
+        if ( !( o instanceof JsonNumber ) ) return false;
+        final JsonNumber n = ( JsonNumber ) o;
         return value.equals( n.value );
     }
 
@@ -158,7 +156,7 @@ final class JsonNumberImpl implements JsonNumber {
     }
 
     @Override
-    public JsonNumberImpl clone() {
-        return new JsonNumberImpl( value );
+    public JsonNumber clone() {
+        return new JsonNumber( value );
     }
 }

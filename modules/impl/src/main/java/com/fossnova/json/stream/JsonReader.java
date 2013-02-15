@@ -46,12 +46,11 @@ import java.math.BigInteger;
 
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonException;
-import org.fossnova.json.stream.JsonReader;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-public final class JsonReaderImpl implements JsonReader {
+public final class JsonReader implements org.fossnova.json.stream.JsonReader {
 
     private PushbackReader in;
 
@@ -67,7 +66,7 @@ public final class JsonReaderImpl implements JsonReader {
 
     private int currentChar;
 
-    JsonReaderImpl( final Reader in ) {
+    JsonReader( final Reader in ) {
         this.in = new PushbackReader( in );
         analyzer = new JsonGrammarAnalyzer();
     }

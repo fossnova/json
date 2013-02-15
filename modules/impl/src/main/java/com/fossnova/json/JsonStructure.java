@@ -32,82 +32,81 @@ import java.util.Iterator;
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonStreamFactory;
-import org.fossnova.json.stream.JsonWriter;
 
-import com.fossnova.json.stream.JsonWriterImpl;
+import com.fossnova.json.stream.JsonWriter;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
-abstract class JsonStructureImpl implements JsonValue {
+abstract class JsonStructure implements JsonValue {
 
     private static final long serialVersionUID = 1L;
 
-    public final void writeTo( final JsonWriter output ) throws IOException, JsonException {
+    public final void writeTo( final org.fossnova.json.stream.JsonWriter output ) throws IOException, JsonException {
         if ( output == null ) {
             throw new NullPointerException( "JSON writer cannot be null" );
         }
-        writeTo( ( JsonWriterImpl ) output );
+        writeTo( ( JsonWriter ) output );
     }
 
     public final void writeTo( final Writer output ) throws IOException, JsonException {
-        final JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output );
+        final org.fossnova.json.stream.JsonWriter  writer = JsonStreamFactory.newInstance().newJsonWriter( output );
         writeTo( writer );
     }
     
     public final void writeTo( final OutputStream output ) throws IOException, JsonException {
-        final JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output );
+        final org.fossnova.json.stream.JsonWriter  writer = JsonStreamFactory.newInstance().newJsonWriter( output );
         writeTo( writer );
     }
     
     public final void writeTo( final OutputStream output, final Charset charset ) throws IOException, JsonException {
-        final JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output, charset );
+        final org.fossnova.json.stream.JsonWriter  writer = JsonStreamFactory.newInstance().newJsonWriter( output, charset );
         writeTo( writer );
     }
     
-    protected abstract void writeTo( final JsonWriterImpl jsonWriter ) throws IOException, JsonException;
+    protected abstract void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException;
 
-    protected final JsonStringImpl toJsonString( final String value ) {
+    protected final JsonString toJsonString( final String value ) {
         if ( value == null ) {
             return null;
         }
-        return new JsonStringImpl( value );
+        return new JsonString( value );
     }
 
-    protected final JsonBooleanImpl toJsonBoolean( final Boolean value ) {
+    protected final JsonBoolean toJsonBoolean( final Boolean value ) {
         if ( value == null ) {
             return null;
         }
-        return new JsonBooleanImpl( value );
+        return new JsonBoolean( value );
     }
 
-    protected final JsonNumberImpl toJsonNumber( final Number value ) {
+    protected final JsonNumber toJsonNumber( final Number value ) {
         if ( value == null ) {
             return null;
         }
         if ( value instanceof Byte ) {
-            return new JsonNumberImpl( value.byteValue() );
+            return new JsonNumber( value.byteValue() );
         }
         if ( value instanceof Short ) {
-            return new JsonNumberImpl( value.shortValue() );
+            return new JsonNumber( value.shortValue() );
         }
         if ( value instanceof Integer ) {
-            return new JsonNumberImpl( value.intValue() );
+            return new JsonNumber( value.intValue() );
         }
         if ( value instanceof Long ) {
-            return new JsonNumberImpl( value.longValue() );
+            return new JsonNumber( value.longValue() );
         }
         if ( value instanceof Float ) {
-            return new JsonNumberImpl( value.floatValue() );
+            return new JsonNumber( value.floatValue() );
         }
         if ( value instanceof Double ) {
-            return new JsonNumberImpl( value.doubleValue() );
+            return new JsonNumber( value.doubleValue() );
         }
         if ( value instanceof BigInteger ) {
-            return new JsonNumberImpl( ( BigInteger ) value );
+            return new JsonNumber( ( BigInteger ) value );
         }
         if ( value instanceof BigDecimal ) {
-            return new JsonNumberImpl( ( BigDecimal ) value );
+            return new JsonNumber( ( BigDecimal ) value );
         }
         throw new IllegalStateException();
     }
@@ -133,7 +132,7 @@ abstract class JsonStructureImpl implements JsonValue {
     }
 
     @Override
-    public JsonStructureImpl clone() {
+    public JsonStructure clone() {
         throw new UnsupportedOperationException();
     }
 }

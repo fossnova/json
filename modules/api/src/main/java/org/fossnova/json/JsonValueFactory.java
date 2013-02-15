@@ -52,11 +52,11 @@ public abstract class JsonValueFactory {
      * @return new JSON value factory instance
      */
     public static JsonValueFactory newInstance() {
-        final JsonValueFactory jsonFactoryImpl = FactoryFinder.find( JsonValueFactory.class );
-        if ( jsonFactoryImpl != null ) {
-            return jsonFactoryImpl;
+        final JsonValueFactory jsonFactory = FactoryFinder.find( JsonValueFactory.class );
+        if ( jsonFactory == null ) {
+            throw new IllegalStateException( "Factory not configured: " + JsonValueFactory.class.getName() );
         }
-        throw new IllegalStateException( "Factory not configured: " + JsonValueFactory.class.getName() );
+        return jsonFactory;
     }
 
     /**
