@@ -43,5 +43,6 @@ public interface JsonString extends JsonValue {
      * Clones this JSON string.
      * @return new JSON string clone.
      */
+    @Override
     JsonString clone();
 }

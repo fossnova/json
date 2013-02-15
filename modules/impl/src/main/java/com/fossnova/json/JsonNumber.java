@@ -67,30 +67,37 @@ final class JsonNumber implements org.fossnova.json.JsonNumber {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public void setByte( final byte value ) {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public void setShort( final short value ) {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public void setInt( final int value ) {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public void setLong( final long value ) {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public void setFloat( final float value ) {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public void setDouble( final double value ) {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public void setBigInteger( final BigInteger value ) {
         if ( value == null ) {
             throw new NullPointerException( "Parameter cannot be null " );
@@ -98,6 +105,7 @@ final class JsonNumber implements org.fossnova.json.JsonNumber {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public void setBigDecimal( final BigDecimal value ) {
         if ( value == null ) {
             throw new NullPointerException( "Parameter cannot be null " );
@@ -105,34 +113,42 @@ final class JsonNumber implements org.fossnova.json.JsonNumber {
         this.value = String.valueOf( value );
     }
 
+    @Override
     public byte getByte() {
         return Byte.parseByte( value );
     }
 
+    @Override
     public short getShort() {
         return Short.parseShort( value );
     }
 
+    @Override
     public int getInt() {
         return Integer.parseInt( value );
     }
 
+    @Override
     public long getLong() {
         return Long.parseLong( value );
     }
 
+    @Override
     public float getFloat() {
         return Float.parseFloat( value );
     }
 
+    @Override
     public double getDouble() {
         return Double.parseDouble( value );
     }
 
+    @Override
     public BigInteger getBigInteger() {
         return new BigInteger( value );
     }
 
+    @Override
     public BigDecimal getBigDecimal() {
         return new BigDecimal( value );
     }

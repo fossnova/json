@@ -35,10 +35,12 @@ final class JsonBoolean implements org.fossnova.json.JsonBoolean {
         this.value = value;
     }
 
+    @Override
     public void setBoolean( final boolean value ) {
         this.value = value;
     }
 
+    @Override
     public boolean getBoolean() {
         return value;
     }

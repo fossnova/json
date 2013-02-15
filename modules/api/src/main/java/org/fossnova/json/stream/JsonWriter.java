@@ -166,10 +166,12 @@ public interface JsonWriter extends Flushable, Closeable {
      * Writes all cached data.
      * @throws IOException if some I/O error occurs
      */
+    @Override
     void flush() throws IOException;
 
     /**
      * Free resources associated with this writer. Never closes underlying input stream or writer.
      */
+    @Override
     void close();
 }

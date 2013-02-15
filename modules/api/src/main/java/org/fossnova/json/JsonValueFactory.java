@@ -118,7 +118,7 @@ public abstract class JsonValueFactory {
      * @throws JsonException if wrong JSON is detected
      */
     public abstract JsonValue readFrom( String input ) throws IOException, JsonException;
-    
+
     /**
      * Creates either JSON array or object instance using <code>UTF-8</code> character set.
      * @param input to read JSON from
@@ -127,7 +127,7 @@ public abstract class JsonValueFactory {
      * @throws JsonException if wrong JSON is detected
      */
     public abstract JsonValue readFrom( InputStream input ) throws IOException, JsonException;
-    
+
     /**
      * Creates either JSON array or object instance using specified character set.
      * @param data JSON available via input stream

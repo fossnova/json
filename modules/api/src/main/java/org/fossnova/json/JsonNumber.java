@@ -138,5 +138,6 @@ public interface JsonNumber extends JsonValue {
      * Clones this JSON number.
      * @return new JSON number clone.
      */
+    @Override
     JsonNumber clone();
 }

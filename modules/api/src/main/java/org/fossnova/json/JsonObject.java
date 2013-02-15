@@ -157,5 +157,6 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * Clones this JSON object.
      * @return new JSON object clone.
      */
+    @Override
     JsonObject clone();
 }

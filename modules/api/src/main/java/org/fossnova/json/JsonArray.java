@@ -65,6 +65,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value JSON value
      * @return <tt>true</tt> if this JSON array contained the specified JSON value
      */
+    @Override
     boolean add( final JsonValue value );
 
     /**
@@ -96,6 +97,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param index index at which the specified JSON value is to be inserted
      * @param value JSON value
      */
+    @Override
     void add( final int index, final JsonValue value );
 
     /**
@@ -263,12 +265,14 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value JSON value
      * @return the JSON value previously held at the specified position
      */
+    @Override
     JsonValue set( final int index, final JsonValue value );
 
     /**
      * Translates this JSON array to Java array.
      * @return java array 
      */
+    @Override
     JsonValue[] toArray();
 
     /**
@@ -308,5 +312,6 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * Clones this JSON array.
      * @return new JSON array clone.
      */
+    @Override
     JsonArray clone();
 }

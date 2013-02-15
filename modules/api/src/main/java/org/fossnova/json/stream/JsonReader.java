@@ -188,5 +188,6 @@ public interface JsonReader extends Closeable {
     /**
      * Free resources associated with this reader. Never closes underlying output stream or reader.
      */
+    @Override
     void close();
 }

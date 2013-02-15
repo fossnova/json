@@ -47,30 +47,37 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
         userView = Collections.unmodifiableMap( map );
     }
 
+    @Override
     public JsonValue put( final String key, final String value ) {
         return putInternal( key, toJsonString( value ) );
     }
 
+    @Override
     public JsonValue put( final String key, final Boolean value ) {
         return putInternal( key, toJsonBoolean( value ) );
     }
 
+    @Override
     public JsonValue put( final String key, final Number value ) {
         return putInternal( key, toJsonNumber( value ) );
     }
 
+    @Override
     public JsonValue put( final String key, final JsonValue value ) {
         return putInternal( key, value );
     }
 
+    @Override
     public boolean containsKey( final Object key ) {
         return containsKey( ( String ) key );
     }
 
+    @Override
     public boolean containsKey( final String key ) {
         return map.containsKey( key );
     }
 
+    @Override
     public boolean containsValue( final Object value ) {
         if ( ( value == null ) || ( value instanceof String ) ) {
             return containsValue( ( String ) value );
@@ -83,62 +90,77 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
         }
     }
 
+    @Override
     public boolean containsValue( final Boolean value ) {
         return map.containsValue( toJsonBoolean( value ) );
     }
 
+    @Override
     public boolean containsValue( final Number value ) {
         return map.containsValue( toJsonNumber( value ) );
     }
 
+    @Override
     public boolean containsValue( final String value ) {
         return map.containsValue( toJsonString( value ) );
     }
 
+    @Override
     public boolean containsValue( final JsonValue value ) {
         return map.containsValue( value );
     }
 
+    @Override
     public Collection< JsonValue > values() {
         return userView.values();
     }
 
+    @Override
     public Set< Entry< String, JsonValue >> entrySet() {
         return userView.entrySet();
     }
 
+    @Override
     public Set< String > keySet() {
         return userView.keySet();
     }
 
+    @Override
     public JsonValue get( final String key ) {
         return map.get( key );
     }
 
+    @Override
     public JsonValue get( final Object key ) {
         return get( ( String ) key );
     }
 
+    @Override
     public JsonValue remove( final String key ) {
         return map.remove( key );
     }
 
+    @Override
     public JsonValue remove( final Object key ) {
         return remove( ( String ) key );
     }
 
+    @Override
     public void putAll( final Map< ? extends String, ? extends JsonValue > jsonObject ) {
         map.putAll( jsonObject );
     }
 
+    @Override
     public void clear() {
         map.clear();
     }
 
+    @Override
     public int size() {
         return map.size();
     }
 
+    @Override
     public boolean isEmpty() {
         return map.isEmpty();
     }

@@ -71,6 +71,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
         analyzer = new JsonGrammarAnalyzer();
     }
 
+    @Override
     public void close() {
         analyzer = null;
         in = null;
@@ -79,6 +80,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
         jsonString = null;
     }
 
+    @Override
     public boolean getBoolean() {
         if ( !isCurrentEvent( JsonEvent.BOOLEAN ) ) {
             throw new IllegalStateException( "Current event isn't boolean" );
@@ -93,6 +95,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
         return jsonNumber;
     }
 
+    @Override
     public String getString() {
         if ( !isCurrentEvent( JsonEvent.STRING ) ) {
             throw new IllegalStateException( "Current event isn't string" );
@@ -100,66 +103,82 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
         return jsonString;
     }
 
+    @Override
     public byte getByte() {
         return Byte.parseByte( getNumber() );
     }
 
+    @Override
     public short getShort() {
         return Short.parseShort( getNumber() );
     }
 
+    @Override
     public int getInt() {
         return Integer.parseInt( getNumber() );
     }
 
+    @Override
     public long getLong() {
         return Long.parseLong( getNumber() );
     }
 
+    @Override
     public BigInteger getBigInteger() {
         return new BigInteger( getNumber() );
     }
 
+    @Override
     public BigDecimal getBigDecimal() {
         return new BigDecimal( getNumber() );
     }
 
+    @Override
     public float getFloat() {
         return Float.parseFloat( getNumber() );
     }
 
+    @Override
     public double getDouble() {
         return Double.parseDouble( getNumber() );
     }
 
+    @Override
     public boolean isArrayEnd() {
         return isCurrentEvent( JsonEvent.ARRAY_END );
     }
 
+    @Override
     public boolean isArrayStart() {
         return isCurrentEvent( JsonEvent.ARRAY_START );
     }
 
+    @Override
     public boolean isNumber() {
         return isCurrentEvent( JsonEvent.NUMBER );
     }
 
+    @Override
     public boolean isObjectEnd() {
         return isCurrentEvent( JsonEvent.OBJECT_END );
     }
 
+    @Override
     public boolean isObjectStart() {
         return isCurrentEvent( JsonEvent.OBJECT_START );
     }
 
+    @Override
     public boolean isString() {
         return isCurrentEvent( JsonEvent.STRING );
     }
 
+    @Override
     public boolean isNull() {
         return isCurrentEvent( JsonEvent.NULL );
     }
 
+    @Override
     public boolean isBoolean() {
         return isCurrentEvent( JsonEvent.BOOLEAN );
     }
@@ -169,11 +188,13 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
         return analyzer.getCurrentEvent() == event;
     }
 
+    @Override
     public boolean hasNext() throws IOException, JsonException {
         ensureOpen();
         return !analyzer.isFinished();
     }
 
+    @Override
     public JsonEvent next() throws IOException, JsonException {
         if ( !hasNext() ) {
             throw new IllegalStateException( "No more JSON tokens available" );

@@ -50,20 +50,20 @@ abstract class JsonStructure implements JsonValue {
     }
 
     public final void writeTo( final Writer output ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonWriter  writer = JsonStreamFactory.newInstance().newJsonWriter( output );
+        final org.fossnova.json.stream.JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output );
         writeTo( writer );
     }
-    
+
     public final void writeTo( final OutputStream output ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonWriter  writer = JsonStreamFactory.newInstance().newJsonWriter( output );
+        final org.fossnova.json.stream.JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output );
         writeTo( writer );
     }
-    
+
     public final void writeTo( final OutputStream output, final Charset charset ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonWriter  writer = JsonStreamFactory.newInstance().newJsonWriter( output, charset );
+        final org.fossnova.json.stream.JsonWriter writer = JsonStreamFactory.newInstance().newJsonWriter( output, charset );
         writeTo( writer );
     }
-    
+
     protected abstract void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException;
 
     protected final JsonString toJsonString( final String value ) {

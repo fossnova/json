@@ -32,6 +32,7 @@ final class JsonString implements org.fossnova.json.JsonString {
         this.value = value;
     }
 
+    @Override
     public void setString( final String value ) {
         if ( value == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
@@ -39,6 +40,7 @@ final class JsonString implements org.fossnova.json.JsonString {
         this.value = value;
     }
 
+    @Override
     public String getString() {
         return value;
     }

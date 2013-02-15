@@ -49,62 +49,77 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
         userView = Collections.unmodifiableList( list );
     }
 
+    @Override
     public boolean add( final String value ) {
         return addInternal( toJsonString( value ) );
     }
 
+    @Override
     public boolean add( final Number value ) {
         return addInternal( toJsonNumber( value ) );
     }
 
+    @Override
     public boolean add( final Boolean value ) {
         return addInternal( toJsonBoolean( value ) );
     }
 
+    @Override
     public boolean add( final JsonValue value ) {
         return addInternal( value );
     }
 
+    @Override
     public void add( final int index, final String value ) {
         list.add( index, toJsonString( value ) );
     }
 
+    @Override
     public void add( final int index, final Number value ) {
         list.add( index, toJsonNumber( value ) );
     }
 
+    @Override
     public void add( final int index, final Boolean value ) {
         list.add( index, toJsonBoolean( value ) );
     }
 
+    @Override
     public void add( final int index, final JsonValue value ) {
         list.add( index, value );
     }
 
+    @Override
     public boolean addAll( final Collection< ? extends JsonValue > values ) {
         return list.addAll( values );
     }
 
+    @Override
     public boolean addAll( final int index, final Collection< ? extends JsonValue > values ) {
         return list.addAll( index, values );
     }
 
+    @Override
     public boolean contains( final String value ) {
         return list.contains( toJsonString( value ) );
     }
 
+    @Override
     public boolean contains( final Number value ) {
         return list.contains( toJsonNumber( value ) );
     }
 
+    @Override
     public boolean contains( final Boolean value ) {
         return list.contains( toJsonBoolean( value ) );
     }
 
+    @Override
     public boolean contains( final JsonValue value ) {
         return list.contains( value );
     }
 
+    @Override
     public boolean contains( final Object value ) {
         if ( ( value == null ) || ( value instanceof String ) ) {
             return contains( ( String ) value );
@@ -117,6 +132,7 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
         }
     }
 
+    @Override
     public boolean containsAll( final Collection< ? > values ) {
         for ( final Object o : values ) {
             if ( !contains( o ) ) return false;
@@ -124,22 +140,27 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
         return true;
     }
 
+    @Override
     public int indexOf( final String value ) {
         return list.indexOf( toJsonString( value ) );
     }
 
+    @Override
     public int indexOf( final Number value ) {
         return list.indexOf( toJsonNumber( value ) );
     }
 
+    @Override
     public int indexOf( final Boolean value ) {
         return list.indexOf( toJsonBoolean( value ) );
     }
 
+    @Override
     public int indexOf( final JsonValue value ) {
         return list.indexOf( value );
     }
 
+    @Override
     public int indexOf( final Object value ) {
         if ( ( value == null ) || ( value instanceof String ) ) {
             return indexOf( ( String ) value );
@@ -152,22 +173,27 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
         }
     }
 
+    @Override
     public int lastIndexOf( final String value ) {
         return list.lastIndexOf( toJsonString( value ) );
     }
 
+    @Override
     public int lastIndexOf( final Number value ) {
         return list.lastIndexOf( toJsonNumber( value ) );
     }
 
+    @Override
     public int lastIndexOf( final Boolean value ) {
         return list.lastIndexOf( toJsonBoolean( value ) );
     }
 
+    @Override
     public int lastIndexOf( final JsonValue value ) {
         return list.lastIndexOf( value );
     }
 
+    @Override
     public int lastIndexOf( final Object value ) {
         if ( ( value == null ) || ( value instanceof String ) ) {
             return lastIndexOf( ( String ) value );
@@ -180,30 +206,37 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
         }
     }
 
+    @Override
     public Iterator< JsonValue > iterator() {
         return userView.iterator();
     }
 
+    @Override
     public JsonValue get( final int index ) {
         return list.get( index );
     }
 
+    @Override
     public boolean remove( final String value ) {
         return list.remove( toJsonString( value ) );
     }
 
+    @Override
     public boolean remove( final Number value ) {
         return list.remove( toJsonNumber( value ) );
     }
 
+    @Override
     public boolean remove( final Boolean value ) {
         return list.remove( toJsonBoolean( value ) );
     }
 
+    @Override
     public boolean remove( final JsonValue value ) {
         return list.remove( value );
     }
 
+    @Override
     public boolean remove( final Object value ) {
         if ( ( value == null ) || ( value instanceof String ) ) {
             return remove( ( String ) value );
@@ -216,62 +249,77 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
         }
     }
 
+    @Override
     public JsonValue remove( final int index ) {
         return list.remove( index );
     }
 
+    @Override
     public boolean removeAll( final Collection< ? > values ) {
         return list.removeAll( toJsonValuesCollection( values ) );
     }
 
+    @Override
     public int size() {
         return list.size();
     }
 
+    @Override
     public boolean isEmpty() {
         return list.isEmpty();
     }
 
+    @Override
     public void clear() {
         list.clear();
     }
 
+    @Override
     public JsonValue set( final int index, final String value ) {
         return list.set( index, toJsonString( value ) );
     }
 
+    @Override
     public JsonValue set( final int index, final Number value ) {
         return list.set( index, toJsonNumber( value ) );
     }
 
+    @Override
     public JsonValue set( final int index, final Boolean value ) {
         return list.set( index, toJsonBoolean( value ) );
     }
 
+    @Override
     public JsonValue set( final int index, final JsonValue value ) {
         return list.set( index, value );
     }
 
+    @Override
     public ListIterator< JsonValue > listIterator() {
         return userView.listIterator();
     }
 
+    @Override
     public ListIterator< JsonValue > listIterator( final int index ) {
         return userView.listIterator( index );
     }
 
+    @Override
     public JsonValue[] toArray() {
         return list.toArray( new JsonValue[ list.size() ] );
     }
 
+    @Override
     public < T > T[] toArray( final T[] a ) {
         return list.toArray( a );
     }
 
+    @Override
     public boolean retainAll( final Collection< ? > values ) {
         return list.retainAll( toJsonValuesCollection( values ) );
     }
 
+    @Override
     public List< JsonValue > subList( final int fromIndex, final int toIndex ) {
         return userView.subList( fromIndex, toIndex );
     }

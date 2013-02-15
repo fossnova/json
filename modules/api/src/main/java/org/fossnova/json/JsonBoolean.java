@@ -43,5 +43,6 @@ public interface JsonBoolean extends JsonValue {
      * Clones this JSON boolean.
      * @return new JSON boolean clone.
      */
+    @Override
     JsonBoolean clone();
 }

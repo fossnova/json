@@ -51,17 +51,20 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         analyzer = new JsonGrammarAnalyzer();
     }
 
+    @Override
     public void close() {
         analyzer = null;
         out = null;
         closed = true;
     }
 
+    @Override
     public void flush() throws IOException {
         ensureOpen();
         out.flush();
     }
 
+    @Override
     public JsonWriter writeObjectStart() throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
@@ -70,6 +73,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         return this;
     }
 
+    @Override
     public JsonWriter writeObjectEnd() throws IOException, JsonException {
         ensureOpen();
         analyzer.push( JsonGrammarToken.OBJECT_END );
@@ -77,6 +81,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         return this;
     }
 
+    @Override
     public JsonWriter writeArrayStart() throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
@@ -85,6 +90,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         return this;
     }
 
+    @Override
     public JsonWriter writeArrayEnd() throws IOException, JsonException {
         ensureOpen();
         analyzer.push( JsonGrammarToken.ARRAY_END );
@@ -92,6 +98,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         return this;
     }
 
+    @Override
     public JsonWriter writeString( final String data ) throws IOException, JsonException {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
@@ -104,6 +111,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         return this;
     }
 
+    @Override
     public JsonWriter writeNull() throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
@@ -112,6 +120,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         return this;
     }
 
+    @Override
     public JsonWriter writeBoolean( final boolean data ) throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
@@ -120,30 +129,37 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         return this;
     }
 
+    @Override
     public JsonWriter writeByte( final byte data ) throws IOException, JsonException {
         return writeNumber( String.valueOf( data ) );
     }
 
+    @Override
     public JsonWriter writeShort( final short data ) throws IOException, JsonException {
         return writeNumber( String.valueOf( data ) );
     }
 
+    @Override
     public JsonWriter writeInt( final int data ) throws IOException, JsonException {
         return writeNumber( String.valueOf( data ) );
     }
 
+    @Override
     public JsonWriter writeLong( final long data ) throws IOException, JsonException {
         return writeNumber( String.valueOf( data ) );
     }
 
+    @Override
     public JsonWriter writeFloat( final float data ) throws IOException, JsonException {
         return writeNumber( String.valueOf( data ) );
     }
 
+    @Override
     public JsonWriter writeDouble( final double data ) throws IOException, JsonException {
         return writeNumber( String.valueOf( data ) );
     }
 
+    @Override
     public JsonWriter writeBigInteger( final BigInteger data ) throws IOException, JsonException {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
@@ -151,6 +167,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         return writeNumber( String.valueOf( data ) );
     }
 
+    @Override
     public JsonWriter writeBigDecimal( final BigDecimal data ) throws IOException, JsonException {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
