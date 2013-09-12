@@ -38,6 +38,10 @@
   <dependencies>
     <dependency>
       <groupId>org.fossnova</groupId>
+      <artifactId>fossnova-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.fossnova</groupId>
       <artifactId>fossnova-json-api</artifactId>
     </dependency>
   </dependencies>

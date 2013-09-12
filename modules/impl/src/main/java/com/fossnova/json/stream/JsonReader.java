@@ -39,11 +39,11 @@ import static com.fossnova.json.stream.Utils.isWhitespace;
 import static com.fossnova.json.stream.Utils.toUnicodeString;
 
 import java.io.IOException;
-import java.io.PushbackReader;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.fossnova.io.PushbackReader;
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonException;
 
