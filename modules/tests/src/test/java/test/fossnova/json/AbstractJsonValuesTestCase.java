@@ -72,7 +72,7 @@ abstract class AbstractJsonValuesTestCase {
 
     private static String jsonSerialization( final JsonObject jsonObject ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
+        final JsonWriter jsonWriter = JsonStreamFactory.getInstance().newJsonWriter( baos );
         jsonObject.writeTo( jsonWriter );
         jsonWriter.close();
         return new String( baos.toByteArray() );
@@ -80,7 +80,7 @@ abstract class AbstractJsonValuesTestCase {
 
     private static String jsonSerialization( final JsonArray jsonArray ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
+        final JsonWriter jsonWriter = JsonStreamFactory.getInstance().newJsonWriter( baos );
         jsonArray.writeTo( jsonWriter );
         jsonWriter.close();
         return new String( baos.toByteArray() );
@@ -88,7 +88,7 @@ abstract class AbstractJsonValuesTestCase {
 
     private static JsonValue jsonDeserialization( final String jsonString ) throws IOException, JsonException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
-        final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
+        final JsonReader jsonReader = JsonStreamFactory.getInstance().newJsonReader( bais );
         final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         return jsonFactory.readFrom( jsonReader );
     }

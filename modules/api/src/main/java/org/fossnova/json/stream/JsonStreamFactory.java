@@ -36,6 +36,8 @@ import org.fossnova.finder.FactoryFinder;
  */
 public abstract class JsonStreamFactory {
 
+    private static volatile JsonStreamFactory factory;
+
     /**
      * All implementations must provide public default constructor overriding this one.
      */
@@ -43,15 +45,21 @@ public abstract class JsonStreamFactory {
     }
 
     /**
-     * Returns new JSON stream factory instance.
-     * @return new JSON stream factory instance
+     * Returns JSON stream factory instance.
+     * @return JSON stream factory instance
      */
-    public static JsonStreamFactory newInstance() {
-        final JsonStreamFactory jsonFactory = FactoryFinder.find( JsonStreamFactory.class );
-        if ( jsonFactory == null ) {
-            throw new IllegalStateException( "Factory not configured: " + JsonStreamFactory.class.getName() );
+    public static JsonStreamFactory getInstance() {
+        if ( factory == null ) {
+            synchronized ( JsonStreamFactory.class ) {
+                if ( factory == null ) {
+                    factory = FactoryFinder.find( JsonStreamFactory.class );
+                    if ( factory == null ) {
+                        throw new IllegalStateException( "Factory not configured: " + JsonStreamFactory.class.getName() );
+                    }
+                }
+            }
         }
-        return jsonFactory;
+        return factory;
     }
 
     /**

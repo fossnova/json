@@ -539,12 +539,12 @@ abstract class AbstractJsonStreamsTestCase {
 
     static JsonReader getJsonReader( final String data ) throws IOException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( data.getBytes() );
-        return JsonStreamFactory.newInstance().newJsonReader( bais );
+        return JsonStreamFactory.getInstance().newJsonReader( bais );
     }
 
     static JsonWriter getJsonWriter() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        return JsonStreamFactory.newInstance().newJsonWriter( baos );
+        return JsonStreamFactory.getInstance().newJsonWriter( baos );
     }
 
     static void assertRoundTrip( final JsonObject jsonObject ) throws IOException, JsonException {
@@ -561,7 +561,7 @@ abstract class AbstractJsonStreamsTestCase {
 
     static String serializeJson( final JsonObject jsonObject ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
+        final JsonWriter jsonWriter = JsonStreamFactory.getInstance().newJsonWriter( baos );
         jsonObject.writeTo( jsonWriter );
         jsonWriter.close();
         return new String( baos.toByteArray() );
@@ -569,7 +569,7 @@ abstract class AbstractJsonStreamsTestCase {
 
     static String serializeJson( final JsonArray jsonArray ) throws IOException, JsonException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final JsonWriter jsonWriter = JsonStreamFactory.newInstance().newJsonWriter( baos );
+        final JsonWriter jsonWriter = JsonStreamFactory.getInstance().newJsonWriter( baos );
         jsonArray.writeTo( jsonWriter );
         jsonWriter.close();
         return new String( baos.toByteArray() );
@@ -577,7 +577,7 @@ abstract class AbstractJsonStreamsTestCase {
 
     static JsonValue deserializeJson( final String jsonString ) throws IOException, JsonException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
-        final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
+        final JsonReader jsonReader = JsonStreamFactory.getInstance().newJsonReader( bais );
         final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
         return jsonFactory.readFrom( jsonReader );
     }

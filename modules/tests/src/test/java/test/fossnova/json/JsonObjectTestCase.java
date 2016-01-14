@@ -65,7 +65,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     public void jsonStructureFactoryReadFrom() throws IOException, JsonException {
         final JsonValueFactory jsonValueFactory = JsonValueFactory.newInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream( "{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes() );
-        final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
+        final JsonReader jsonReader = JsonStreamFactory.getInstance().newJsonReader( bais );
         final JsonObject o = ( JsonObject ) jsonValueFactory.readFrom( jsonReader );
         final JsonArray a = jsonValueFactory.newJsonArray();
         final JsonObject o1 = jsonValueFactory.newJsonObject();

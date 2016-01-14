@@ -45,7 +45,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     @Before
     public void init() {
         baos = new ByteArrayOutputStream();
-        writer = JsonStreamFactory.newInstance().newJsonWriter( new OutputStreamWriter( baos ) );
+        writer = JsonStreamFactory.getInstance().newJsonWriter( new OutputStreamWriter( baos ) );
     }
 
     @After

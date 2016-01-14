@@ -64,7 +64,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
         final JsonValueFactory jsonValueFactory = JsonValueFactory.newInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream(
             "[null,false,1,\"2\",[null,true,0,\"foo\",[],{}],{\"1\":null,\"2\":true,\"3\":1,\"4\":\"bar\",\"5\":[],\"6\":{}}]".getBytes() );
-        final JsonReader jsonReader = JsonStreamFactory.newInstance().newJsonReader( bais );
+        final JsonReader jsonReader = JsonStreamFactory.getInstance().newJsonReader( bais );
         final JsonArray complexArray = ( JsonArray ) jsonValueFactory.readFrom( jsonReader );
         assertJsonNull( complexArray, 0 );
         assertJsonBoolean( complexArray, 1, false );
