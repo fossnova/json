@@ -191,7 +191,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
     @Override
     public boolean hasNext() throws IOException, JsonException {
         ensureOpen();
-        return !analyzer.isFinished();
+        return !analyzer.finished;
     }
 
     @Override
@@ -379,7 +379,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
     }
 
     private JsonException newJsonException( final String message ) {
-        analyzer.setCannotContinue();
+        analyzer.finished = true;
         return new JsonException( message );
     }
 

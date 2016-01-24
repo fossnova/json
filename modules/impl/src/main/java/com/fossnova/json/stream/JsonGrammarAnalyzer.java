@@ -19,8 +19,9 @@
  */
 package com.fossnova.json.stream;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 import org.fossnova.json.stream.JsonEvent;
@@ -43,14 +44,11 @@ final class JsonGrammarAnalyzer {
     static final byte COMMA = 10;
 
     private boolean canWriteComma;
-
     private JsonEvent currentEvent;
-
-    private boolean finished;
-
-    private final LinkedList< Set< String >> jsonKeys = new LinkedList< Set< String >>();
-
-    private final LinkedList< Byte > stack = new LinkedList< Byte >();
+    private final Deque< Set< String >> jsonKeys = new ArrayDeque< Set< String > >();
+    private byte[] stack = new byte[ 16 ];
+    private int index;
+    boolean finished;
 
     JsonGrammarAnalyzer() {
     }
@@ -93,7 +91,7 @@ final class JsonGrammarAnalyzer {
     }
 
     void pushString( final String jsonKey ) throws JsonException {
-        if ( isLastOnStack( STRING ) ) {
+        if ( index > 0 && stack[ index - 1 ] == STRING ) {
             final boolean containsKey = !jsonKeys.getLast().add( jsonKey );
             if ( containsKey ) {
                 throw newJsonException( "JSON keys have to be unique. The key '" + jsonKey + "' already exists" );
@@ -106,11 +104,11 @@ final class JsonGrammarAnalyzer {
     }
 
     boolean isColonExpected() {
-        return isLastButOneOnStack( OBJECT_START ) && isLastOnStack( STRING );
+        return index >= 2 && stack[ index - 2 ] == OBJECT_START && stack[ index - 1 ] == STRING;
     }
 
     boolean isCommaExpected() {
-        return ( isLastOnStack( OBJECT_START ) || isLastOnStack( ARRAY_START ) ) && canWriteComma;
+        return index > 0 && ( stack[ index - 1 ] == OBJECT_START  || stack[ index - 1 ] == ARRAY_START ) && canWriteComma;
     }
 
     void ensureCanContinue() throws JsonException {
@@ -119,114 +117,106 @@ final class JsonGrammarAnalyzer {
         }
     }
 
-    boolean isFinished() {
-        return finished;
-    }
-
-    boolean isEmpty() {
-        return stack.size() == 0;
-    }
-
-    void setCannotContinue() {
-        finished = true;
-    }
-
     private void putObjectEnd() throws JsonException {
         // preconditions
-        if ( !isLastOnStack( OBJECT_START ) || ( currentEvent == null ) ) {
+        if ( index == 0 || stack[ index - 1 ] != OBJECT_START || currentEvent == null ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        stack.removeLast();
-        if ( isLastOnStack( COLON ) ) {
-            stack.removeLast();
-            stack.removeLast();
-            canWriteComma = true;
-        } else if ( isLastOnStack( ARRAY_START ) ) {
-            canWriteComma = true;
+        index--;
+        if ( index > 0 ) {
+            if (stack[ index - 1 ] == COLON) {
+                index -= 2;
+                canWriteComma = true;
+            } else if ( stack[ index - 1 ] == ARRAY_START) {
+                canWriteComma = true;
+            }
         }
-        jsonKeys.getLast().clear();
         jsonKeys.removeLast();
-        if ( isEmpty() ) {
-            setCannotContinue();
+        if ( index == 0 ) {
+            finished = true;
         }
     }
 
     private void putArrayEnd() throws JsonException {
         // preconditions
-        if ( !isLastOnStack( ARRAY_START ) || ( currentEvent == null ) ) {
+        if ( index == 0 || stack[ index - 1 ] != ARRAY_START || currentEvent == null ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        stack.removeLast();
-        if ( isLastOnStack( COLON ) ) {
-            stack.removeLast();
-            stack.removeLast();
-            canWriteComma = true;
-        } else if ( isLastOnStack( ARRAY_START ) ) {
-            canWriteComma = true;
-        }
-        if ( isEmpty() ) {
-            setCannotContinue();
+        index--;
+        if ( index > 0 ) {
+            if ( stack[ index - 1 ] == COLON ) {
+                index -= 2;
+                canWriteComma = true;
+            } else if ( stack[ index - 1 ] == ARRAY_START ) {
+                canWriteComma = true;
+            }
+        } else {
+            finished = true;
         }
     }
 
     private void putValue() throws JsonException {
         // preconditions
-        if ( canWriteComma || ( !isLastOnStack( ARRAY_START ) && !isLastOnStack( COLON ) ) ) {
+        if ( canWriteComma || index == 0 || stack[ index - 1 ] != ARRAY_START && stack[ index - 1 ] != COLON ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        if ( isLastOnStack( COLON ) ) {
-            stack.removeLast();
-            stack.removeLast();
+        if ( index > 0 && stack[ index - 1 ] == COLON ) {
+            index -= 2;
         }
         canWriteComma = true;
     }
 
     private void putString() throws JsonException {
         // preconditions
-        if ( canWriteComma || ( !isLastOnStack( OBJECT_START ) && !isLastOnStack( ARRAY_START ) && !isLastOnStack( COLON ) ) ) {
+        if ( canWriteComma || index == 0 || stack[ index - 1 ] != OBJECT_START && stack[ index - 1 ] != ARRAY_START && stack[ index - 1 ] != COLON ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        if ( isLastOnStack( OBJECT_START ) ) {
-            stack.add( STRING );
-            return;
-        }
-        if ( isLastOnStack( COLON ) ) {
-            stack.removeLast();
-            stack.removeLast();
+        if ( index > 0 ) {
+            if ( stack[ index - 1 ] == OBJECT_START ) {
+                if ( index == stack.length ) doubleStack();
+                stack[ index++ ] = STRING;
+                return;
+            }
+            if ( stack[ index - 1 ] == COLON ) {
+                index -= 2;
+            }
         }
         canWriteComma = true;
     }
 
     private void putObjectStart() throws JsonException {
         // preconditions
-        if ( canWriteComma || ( !isEmpty() && !isLastOnStack( ARRAY_START ) && !isLastOnStack( COLON ) ) ) {
+        if ( canWriteComma || ( index != 0 && stack[ index - 1 ] != ARRAY_START && stack[ index - 1 ] != COLON ) ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        stack.add( OBJECT_START );
+        if ( index == stack.length ) doubleStack();
+        stack[ index++ ] = OBJECT_START;
         jsonKeys.addLast( new HashSet< String >() );
     }
 
     private void putArrayStart() throws JsonException {
         // preconditions
-        if ( canWriteComma || ( !isEmpty() && !isLastOnStack( ARRAY_START ) && !isLastOnStack( COLON ) ) ) {
+        if ( canWriteComma || ( index != 0 && stack[ index - 1 ] != ARRAY_START && stack[ index - 1 ] != COLON ) ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        stack.add( ARRAY_START );
+        if ( index == stack.length ) doubleStack();
+        stack[ index++ ] = ARRAY_START;
     }
 
     private void putColon() throws JsonException {
         // preconditions
-        if ( !isLastOnStack( STRING ) ) {
+        if ( index == 0 || stack[ index - 1 ] != STRING ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        stack.add( COLON );
+        if ( index == stack.length ) doubleStack();
+        stack[ index++ ] = COLON;
     }
 
     private void putComma() throws JsonException {
@@ -239,21 +229,21 @@ final class JsonGrammarAnalyzer {
     }
 
     private String getExpectingTokensMessage() {
-        if ( isEmpty() ) {
+        if ( index == 0 ) {
             if ( !finished ) {
                 return "Expecting " + JsonConstants.OBJECT_START + " " + JsonConstants.ARRAY_START;
             } else {
                 return "Expecting EOF";
             }
         }
-        if ( isLastOnStack( OBJECT_START ) ) {
+        if ( stack[ index - 1 ] == OBJECT_START ) {
             if ( !canWriteComma ) {
                 return "Expecting " + JsonConstants.OBJECT_END + " " + JsonConstants.STRING;
             } else {
                 return "Expecting " + JsonConstants.COMMA + " " + JsonConstants.OBJECT_END;
             }
         }
-        if ( isLastOnStack( ARRAY_START ) ) {
+        if ( stack[ index - 1 ] == ARRAY_START ) {
             if ( !canWriteComma ) {
                 if ( currentEvent != null ) {
                     return "Expecting " + JsonConstants.ARRAY_END + " " + JsonConstants.OBJECT_START + " " + JsonConstants.ARRAY_START + " " + JsonConstants.STRING + " "
@@ -266,26 +256,25 @@ final class JsonGrammarAnalyzer {
                 return "Expecting " + JsonConstants.COMMA + " " + JsonConstants.ARRAY_END;
             }
         }
-        if ( isLastOnStack( COLON ) ) {
+        if ( stack[ index - 1 ] == COLON ) {
             return "Expecting " + JsonConstants.OBJECT_START + " " + JsonConstants.ARRAY_START + " " + JsonConstants.STRING + " " + JsonConstants.NUMBER + " " + JsonConstants.TRUE
                 + " " + JsonConstants.FALSE + " " + JsonConstants.NULL;
         }
-        if ( isLastOnStack( STRING ) ) {
+        if ( stack[ index - 1 ] == STRING ) {
             return "Expecting " + JsonConstants.COLON;
         }
         throw new IllegalStateException();
     }
 
-    private boolean isLastOnStack( final byte event ) {
-        return !isEmpty() && ( stack.getLast() == event );
-    }
-
-    private boolean isLastButOneOnStack( final byte event ) {
-        return ( stack.size() >= 2 ) && ( stack.get( stack.size() - 2 ) == event );
+    private void doubleStack() {
+        final byte[] oldData = stack;
+        stack = new byte[ oldData.length * 2 ];
+        System.arraycopy( oldData, 0, stack, 0, oldData.length );
     }
 
     private JsonException newJsonException( final String s ) {
-        setCannotContinue();
+        finished = true;
         return new JsonException( s );
     }
+
 }
