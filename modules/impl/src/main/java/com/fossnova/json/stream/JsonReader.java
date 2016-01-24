@@ -205,43 +205,43 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
             currentChar = in.read();
             switch ( currentChar ) {
                 case ARRAY_START: {
-                    analyzer.push( JsonGrammarToken.ARRAY_START );
+                    analyzer.push( JsonGrammarAnalyzer.ARRAY_START );
                     exitLoop = true;
                 }
                     break;
                 case OBJECT_START: {
-                    analyzer.push( JsonGrammarToken.OBJECT_START );
+                    analyzer.push( JsonGrammarAnalyzer.OBJECT_START );
                     exitLoop = true;
                 }
                     break;
                 case ARRAY_END: {
-                    analyzer.push( JsonGrammarToken.ARRAY_END );
+                    analyzer.push( JsonGrammarAnalyzer.ARRAY_END );
                     exitLoop = true;
                 }
                     break;
                 case OBJECT_END: {
-                    analyzer.push( JsonGrammarToken.OBJECT_END );
+                    analyzer.push( JsonGrammarAnalyzer.OBJECT_END );
                     exitLoop = true;
                 }
                     break;
                 case COLON: {
-                    analyzer.push( JsonGrammarToken.COLON );
+                    analyzer.push( JsonGrammarAnalyzer.COLON );
                 }
                     break;
                 case COMMA: {
-                    analyzer.push( JsonGrammarToken.COMMA );
+                    analyzer.push( JsonGrammarAnalyzer.COMMA );
                 }
                     break;
                 case 'f':
                 case 't': {
-                    analyzer.push( JsonGrammarToken.BOOLEAN );
+                    analyzer.push( JsonGrammarAnalyzer.BOOLEAN );
                     in.unread( currentChar );
                     readBoolean( currentChar == 't' );
                     exitLoop = true;
                 }
                     break;
                 case 'n': {
-                    analyzer.push( JsonGrammarToken.NULL );
+                    analyzer.push( JsonGrammarAnalyzer.NULL );
                     in.unread( currentChar );
                     readNull();
                     exitLoop = true;
@@ -258,14 +258,14 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                 case '8':
                 case '9':
                 case MINUS: {
-                    analyzer.push( JsonGrammarToken.NUMBER );
+                    analyzer.push( JsonGrammarAnalyzer.NUMBER );
                     in.unread( currentChar );
                     readNumber();
                     exitLoop = true;
                 }
                     break;
                 case QUOTE: {
-                    analyzer.push( JsonGrammarToken.STRING );
+                    analyzer.push( JsonGrammarAnalyzer.STRING );
                     in.unread( currentChar );
                     readString();
                     analyzer.pushString( jsonString );

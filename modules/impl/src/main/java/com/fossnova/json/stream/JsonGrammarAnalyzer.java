@@ -19,17 +19,6 @@
  */
 package com.fossnova.json.stream;
 
-import static com.fossnova.json.stream.JsonGrammarToken.ARRAY_END;
-import static com.fossnova.json.stream.JsonGrammarToken.ARRAY_START;
-import static com.fossnova.json.stream.JsonGrammarToken.BOOLEAN;
-import static com.fossnova.json.stream.JsonGrammarToken.COLON;
-import static com.fossnova.json.stream.JsonGrammarToken.COMMA;
-import static com.fossnova.json.stream.JsonGrammarToken.NULL;
-import static com.fossnova.json.stream.JsonGrammarToken.NUMBER;
-import static com.fossnova.json.stream.JsonGrammarToken.OBJECT_END;
-import static com.fossnova.json.stream.JsonGrammarToken.OBJECT_START;
-import static com.fossnova.json.stream.JsonGrammarToken.STRING;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -42,6 +31,17 @@ import org.fossnova.json.stream.JsonException;
  */
 final class JsonGrammarAnalyzer {
 
+    static final byte OBJECT_START = 1;
+    static final byte OBJECT_END = 2;
+    static final byte ARRAY_START = 3;
+    static final byte ARRAY_END = 4;
+    static final byte STRING = 5;
+    static final byte NUMBER = 6;
+    static final byte BOOLEAN = 7;
+    static final byte NULL = 8;
+    static final byte COLON = 9;
+    static final byte COMMA = 10;
+
     private boolean canWriteComma;
 
     private JsonEvent currentEvent;
@@ -50,12 +50,12 @@ final class JsonGrammarAnalyzer {
 
     private final LinkedList< Set< String >> jsonKeys = new LinkedList< Set< String >>();
 
-    private final LinkedList< JsonGrammarToken > stack = new LinkedList< JsonGrammarToken >();
+    private final LinkedList< Byte > stack = new LinkedList< Byte >();
 
     JsonGrammarAnalyzer() {
     }
 
-    void push( final JsonGrammarToken event ) throws JsonException {
+    void push( final byte event ) throws JsonException {
         ensureCanContinue();
         if ( event == OBJECT_END ) {
             putObjectEnd();
@@ -276,11 +276,11 @@ final class JsonGrammarAnalyzer {
         throw new IllegalStateException();
     }
 
-    private boolean isLastOnStack( final JsonGrammarToken event ) {
+    private boolean isLastOnStack( final byte event ) {
         return !isEmpty() && ( stack.getLast() == event );
     }
 
-    private boolean isLastButOneOnStack( final JsonGrammarToken event ) {
+    private boolean isLastButOneOnStack( final byte event ) {
         return ( stack.size() >= 2 ) && ( stack.get( stack.size() - 2 ) == event );
     }
 
