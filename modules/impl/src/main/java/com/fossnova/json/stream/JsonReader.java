@@ -22,19 +22,21 @@ package com.fossnova.json.stream;
 import static com.fossnova.json.stream.JsonConstants.ARRAY_END;
 import static com.fossnova.json.stream.JsonConstants.ARRAY_START;
 import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
+import static com.fossnova.json.stream.JsonConstants.BACKSPACE;
+import static com.fossnova.json.stream.JsonConstants.CR;
 import static com.fossnova.json.stream.JsonConstants.COLON;
 import static com.fossnova.json.stream.JsonConstants.COMMA;
-import static com.fossnova.json.stream.JsonConstants.FALSE;
+import static com.fossnova.json.stream.JsonConstants.FORMFEED;
+import static com.fossnova.json.stream.JsonConstants.QUOTE;
 import static com.fossnova.json.stream.JsonConstants.MINUS;
-import static com.fossnova.json.stream.JsonConstants.NULL;
+import static com.fossnova.json.stream.JsonConstants.NL;
 import static com.fossnova.json.stream.JsonConstants.OBJECT_END;
 import static com.fossnova.json.stream.JsonConstants.OBJECT_START;
-import static com.fossnova.json.stream.JsonConstants.QUOTE;
-import static com.fossnova.json.stream.JsonConstants.TRUE;
+import static com.fossnova.json.stream.JsonConstants.SOLIDUS;
+import static com.fossnova.json.stream.JsonConstants.TAB;
 import static com.fossnova.json.stream.Utils.isControl;
-import static com.fossnova.json.stream.Utils.isNumberCharacter;
+import static com.fossnova.json.stream.Utils.isNumberChar;
 import static com.fossnova.json.stream.Utils.isNumberString;
-import static com.fossnova.json.stream.Utils.isStringEnd;
 import static com.fossnova.json.stream.Utils.isWhitespace;
 import static com.fossnova.json.stream.Utils.toUnicodeString;
 
@@ -43,7 +45,6 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fossnova.io.PushbackReader;
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonException;
 
@@ -52,32 +53,29 @@ import org.fossnova.json.stream.JsonException;
  */
 public final class JsonReader implements org.fossnova.json.stream.JsonReader {
 
-    private PushbackReader in;
-
-    private JsonGrammarAnalyzer analyzer;
-
-    private String jsonNumber;
-
-    private String jsonString;
-
+    private static final char[] NULL = JsonConstants.NULL.toCharArray();
+    private static final char[] TRUE = JsonConstants.TRUE.toCharArray();
+    private static final char[] FALSE = JsonConstants.FALSE.toCharArray();
+    private final Reader in;
+    private final JsonGrammarAnalyzer analyzer;
+    private char[] buffer = new char[ 1024 ];
+    private int position;
+    private int limit;
+    private int numberOffset;
+    private int numberLength;
+    private int stringOffset;
+    private int stringLength;
     private boolean jsonBoolean;
-
     private boolean closed;
 
-    private int currentChar;
-
     JsonReader( final Reader in ) {
-        this.in = new PushbackReader( in );
+        this.in = in;
         analyzer = new JsonGrammarAnalyzer();
     }
 
     @Override
     public void close() {
-        analyzer = null;
-        in = null;
         closed = true;
-        jsonNumber = null;
-        jsonString = null;
     }
 
     @Override
@@ -92,7 +90,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
         if ( !isCurrentEvent( JsonEvent.NUMBER ) ) {
             throw new IllegalStateException( "Current event isn't number" );
         }
-        return jsonNumber;
+        return new String( buffer, numberOffset, numberLength );
     }
 
     @Override
@@ -100,7 +98,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
         if ( !isCurrentEvent( JsonEvent.STRING ) ) {
             throw new IllegalStateException( "Current event isn't string" );
         }
-        return jsonString;
+        return new String( buffer, stringOffset, stringLength );
     }
 
     @Override
@@ -185,7 +183,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
 
     private boolean isCurrentEvent( final JsonEvent event ) {
         ensureOpen();
-        return analyzer.getCurrentEvent() == event;
+        return analyzer.currentEvent == event;
     }
 
     @Override
@@ -196,55 +194,25 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
 
     @Override
     public JsonEvent next() throws IOException, JsonException {
-        if ( !hasNext() ) {
+        ensureOpen();
+        if ( analyzer.finished ) {
             throw new IllegalStateException( "No more JSON tokens available" );
         }
-        analyzer.ensureCanContinue();
-        boolean exitLoop = false;
-        while ( !exitLoop ) {
-            currentChar = in.read();
+        int currentChar;
+        while ( true ) {
+            currentChar = position < limit ? buffer[ position++ ] : read();
             switch ( currentChar ) {
-                case ARRAY_START: {
-                    analyzer.push( JsonGrammarAnalyzer.ARRAY_START );
-                    exitLoop = true;
+                case QUOTE: {
+                    analyzer.push( JsonGrammarAnalyzer.STRING );
+                    readString();
+                    return analyzer.currentEvent;
                 }
-                    break;
-                case OBJECT_START: {
-                    analyzer.push( JsonGrammarAnalyzer.OBJECT_START );
-                    exitLoop = true;
-                }
-                    break;
-                case ARRAY_END: {
-                    analyzer.push( JsonGrammarAnalyzer.ARRAY_END );
-                    exitLoop = true;
-                }
-                    break;
-                case OBJECT_END: {
-                    analyzer.push( JsonGrammarAnalyzer.OBJECT_END );
-                    exitLoop = true;
-                }
-                    break;
                 case COLON: {
                     analyzer.push( JsonGrammarAnalyzer.COLON );
                 }
                     break;
                 case COMMA: {
                     analyzer.push( JsonGrammarAnalyzer.COMMA );
-                }
-                    break;
-                case 'f':
-                case 't': {
-                    analyzer.push( JsonGrammarAnalyzer.BOOLEAN );
-                    in.unread( currentChar );
-                    readBoolean( currentChar == 't' );
-                    exitLoop = true;
-                }
-                    break;
-                case 'n': {
-                    analyzer.push( JsonGrammarAnalyzer.NULL );
-                    in.unread( currentChar );
-                    readNull();
-                    exitLoop = true;
                 }
                     break;
                 case '0':
@@ -259,19 +227,38 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                 case '9':
                 case MINUS: {
                     analyzer.push( JsonGrammarAnalyzer.NUMBER );
-                    in.unread( currentChar );
+                    position--;
                     readNumber();
-                    exitLoop = true;
+                    return analyzer.currentEvent;
                 }
-                    break;
-                case QUOTE: {
-                    analyzer.push( JsonGrammarAnalyzer.STRING );
-                    in.unread( currentChar );
-                    readString();
-                    analyzer.pushString( jsonString );
-                    exitLoop = true;
+                case 'f':
+                case 't': {
+                    analyzer.push( JsonGrammarAnalyzer.BOOLEAN );
+                    jsonBoolean = currentChar == 't';
+                    readString( jsonBoolean ? TRUE : FALSE );
+                    return analyzer.currentEvent;
                 }
-                    break;
+                case 'n': {
+                    analyzer.push( JsonGrammarAnalyzer.NULL );
+                    readString( NULL );
+                    return analyzer.currentEvent;
+                }
+                case OBJECT_START: {
+                    analyzer.push( JsonGrammarAnalyzer.OBJECT_START );
+                    return analyzer.currentEvent;
+                }
+                case ARRAY_START: {
+                    analyzer.push( JsonGrammarAnalyzer.ARRAY_START );
+                    return analyzer.currentEvent;
+                }
+                case OBJECT_END: {
+                    analyzer.push( JsonGrammarAnalyzer.OBJECT_END );
+                    return analyzer.currentEvent;
+                }
+                case ARRAY_END: {
+                    analyzer.push( JsonGrammarAnalyzer.ARRAY_END );
+                    return analyzer.currentEvent;
+                }
                 default: {
                     if ( isWhitespace( currentChar ) ) {
                         continue;
@@ -284,98 +271,176 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                 }
             }
         }
-        return analyzer.getCurrentEvent();
+    }
+
+    private void ensureData() throws IOException {
+        if ( position == limit ) {
+            if ( limit == buffer.length ) {
+                limit = 0;
+                position = 0;
+            }
+            fillBuffer();
+        }
+    }
+
+    private void fillBuffer() throws IOException {
+        int read;
+        do {
+            read = in.read( buffer, limit, buffer.length - limit );
+            if ( read == -1 ) return;
+            limit += read;
+        } while ( limit != buffer.length );
+    }
+
+    private int read() throws IOException {
+        ensureData();
+        return position < limit ? buffer[ position++ ] : -1;
     }
 
     private void readString() throws IOException, JsonException {
-        final StringBuilder retVal = new StringBuilder();
-        int previousChar = -1;
-        in.read();
-        boolean stringEndFound = false;
-        while ( ( currentChar = in.read() ) != -1 ) {
-            if ( isStringEnd( previousChar, currentChar ) ) {
-                stringEndFound = true;
-                break;
-            }
-            if ( isControl( currentChar ) ) {
-                throw newJsonException( "Unexpected control character '" + toUnicodeString( currentChar ) + "' while reading JSON string" );
-            }
-            if ( ( currentChar == BACKSLASH ) && ( previousChar != BACKSLASH ) ) {
-                previousChar = currentChar;
-                continue;
-            }
-            if ( ( previousChar == BACKSLASH ) && ( currentChar == 'b' ) ) {
-                retVal.appendCodePoint( '\b' );
-            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 'f' ) ) {
-                retVal.appendCodePoint( '\f' );
-            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 'n' ) ) {
-                retVal.appendCodePoint( '\n' );
-            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 'r' ) ) {
-                retVal.appendCodePoint( '\r' );
-            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 't' ) ) {
-                retVal.appendCodePoint( '\t' );
-            } else if ( ( previousChar == BACKSLASH ) && ( currentChar == 'u' ) ) {
-                final StringBuilder sb = new StringBuilder( 4 );
-                for ( int i = 0; i < 4; i++ ) {
-                    sb.append( ( char ) in.read() );
+        boolean escaped = false;
+        char currentChar;
+        stringLength = 0;
+        boolean copy = false;
+        while ( true ) {
+            if ( stringLength == 0 ) stringOffset = position;
+            while ( position != limit ) {
+                currentChar = buffer[ position++ ];
+                if ( escaped ) {
+                    copy = true;
+                    if ( currentChar == 'b' ) {
+                        buffer[ stringOffset + stringLength++ ] = BACKSPACE;
+                    } else if ( currentChar == 'f' ) {
+                        buffer[ stringOffset + stringLength++ ] = FORMFEED;
+                    } else if ( currentChar == 'n' ) {
+                        buffer[ stringOffset + stringLength++ ] = NL;
+                    } else if ( currentChar == 'r' ) {
+                        buffer[ stringOffset + stringLength++ ] = CR;
+                    } else if ( currentChar == 't' ) {
+                        buffer[ stringOffset + stringLength++ ] = TAB;
+                    } else if ( currentChar == QUOTE ) {
+                        buffer[ stringOffset + stringLength++ ] = QUOTE;
+                    } else if ( currentChar == SOLIDUS ) {
+                        buffer[ stringOffset + stringLength++ ] = SOLIDUS;
+                    } else if ( currentChar == BACKSLASH ) {
+                        buffer[ stringOffset + stringLength++ ] = BACKSLASH;
+                    } else if ( currentChar == 'u' ) {
+                        if ( limit - position >= 4 ) {
+                            try {
+                                buffer[ stringOffset + stringLength++ ] = ( char ) Integer.parseInt( new String( buffer, position, 4 ), 16 );
+                            } catch ( final NumberFormatException e ) {
+                                throw newJsonException( "Invalid JSON unicode sequence. Expecting 4 hexadecimal digits but got '" + new String( buffer, position, 4 ) + "'" );
+                            }
+                            position += 4;
+                        } else {
+                            if ( stringOffset != 0 ) {
+                                if ( stringLength > 0 ) System.arraycopy( buffer, stringOffset, buffer, 0, stringLength );
+                                position = stringLength;
+                                limit = stringLength;
+                                stringOffset = 0;
+                            }
+                            while ( limit + 4 > buffer.length ) doubleBuffer();
+                            fillBuffer();
+                            if ( limit - position < 4 ) {
+                                throw newJsonException( "Unexpected EOF while reading JSON string" );
+                            }
+                            try {
+                                buffer[ stringOffset + stringLength++ ] = ( char ) Integer.parseInt( new String( buffer, position, 4 ), 16 );
+                            } catch ( final NumberFormatException e ) {
+                                throw newJsonException( "Invalid JSON unicode sequence. Expecting 4 hexadecimal digits but got '" + new String( buffer, position, 4 ) + "'" );
+                            }
+                            position += 4;
+                        }
+                    } else {
+                        throw newJsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' after escape character while reading JSON string" );
+                    }
+                    escaped = false;
+                } else {
+                    if ( currentChar == QUOTE ) return;
+                    if ( currentChar == BACKSLASH ) {
+                        escaped = true;
+                        continue;
+                    }
+                    if ( isControl( currentChar ) ) {
+                        throw newJsonException( "Unexpected control character '" + toUnicodeString( currentChar ) + "' while reading JSON string" );
+                    }
+                    if ( copy ) {
+                        buffer[ stringOffset + stringLength ] = currentChar;
+                    }
+                    stringLength++;
                 }
-                final String hexValue = sb.toString();
-                retVal.appendCodePoint( Integer.parseInt( hexValue, 16 ) );
-                currentChar = hexValue.charAt( 3 );
-            } else {
-                retVal.appendCodePoint( currentChar );
             }
-            previousChar = ( char ) -1;
-        }
-        if ( !stringEndFound ) {
-            throw newJsonException( "Unexpected EOF while reading JSON string" );
-        }
-        jsonString = retVal.toString();
-    }
-
-    private void readBoolean( final boolean b ) throws IOException, JsonException {
-        if ( !readString( b ? TRUE : FALSE ) ) {
-            if ( currentChar == -1 ) {
-                throw newJsonException( "Unexpected EOF while reading JSON " + b + " token" );
+            if ( stringOffset != 0 && stringLength > 0 ) {
+                System.arraycopy( buffer, stringOffset, buffer, 0, stringLength );
+                position = stringLength;
+                limit = stringLength;
+                stringOffset = 0;
+            } else if ( stringOffset == 0 && limit == buffer.length ) doubleBuffer();
+            ensureData();
+            if ( position == limit ) {
+                throw newJsonException( "Unexpected EOF while reading JSON string" );
             }
-            throw newJsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON " + b + " token" );
-        }
-        jsonBoolean = b;
-    }
-
-    private void readNull() throws IOException, JsonException {
-        if ( !readString( NULL ) ) {
-            if ( currentChar == -1 ) {
-                throw newJsonException( "Unexpected EOF while reading JSON null token" );
-            }
-            throw newJsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON null token" );
         }
     }
 
-    private boolean readString( final String s ) throws IOException {
-        for ( int i = 0; i < s.length(); i++ ) {
-            currentChar = in.read();
-            if ( currentChar != s.codePointAt( i ) ) return false;
+    private void readString( final char[] expected ) throws IOException, JsonException {
+        int i = 1;
+        if ( position < limit - expected.length + 1 ) {
+            // fast path
+            for ( ; i < expected.length; i++ ) {
+                if ( buffer[ position++ ] != expected[ i ] ) {
+                    throw newJsonException( "Unexpected character '" + toUnicodeString( buffer[ --position ] )
+                            + "' while reading JSON " + new String( expected ) + " token" );
+                }
+            }
+        } else {
+            // slow path
+            while ( true ) {
+                while ( position < limit && i != expected.length ) {
+                    if ( buffer[ position++ ] != expected[ i++ ] ) {
+                        throw newJsonException( "Unexpected character '" + toUnicodeString( buffer[ position - 1 ] )
+                                + "' while reading JSON " + new String( expected ) + " token" );
+                    }
+                }
+                if ( i == expected.length ) return;
+                ensureData();
+                if ( position == limit ) {
+                    throw newJsonException( "Unexpected EOF while reading JSON " + new String( expected ) + " token" );
+                }
+            }
         }
-        return true;
     }
 
     private void readNumber() throws IOException, JsonException {
-        final StringBuilder retVal = new StringBuilder();
-        while ( ( currentChar = in.read() ) != -1 ) {
-            if ( !isNumberCharacter( currentChar ) ) {
-                in.unread( currentChar );
+        numberOffset = position;
+        while ( true ) {
+            while ( position < limit ) {
+                if ( isNumberChar( buffer[ position++ ] ) ) continue;
+                position--;
                 break;
             }
-            retVal.appendCodePoint( currentChar );
+            numberLength = position - numberOffset;
+            if ( position < limit ) break;
+            if ( numberOffset != 0 ) {
+                System.arraycopy( buffer, numberOffset, buffer, 0, numberLength );
+                position = numberLength;
+                limit = numberLength;
+                numberOffset = 0;
+            } else if ( limit == buffer.length ) doubleBuffer();
+            ensureData();
+            if ( position == limit ) {
+                throw newJsonException( "Unexpected EOF while reading JSON number" );
+            }
         }
-        if ( currentChar == -1 ) {
-            throw newJsonException( "Unexpected EOF while reading JSON number" );
+        if ( !isNumberString( buffer, numberOffset, numberLength ) ) {
+            throw newJsonException( "Incorrect JSON number: '" + getNumber() + "'" );
         }
-        jsonNumber = retVal.toString();
-        if ( !isNumberString( jsonNumber ) ) {
-            throw newJsonException( "Incorrect JSON number: '" + jsonNumber + "'" );
-        }
+    }
+
+    private void doubleBuffer() {
+        final char[] oldData = buffer;
+        buffer = new char[ oldData.length * 2 ];
+        System.arraycopy( oldData, 0, buffer, 0, oldData.length );
     }
 
     private JsonException newJsonException( final String message ) {

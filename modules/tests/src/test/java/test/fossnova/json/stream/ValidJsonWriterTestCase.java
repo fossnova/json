@@ -173,6 +173,32 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
+    public void testIntegers() throws IOException, JsonException {
+        writer.writeArrayStart();
+        writer.writeByte(Byte.MIN_VALUE);
+        writer.writeByte((byte)0);
+        writer.writeByte(Byte.MAX_VALUE);
+        writer.writeShort(Short.MIN_VALUE);
+        writer.writeShort((short)0);
+        writer.writeShort(Short.MAX_VALUE);
+        writer.writeInt(Integer.MIN_VALUE);
+        writer.writeInt(0);
+        writer.writeInt(Integer.MAX_VALUE);
+        writer.writeLong(Long.MIN_VALUE);
+        writer.writeLong(0L);
+        writer.writeLong(Long.MAX_VALUE);
+        writer.writeArrayEnd();
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "[" + Byte.MIN_VALUE + ",0," + Byte.MAX_VALUE + ","
+                + Short.MIN_VALUE + ",0," + Short.MAX_VALUE + ","
+                + Integer.MIN_VALUE + ",0," + Integer.MAX_VALUE + ","
+                + Long.MIN_VALUE + ",0," + Long.MAX_VALUE + "]"
+                , getWriterOutput() );
+    }
+
+    @Test
     public void theMostComplexObject() throws IOException, JsonException {
         writer.writeObjectStart();
         writer.writeString( "0" );
@@ -203,7 +229,6 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
         final StringBuilder sb = new StringBuilder();
         sb.append( '\"' );
         sb.append( '\\' );
-        sb.append( '/' );
         sb.append( '\b' );
         sb.append( '\f' );
         sb.append( '\n' );
@@ -214,7 +239,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
         writer.flush();
         writer.close();
         assertClosedState( writer );
-        Assert.assertEquals( "[\"\\\"\\\\\\/\\b\\f\\n\\r\\t\"]", getWriterOutput() );
+        Assert.assertEquals( "[\"\\\"\\\\\\b\\f\\n\\r\\t\"]", getWriterOutput() );
     }
 
     @Test
@@ -232,9 +257,9 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
         writer.flush();
         writer.close();
         assertClosedState( writer );
-        final String expected = "[\"\\u0000\\u0001\\u0002\\u0003\\u0004\\u0005\\u0006\\u0007\\b\\t\\n\\u000B\\f\\r\\u000E\\u000F\\u0010\\u0011\\u0012\\u0013\\u0014\\u0015"
-            + "\\u0016\\u0017\\u0018\\u0019\\u001A\\u001B\\u001C\\u001D\\u001E\\u001F\\u007F\\u0080\\u0081\\u0082\\u0083\\u0084\\u0085\\u0086\\u0087\\u0088\\u0089\\u008A"
-            + "\\u008B\\u008C\\u008D\\u008E\\u008F\\u0090\\u0091\\u0092\\u0093\\u0094\\u0095\\u0096\\u0097\\u0098\\u0099\\u009A\\u009B\\u009C\\u009D\\u009E\\u009F\"]";
+        final String expected = "[\"\\u0000\\u0001\\u0002\\u0003\\u0004\\u0005\\u0006\\u0007\\b\\t\\n\\u000b\\f\\r\\u000e\\u000f\\u0010\\u0011\\u0012\\u0013\\u0014\\u0015"
+            + "\\u0016\\u0017\\u0018\\u0019\\u001a\\u001b\\u001c\\u001d\\u001e\\u001f\\u007f\\u0080\\u0081\\u0082\\u0083\\u0084\\u0085\\u0086\\u0087\\u0088\\u0089\\u008a"
+            + "\\u008b\\u008c\\u008d\\u008e\\u008f\\u0090\\u0091\\u0092\\u0093\\u0094\\u0095\\u0096\\u0097\\u0098\\u0099\\u009a\\u009b\\u009c\\u009d\\u009e\\u009f\"]";
         Assert.assertEquals( expected, getWriterOutput() );
     }
 

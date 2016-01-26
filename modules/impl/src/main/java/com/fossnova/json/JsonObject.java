@@ -21,10 +21,9 @@ package com.fossnova.json;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import org.fossnova.json.JsonValue;
 import org.fossnova.json.stream.JsonException;
@@ -40,11 +39,8 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
 
     private final Map< String, JsonValue > map;
 
-    private final Map< String, JsonValue > userView;
-
     JsonObject() {
-        map = new TreeMap< String, JsonValue >();
-        userView = Collections.unmodifiableMap( map );
+        map = new HashMap<>();
     }
 
     @Override
@@ -112,17 +108,17 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
 
     @Override
     public Collection< JsonValue > values() {
-        return userView.values();
+        return map.values();
     }
 
     @Override
     public Set< Entry< String, JsonValue >> entrySet() {
-        return userView.entrySet();
+        return map.entrySet();
     }
 
     @Override
     public Set< String > keySet() {
-        return userView.keySet();
+        return map.keySet();
     }
 
     @Override
@@ -186,7 +182,7 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
     @Override
     public JsonObject clone() {
         final JsonObject retVal = new JsonObject();
-        JsonValue jsonValue = null;
+        JsonValue jsonValue;
         for ( final String jsonKey : map.keySet() ) {
             jsonValue = map.get( jsonKey );
             retVal.put( jsonKey, jsonValue != null ? jsonValue.clone() : null );
@@ -197,7 +193,7 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
     @Override
     protected void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException {
         jsonWriter.writeObjectStart();
-        JsonValue jsonValue = null;
+        JsonValue jsonValue;
         for ( final String jsonKey : map.keySet() ) {
             jsonWriter.writeString( jsonKey );
             jsonValue = map.get( jsonKey );

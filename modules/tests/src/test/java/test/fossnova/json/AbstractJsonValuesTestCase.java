@@ -89,7 +89,7 @@ abstract class AbstractJsonValuesTestCase {
     private static JsonValue jsonDeserialization( final String jsonString ) throws IOException, JsonException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.getInstance().newJsonReader( bais );
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         return jsonFactory.readFrom( jsonReader );
     }
 
@@ -116,7 +116,7 @@ abstract class AbstractJsonValuesTestCase {
     }
 
     static JsonArray createSimpleArray() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonArray jsonArray = jsonFactory.newJsonArray();
         jsonArray.add( ( String ) null );
         jsonArray.add( true );
@@ -128,7 +128,7 @@ abstract class AbstractJsonValuesTestCase {
     }
 
     static JsonObject createSimpleObject() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
         jsonObject.put( "1", ( String ) null );
         jsonObject.put( "2", true );
@@ -140,7 +140,7 @@ abstract class AbstractJsonValuesTestCase {
     }
 
     static JsonObject createComplexObject() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
         jsonObject.put( "1", "b1" );
         jsonObject.put( "2", ( String ) null );
@@ -154,7 +154,7 @@ abstract class AbstractJsonValuesTestCase {
     }
 
     static JsonArray createComplexArray() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonArray jsonArray = jsonFactory.newJsonArray();
         jsonArray.add( ( Boolean ) null );
         jsonArray.add( false );

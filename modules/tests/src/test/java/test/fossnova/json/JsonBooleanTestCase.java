@@ -33,7 +33,7 @@ public final class JsonBooleanTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void gettersAndSetters() {
-        final JsonBoolean jsonBoolean = JsonValueFactory.newInstance().newJsonBoolean( false );
+        final JsonBoolean jsonBoolean = JsonValueFactory.getInstance().newJsonBoolean( false );
         assertFalse( jsonBoolean.getBoolean() );
         jsonBoolean.setBoolean( true );
         assertTrue( jsonBoolean.getBoolean() );
@@ -41,7 +41,7 @@ public final class JsonBooleanTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void cloneMethod() {
-        final JsonBoolean origBoolean = JsonValueFactory.newInstance().newJsonBoolean( false );
+        final JsonBoolean origBoolean = JsonValueFactory.getInstance().newJsonBoolean( false );
         final JsonBoolean clonedBoolean = origBoolean.clone();
         assertTrue( origBoolean != clonedBoolean );
         assertFalse( origBoolean.getBoolean() );

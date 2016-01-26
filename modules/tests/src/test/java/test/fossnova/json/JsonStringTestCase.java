@@ -33,7 +33,7 @@ public final class JsonStringTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void gettersAndSetters() {
-        final JsonString jsonString = JsonValueFactory.newInstance().newJsonString( "foo" );
+        final JsonString jsonString = JsonValueFactory.getInstance().newJsonString( "foo" );
         assertEquals( "foo", jsonString.getString() );
         jsonString.setString( "bar" );
         assertEquals( "bar", jsonString.getString() );
@@ -41,7 +41,7 @@ public final class JsonStringTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void cloneMethod() {
-        final JsonString origString = JsonValueFactory.newInstance().newJsonString( "foo" );
+        final JsonString origString = JsonValueFactory.getInstance().newJsonString( "foo" );
         final JsonString clonedString = origString.clone();
         assertTrue( origString != clonedString );
         assertEquals( "foo", origString.getString() );

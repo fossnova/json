@@ -20,50 +20,73 @@
 package com.fossnova.json.stream;
 
 import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
-import static com.fossnova.json.stream.JsonConstants.BACKSPACE;
-import static com.fossnova.json.stream.JsonConstants.CR;
-import static com.fossnova.json.stream.JsonConstants.FORMFEED;
-import static com.fossnova.json.stream.JsonConstants.NL;
-import static com.fossnova.json.stream.JsonConstants.QUOTE;
-import static com.fossnova.json.stream.JsonConstants.SOLIDUS;
-import static com.fossnova.json.stream.JsonConstants.TAB;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
  */
 final class Utils {
 
-    private static final Pattern JSON_NUMBER_PATTERN = Pattern.compile( "-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+\\-]?\\d+)?" );
+    static final char[] ONES;
+    static final char[] TENS;
+
+    static {
+        ONES = new char[ 100 ];
+        TENS = new char[ 100 ];
+        for ( int i = 0; i < 100; i++ ) {
+            ONES[ i ] = ( char ) ( '0' + ( i % 10 ) );
+            TENS[ i ] = ( char ) ( '0' + ( i / 10 ) );
+        }
+    }
 
     private Utils() {
     }
 
-    static boolean isNumberString( final String numberString ) {
-        final Matcher jsonNumberMatcher = JSON_NUMBER_PATTERN.matcher( numberString );
-        if ( !jsonNumberMatcher.find() ) return false;
-        jsonNumberMatcher.group();
-        return !jsonNumberMatcher.find();
+    static boolean isNumberString( final char[] number, final int offset, final int length ) {
+        // precondition: length > 0
+        final int startIndex = number[ offset ] == '-' ? offset + 1 : offset;
+        int dotIndex = offset;
+        int eIndex = offset;
+        final int limit = offset + length;
+        for ( int i = startIndex; i < limit; i++ ) {
+            if ( '0' <= number[ i ] && number[ i ] <= '9' ) continue;
+            if ( number[ i ] == '.' ) {
+                // number cannot start/end with dot
+                if ( i == startIndex || i == limit - 1 ) return false;
+                // there can be only one dot and it must be before e or E
+                if ( dotIndex != offset || eIndex != offset ) return false;
+                // number cannot start with 0
+                if ( i - startIndex > 1 && number[ startIndex ] == '0' ) return false;
+                dotIndex = i;
+            } else if ( number[ i ] == 'e' || number[ i ] == 'E' ) {
+                // number cannot start/end with e or E
+                if ( i == startIndex || i == limit - 1 ) return false;
+                // there can be only one e or E
+                if ( eIndex != offset ) return false;
+                // number cannot end with +/-
+                if ( i == limit - 2 && ( number[ i + 1 ] == '+' || number[ i + 1 ] == '-' ) ) return false;
+                // distance between e/E and dot cannot be 1
+                if ( dotIndex > offset && i - dotIndex == 1 ) return false;
+                // number cannot start with 0
+                if ( dotIndex == offset && i - startIndex > 1 && number[ startIndex ] == '0' ) return false;
+                eIndex = i;
+                // skip processing of +/- after e/E
+                if ( i < limit - 1 && ( number[ i + 1 ] == '+' || number[ i + 1 ] == '-' ) ) i++;
+            } else return false; // +/- in unexpected location
+        }
+        if ( dotIndex == offset && eIndex == offset && length - ( startIndex - offset ) > 1 ) return number[ startIndex ] != '0';
+        return true; // valid json number
     }
 
     static boolean isControl( final int c ) {
-        if ( ( c >= '\u0000' ) && ( c <= '\u001F' ) ) return true;
-        return ( c >= '\u007F' ) && ( c <= '\u009F' );
+        return c <= '\u001F' || c >= '\u007F' && c <= '\u009F';
     }
 
     static boolean isWhitespace( final int c ) {
-        return ( c == ' ' ) || ( c == '\t' ) || ( c == '\r' ) || ( c == '\n' );
+        return c == ' ' || c == '\t' || c == '\r' || c == '\n';
     }
 
-    static boolean isNumberCharacter( final int c ) {
-        if ( ( '0' <= c ) && ( c <= '9' ) ) return true;
-        return ( c == '-' ) || ( c == '+' ) || ( c == '.' ) || ( c == 'e' ) || ( c == 'E' );
-    }
-
-    static boolean isStringEnd( final int firstChar, final int secondChar ) {
-        return ( firstChar != BACKSLASH ) && ( secondChar == QUOTE );
+    static boolean isNumberChar( final int c ) {
+        return '0' <= c && c <= '9' || c == '-' || c == '+' || c == '.' || c == 'e' || c == 'E';
     }
 
     static String toUnicodeString( final int c ) {
@@ -73,51 +96,36 @@ final class Utils {
         for ( int j = 0; j < ( 4 - hexString.length() ); j++ ) {
             sb.append( '0' );
         }
-        sb.append( hexString.toUpperCase() );
+        sb.append( hexString );
         return sb.toString();
     }
 
-    static String encode( final String s ) {
-        final int length = s.length();
-        final StringBuilder retVal = new StringBuilder( length + 16 );
-        retVal.append( QUOTE );
-        for ( int i = 0; i < length; i = s.offsetByCodePoints( i, 1 ) ) {
-            final int character = s.codePointAt( i );
-            switch ( character ) {
-                case QUOTE:
-                    retVal.append( BACKSLASH ).append( QUOTE );
-                    break;
-                case BACKSLASH:
-                    retVal.append( BACKSLASH ).append( BACKSLASH );
-                    break;
-                case SOLIDUS:
-                    retVal.append( BACKSLASH ).append( SOLIDUS );
-                    break;
-                case BACKSPACE:
-                    retVal.append( BACKSLASH ).append( 'b' );
-                    break;
-                case FORMFEED:
-                    retVal.append( BACKSLASH ).append( 'f' );
-                    break;
-                case NL:
-                    retVal.append( BACKSLASH ).append( 'n' );
-                    break;
-                case CR:
-                    retVal.append( BACKSLASH ).append( 'r' );
-                    break;
-                case TAB:
-                    retVal.append( BACKSLASH ).append( 't' );
-                    break;
-                default:
-                    if ( isControl( character ) ) {
-                        retVal.append( toUnicodeString( character ) );
-                    } else {
-                        retVal.appendCodePoint( character );
-                    }
-                    break;
-            }
+    static int stringSizeOf( long l ) {
+        int signSize = 1;
+        if ( l >= 0 ) {
+            signSize = 0;
+            l = -l;
         }
-        retVal.append( QUOTE );
-        return retVal.toString();
+        long temp = -10;
+        for ( int j = 1; j < 19; j++ ) {
+            if ( l > temp ) return j + signSize;
+            temp = 10 * temp;
+        }
+        return 19 + signSize;
     }
+
+    static int stringSizeOf( int i ) {
+        int signSize = 1;
+        if ( i >= 0 ) {
+            signSize = 0;
+            i = -i;
+        }
+        int temp = -10;
+        for ( int j = 1; j < 10; j++ ) {
+            if ( i > temp ) return j + signSize;
+            temp = 10 * temp;
+        }
+        return 10 + signSize;
+    }
+
 }

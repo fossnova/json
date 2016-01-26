@@ -28,7 +28,7 @@
         </module>
         <!-- Restricts nested boolean operators (&&, ||, &, | and ^) to a specified depth -->
         <module name="BooleanExpressionComplexity">
-            <property name="max" value="4"/>
+            <property name="max" value="5"/>
             <property name="tokens" value="LAND, BAND, LOR, BOR, BXOR, LAND, BAND, LOR, BOR, BXOR"/>
         </module>
         <!-- This metric measures the number of instantiations of other classes within the given class. -->
@@ -116,7 +116,7 @@
         </module>
         <!-- This check calculates the Non Commenting Source Statements (NCSS) metric for java source files and methods. -->
         <module name="JavaNCSS">
-            <property name="methodMaximum" value="80"/>
+            <property name="methodMaximum" value="85"/>
             <property name="classMaximum" value="1500"/>
             <property name="fileMaximum" value="2000"/>
         </module>
@@ -154,8 +154,6 @@
         <module name="MissingOverride"/>
         <!-- Checks that switch statement has "default" clause. -->
         <module name="MissingSwitchDefault"/>
-        <!-- Check for ensuring that for loop control variables are not modified inside the for block. -->
-        <module name="ModifiedControlVariable"/>
         <!-- Checks that the order of modifiers conforms to the suggestions in the Java Language specification. -->
         <module name="ModifierOrder"/>
         <!-- Checks that each variable declaration is in its own statement and on its own line. -->
@@ -164,7 +162,7 @@
         <module name="MutableException"/>
         <!-- Restricts nested if-else blocks to a specified depth. -->
         <module name="NestedIfDepth">
-            <property name="max" value="2"/>
+            <property name="max" value="4"/>
         </module>
         <!-- Restricts nested if-else blocks to a specified depth. -->
         <module name="NestedTryDepth">
@@ -244,8 +242,6 @@
         <module name="TodoComment">
             <property name="format" value="TODO"/>
         </module>
-        <!-- The check to ensure that requires that comments be the only thing on a line. -->
-        <module name="TrailingComment"/>
         <!-- Checks that type names conform to a format specified by the format property. -->
         <module name="TypeName"/>
         <!-- Checks the padding of parentheses for typecasts. -->

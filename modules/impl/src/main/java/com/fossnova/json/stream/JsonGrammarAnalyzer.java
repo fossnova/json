@@ -19,11 +19,6 @@
  */
 package com.fossnova.json.stream;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonException;
 
@@ -32,89 +27,73 @@ import org.fossnova.json.stream.JsonException;
  */
 final class JsonGrammarAnalyzer {
 
+    // used for bit operations
     static final byte OBJECT_START = 1;
-    static final byte OBJECT_END = 2;
-    static final byte ARRAY_START = 3;
-    static final byte ARRAY_END = 4;
-    static final byte STRING = 5;
-    static final byte NUMBER = 6;
-    static final byte BOOLEAN = 7;
-    static final byte NULL = 8;
-    static final byte COLON = 9;
-    static final byte COMMA = 10;
+    static final byte ARRAY_START = 2;
+    static final byte STRING = 4;
+    static final byte COLON = 8;
+    // don't care about bits
+    static final byte OBJECT_END = 9;
+    static final byte ARRAY_END = 10;
+    static final byte NUMBER = 11;
+    static final byte BOOLEAN = 12;
+    static final byte NULL = 13;
+    static final byte COMMA = 14;
 
     private boolean canWriteComma;
-    private JsonEvent currentEvent;
-    private final Deque< Set< String >> jsonKeys = new ArrayDeque< Set< String > >();
-    private byte[] stack = new byte[ 16 ];
+    private byte[] stack = new byte[ 8 ];
     private int index;
+    JsonEvent currentEvent;
     boolean finished;
 
     JsonGrammarAnalyzer() {
     }
 
     void push( final byte event ) throws JsonException {
-        ensureCanContinue();
-        if ( event == OBJECT_END ) {
-            putObjectEnd();
-            currentEvent = JsonEvent.OBJECT_END;
-        } else if ( event == ARRAY_END ) {
-            putArrayEnd();
-            currentEvent = JsonEvent.ARRAY_END;
-        } else if ( event == NUMBER ) {
-            putValue();
-            currentEvent = JsonEvent.NUMBER;
-        } else if ( event == NULL ) {
-            putValue();
-            currentEvent = JsonEvent.NULL;
-        } else if ( event == BOOLEAN ) {
-            putValue();
-            currentEvent = JsonEvent.BOOLEAN;
-        } else if ( event == STRING ) {
+        if ( finished ) {
+            throw newJsonException( getExpectingTokensMessage() );
+        }
+        if ( event == STRING ) {
             putString();
             currentEvent = JsonEvent.STRING;
-        } else if ( event == OBJECT_START ) {
-            putObjectStart();
-            currentEvent = JsonEvent.OBJECT_START;
-        } else if ( event == ARRAY_START ) {
-            putArrayStart();
-            currentEvent = JsonEvent.ARRAY_START;
         } else if ( event == COLON ) {
             putColon();
             currentEvent = null;
         } else if ( event == COMMA ) {
             putComma();
             currentEvent = null;
+        } else if ( event == NUMBER ) {
+            putValue();
+            currentEvent = JsonEvent.NUMBER;
+        } else if ( event == BOOLEAN ) {
+            putValue();
+            currentEvent = JsonEvent.BOOLEAN;
+        } else if ( event == NULL ) {
+            putValue();
+            currentEvent = JsonEvent.NULL;
+        } else if ( event == OBJECT_START ) {
+            putObjectStart();
+            currentEvent = JsonEvent.OBJECT_START;
+        } else if ( event == OBJECT_END ) {
+            putObjectEnd();
+            currentEvent = JsonEvent.OBJECT_END;
+        } else if ( event == ARRAY_START ) {
+            putArrayStart();
+            currentEvent = JsonEvent.ARRAY_START;
+        } else if ( event == ARRAY_END ) {
+            putArrayEnd();
+            currentEvent = JsonEvent.ARRAY_END;
         } else {
             throw new IllegalStateException();
         }
     }
 
-    void pushString( final String jsonKey ) throws JsonException {
-        if ( index > 0 && stack[ index - 1 ] == STRING ) {
-            final boolean containsKey = !jsonKeys.getLast().add( jsonKey );
-            if ( containsKey ) {
-                throw newJsonException( "JSON keys have to be unique. The key '" + jsonKey + "' already exists" );
-            }
-        }
-    }
-
-    JsonEvent getCurrentEvent() {
-        return currentEvent;
-    }
-
     boolean isColonExpected() {
-        return index >= 2 && stack[ index - 2 ] == OBJECT_START && stack[ index - 1 ] == STRING;
+        return index > 1 && stack[ index - 2 ] == OBJECT_START && stack[ index - 1 ] == STRING;
     }
 
     boolean isCommaExpected() {
         return index > 0 && ( stack[ index - 1 ] == OBJECT_START  || stack[ index - 1 ] == ARRAY_START ) && canWriteComma;
-    }
-
-    void ensureCanContinue() throws JsonException {
-        if ( finished ) {
-            throw newJsonException( getExpectingTokensMessage() );
-        }
     }
 
     private void putObjectEnd() throws JsonException {
@@ -125,14 +104,13 @@ final class JsonGrammarAnalyzer {
         // implementation
         index--;
         if ( index > 0 ) {
-            if (stack[ index - 1 ] == COLON) {
+            if ( stack[ index - 1 ] == COLON ) {
                 index -= 2;
                 canWriteComma = true;
-            } else if ( stack[ index - 1 ] == ARRAY_START) {
+            } else if ( stack[ index - 1 ] == ARRAY_START ) {
                 canWriteComma = true;
             }
         }
-        jsonKeys.removeLast();
         if ( index == 0 ) {
             finished = true;
         }
@@ -159,11 +137,11 @@ final class JsonGrammarAnalyzer {
 
     private void putValue() throws JsonException {
         // preconditions
-        if ( canWriteComma || index == 0 || stack[ index - 1 ] != ARRAY_START && stack[ index - 1 ] != COLON ) {
+        if ( canWriteComma || index == 0 || ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        if ( index > 0 && stack[ index - 1 ] == COLON ) {
+        if ( stack[ index - 1 ] == COLON ) {
             index -= 2;
         }
         canWriteComma = true;
@@ -171,37 +149,34 @@ final class JsonGrammarAnalyzer {
 
     private void putString() throws JsonException {
         // preconditions
-        if ( canWriteComma || index == 0 || stack[ index - 1 ] != OBJECT_START && stack[ index - 1 ] != ARRAY_START && stack[ index - 1 ] != COLON ) {
+        if ( canWriteComma || index == 0 || ( stack[ index - 1 ] & ( OBJECT_START | ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
-        if ( index > 0 ) {
-            if ( stack[ index - 1 ] == OBJECT_START ) {
-                if ( index == stack.length ) doubleStack();
-                stack[ index++ ] = STRING;
-                return;
-            }
-            if ( stack[ index - 1 ] == COLON ) {
-                index -= 2;
-            }
+        if ( stack[ index - 1 ] == OBJECT_START ) {
+            if ( index == stack.length ) doubleStack();
+            stack[ index++ ] = STRING;
+            return;
+        }
+        if ( stack[ index - 1 ] == COLON ) {
+            index -= 2;
         }
         canWriteComma = true;
     }
 
     private void putObjectStart() throws JsonException {
         // preconditions
-        if ( canWriteComma || ( index != 0 && stack[ index - 1 ] != ARRAY_START && stack[ index - 1 ] != COLON ) ) {
+        if ( canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
         if ( index == stack.length ) doubleStack();
         stack[ index++ ] = OBJECT_START;
-        jsonKeys.addLast( new HashSet< String >() );
     }
 
     private void putArrayStart() throws JsonException {
         // preconditions
-        if ( canWriteComma || ( index != 0 && stack[ index - 1 ] != ARRAY_START && stack[ index - 1 ] != COLON ) ) {
+        if ( canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation

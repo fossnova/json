@@ -36,7 +36,7 @@ public final class JsonNumberTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void gettersAndSetters() {
-        final JsonNumber jsonNumber = JsonValueFactory.newInstance().newJsonNumber( 0 );
+        final JsonNumber jsonNumber = JsonValueFactory.getInstance().newJsonNumber( 0 );
         assertEquals( BigDecimal.ZERO, jsonNumber.getBigDecimal() );
         jsonNumber.setBigDecimal( BigDecimal.ONE );
         assertEquals( BigInteger.ONE, jsonNumber.getBigInteger() );
@@ -58,7 +58,7 @@ public final class JsonNumberTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void cloneMethod() {
-        final JsonNumber origNumber = JsonValueFactory.newInstance().newJsonNumber( 1 );
+        final JsonNumber origNumber = JsonValueFactory.getInstance().newJsonNumber( 1 );
         final JsonNumber clonedNumber = origNumber.clone();
         assertTrue( origNumber != clonedNumber );
         assertTrue( 1 == origNumber.getInt() );

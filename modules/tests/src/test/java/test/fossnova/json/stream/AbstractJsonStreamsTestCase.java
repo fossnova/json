@@ -578,12 +578,12 @@ abstract class AbstractJsonStreamsTestCase {
     static JsonValue deserializeJson( final String jsonString ) throws IOException, JsonException {
         final ByteArrayInputStream bais = new ByteArrayInputStream( jsonString.getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.getInstance().newJsonReader( bais );
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         return jsonFactory.readFrom( jsonReader );
     }
 
     static JsonArray createSimpleArray() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonArray jsonArray = jsonFactory.newJsonArray();
         jsonArray.add( ( String ) null );
         jsonArray.add( true );
@@ -595,7 +595,7 @@ abstract class AbstractJsonStreamsTestCase {
     }
 
     static JsonObject createSimpleObject() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
         jsonObject.put( "1", ( String ) null );
         jsonObject.put( "2", true );
@@ -607,7 +607,7 @@ abstract class AbstractJsonStreamsTestCase {
     }
 
     static JsonObject createComplexObject() {
-        final JsonValueFactory jsonFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
         jsonObject.put( "1", "b1" );
         jsonObject.put( "2", ( String ) null );

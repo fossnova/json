@@ -41,6 +41,15 @@ import org.fossnova.json.stream.JsonReader;
  */
 public abstract class JsonValueFactory {
 
+    private static final JsonValueFactory factory;
+
+    static {
+        factory = FactoryFinder.find( JsonValueFactory.class );
+        if ( factory == null ) {
+            throw new IllegalStateException( "Factory not configured: " + JsonValueFactory.class.getName() );
+        }
+    }
+
     /**
      * All implementations must provide public default constructor overriding this one.
      */
@@ -48,15 +57,11 @@ public abstract class JsonValueFactory {
     }
 
     /**
-     * Returns new JSON value factory instance.
-     * @return new JSON value factory instance
+     * Returns JSON value factory instance.
+     * @return JSON value factory instance
      */
-    public static JsonValueFactory newInstance() {
-        final JsonValueFactory jsonFactory = FactoryFinder.find( JsonValueFactory.class );
-        if ( jsonFactory == null ) {
-            throw new IllegalStateException( "Factory not configured: " + JsonValueFactory.class.getName() );
-        }
-        return jsonFactory;
+    public static JsonValueFactory getInstance() {
+        return factory;
     }
 
     /**

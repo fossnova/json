@@ -63,7 +63,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void jsonStructureFactoryReadFrom() throws IOException, JsonException {
-        final JsonValueFactory jsonValueFactory = JsonValueFactory.newInstance();
+        final JsonValueFactory jsonValueFactory = JsonValueFactory.getInstance();
         final ByteArrayInputStream bais = new ByteArrayInputStream( "{\"1\":\"b1\",\"2\":null,\"3\":true,\"4\":false,\"5\":1,\"6\":[],\"7\":{}}".getBytes() );
         final JsonReader jsonReader = JsonStreamFactory.getInstance().newJsonReader( bais );
         final JsonObject o = ( JsonObject ) jsonValueFactory.readFrom( jsonReader );
@@ -106,7 +106,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void containsValue() {
-        final JsonValueFactory factory = JsonValueFactory.newInstance();
+        final JsonValueFactory factory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = createSimpleObject();
         assertTrue( jsonObject.containsValue( ( String ) null ) );
         assertTrue( jsonObject.containsValue( true ) );
@@ -140,7 +140,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void get() {
-        final JsonValueFactory factory = JsonValueFactory.newInstance();
+        final JsonValueFactory factory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = createComplexObject();
         assertEquals( jsonObject.get( "1" ), factory.newJsonString( "b1" ) );
         assertEquals( jsonObject.get( "2" ), null );
@@ -211,7 +211,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
 
     @Test
     public void putAll() {
-        final JsonObject jsonObject1 = JsonValueFactory.newInstance().newJsonObject();
+        final JsonObject jsonObject1 = JsonValueFactory.getInstance().newJsonObject();
         final JsonObject jsonObject2 = createSimpleObject();
         jsonObject1.putAll( jsonObject2 );
         assertEquals( jsonObject1, jsonObject2 );

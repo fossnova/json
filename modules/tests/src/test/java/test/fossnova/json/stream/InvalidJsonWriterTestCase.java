@@ -172,12 +172,6 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
         write_objectStart_string_null_string_arrayEnd();
     }
 
-    @Test
-    public void uniqueObjectKeys() throws IOException, JsonException {
-        write_objectStart_string_null_string();
-        write_objectStart_string_objectStart_string_null_objectEnd_string();
-    }
-
     private void write_objectEnd() throws IOException, JsonException {
         final JsonWriter writer = getJsonWriter();
         try {
@@ -1505,34 +1499,4 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
         }
     }
 
-    private void write_objectStart_string_null_string() throws IOException, JsonException {
-        final String sameKey = "same key";
-        final JsonWriter writer = getJsonWriter();
-        writer.writeObjectStart();
-        writer.writeString( sameKey );
-        writer.writeNull();
-        try {
-            writer.writeString( sameKey );
-            fail();
-        } catch ( final JsonException e ) {
-            assertEquals( "JSON keys have to be unique. The key '" + sameKey + "' already exists", e.getMessage() );
-        }
-    }
-
-    private void write_objectStart_string_objectStart_string_null_objectEnd_string() throws IOException, JsonException {
-        final String sameKey = "same key";
-        final JsonWriter writer = getJsonWriter();
-        writer.writeObjectStart();
-        writer.writeString( sameKey );
-        writer.writeObjectStart();
-        writer.writeString( "same key" );
-        writer.writeNull();
-        writer.writeObjectEnd();
-        try {
-            writer.writeString( sameKey );
-            fail();
-        } catch ( final JsonException e ) {
-            assertEquals( "JSON keys have to be unique. The key '" + sameKey + "' already exists", e.getMessage() );
-        }
-    }
 }

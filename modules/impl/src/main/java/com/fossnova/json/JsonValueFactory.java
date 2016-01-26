@@ -140,19 +140,19 @@ public final class JsonValueFactory extends org.fossnova.json.JsonValueFactory {
     private JsonObject readJsonObjectFrom( final JsonReader jsonReader ) throws IOException, JsonException {
         final JsonObject jsonObject = newJsonObject();
         JsonEvent jsonEvent = jsonReader.next();
-        String jsonKey = null;
-        JsonValue jsonValue = null;
+        String jsonKey;
+        JsonValue jsonValue;
         while ( jsonEvent != OBJECT_END ) {
             jsonKey = jsonReader.getString();
             jsonEvent = jsonReader.next();
-            if ( jsonEvent == NULL ) {
-                jsonValue = null;
-            } else if ( jsonEvent == BOOLEAN ) {
-                jsonValue = jsonReader.getBoolean() ? new JsonBoolean( true ) : new JsonBoolean( false );
+            if ( jsonEvent == STRING ) {
+                jsonValue = new JsonString( jsonReader.getString() );
             } else if ( jsonEvent == NUMBER ) {
                 jsonValue = new JsonNumber( jsonReader.getNumber() );
-            } else if ( jsonEvent == STRING ) {
-                jsonValue = new JsonString( jsonReader.getString() );
+            } else if ( jsonEvent == BOOLEAN ) {
+                jsonValue = new JsonBoolean( jsonReader.getBoolean() );
+            } else if ( jsonEvent == NULL ) {
+                jsonValue = null;
             } else if ( jsonEvent == OBJECT_START ) {
                 jsonValue = readJsonObjectFrom( jsonReader );
             } else if ( jsonEvent == ARRAY_START ) {
@@ -169,16 +169,16 @@ public final class JsonValueFactory extends org.fossnova.json.JsonValueFactory {
     private JsonArray readJsonArrayFrom( final JsonReader jsonReader ) throws IOException, JsonException {
         final JsonArray jsonArray = newJsonArray();
         JsonEvent jsonEvent = jsonReader.next();
-        JsonValue jsonValue = null;
+        JsonValue jsonValue;
         while ( jsonEvent != ARRAY_END ) {
-            if ( jsonEvent == NULL ) {
-                jsonValue = null;
-            } else if ( jsonEvent == BOOLEAN ) {
-                jsonValue = jsonReader.getBoolean() ? new JsonBoolean( true ) : new JsonBoolean( false );
+            if ( jsonEvent == STRING ) {
+                jsonValue = new JsonString( jsonReader.getString() );
             } else if ( jsonEvent == NUMBER ) {
                 jsonValue = new JsonNumber( jsonReader.getNumber() );
-            } else if ( jsonEvent == STRING ) {
-                jsonValue = new JsonString( jsonReader.getString() );
+            } else if ( jsonEvent == BOOLEAN ) {
+                jsonValue = new JsonBoolean( jsonReader.getBoolean() );
+            } else if ( jsonEvent == NULL ) {
+                jsonValue = null;
             } else if ( jsonEvent == OBJECT_START ) {
                 jsonValue = readJsonObjectFrom( jsonReader );
             } else if ( jsonEvent == ARRAY_START ) {

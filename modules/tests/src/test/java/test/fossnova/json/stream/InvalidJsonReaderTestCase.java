@@ -401,11 +401,14 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         read_arrayStart_null_EOF();
         read_arrayStart_EOF();
         read_objectStart_EOF();
+        read_arrayStart_stringwithescapedunicode_EOF();
     }
 
     @Test
     public void illegalCharacter() throws IOException, JsonException {
         read_arrayStart_string_illegalChar();
+        read_arrayStart_string_illegal_escape();
+        read_arrayStart_string_illegal_unicode_escape();
         read_arrayStart_true_illegalChar();
         read_arrayStart_false_illegalChar();
         read_arrayStart_null_illegalChar();
@@ -422,6 +425,22 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         read_arrayStart_wrongBigInteger();
         read_arrayStart_wrongBigDecimal();
         read_arrayStart_wrongFloat();
+        read_arrayStart_wrongFloat_twice_minus();
+        read_arrayStart_wrongFloat_minus_followed_with_plus();
+        read_arrayStart_wrongFloat_plus_followed_with_minus();
+        read_arrayStart_wrongFloat_plus_ends_number();
+        read_arrayStart_wrongFloat_minus_ends_number();
+        read_arrayStart_wrongFloat_e_without_digits();
+        read_arrayStart_wrongFloat_E_without_digits();
+        read_arrayStart_wrongFloat_dot_followed_with_e();
+        read_arrayStart_wrongFloat_dot_followed_with_E();
+        read_arrayStart_wrongFloat_number_starts_with_0_dot();
+        read_arrayStart_wrongFloat_number_starts_with_0_e();
+        read_arrayStart_wrongFloat_number_starts_with_0_E();
+        read_arrayStart_wrongFloat_number_starts_with_0();
+        read_arrayStart_wrongFloat_negative_number_starts_with_0();
+        read_arrayStart_wrongFloat_number_ends_with_dot();
+        read_arrayStart_wrongFloat_twice_plus();
         read_arrayStart_wrongDouble();
     }
 
@@ -3076,6 +3095,24 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertJsonException( reader, "Unexpected control character '\\u0009' while reading JSON string" );
     }
 
+    private void read_arrayStart_string_illegal_escape() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[\"asdf\\a" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected character '\\u0061' after escape character while reading JSON string" );
+    }
+
+    private void read_arrayStart_string_illegal_unicode_escape() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[\"asdf\\uy000" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Invalid JSON unicode sequence. Expecting 4 hexadecimal digits but got 'y000'" );
+    }
+
+    private void read_arrayStart_stringwithescapedunicode_EOF() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[\"asdf\\u00" );
+        assertArrayStartState( reader );
+        assertJsonException( reader, "Unexpected EOF while reading JSON string" );
+    }
+
     private void read_arrayStart_false_illegalChar() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "[falsa" );
         assertArrayStartState( reader );
@@ -3160,6 +3197,134 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         try {
             assertFloatState( reader, 0.0F );
         } catch ( final NumberFormatException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_twice_minus() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.1e--9]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_twice_plus() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.1e++9]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_minus_followed_with_plus() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.1e-+9]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_plus_followed_with_minus() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.1e+-9]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_plus_ends_number() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.1e+]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_minus_ends_number() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.1e-]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_e_without_digits() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.0e]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_E_without_digits() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.0E]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_dot_followed_with_e() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.e1]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_dot_followed_with_E() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.E1]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_number_starts_with_0_dot() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[01.0]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_number_starts_with_0_e() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[01e0]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_number_starts_with_0_E() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[01E0]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_number_starts_with_0() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[01]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_negative_number_starts_with_0() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[-01]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
+    }
+
+    private void read_arrayStart_wrongFloat_number_ends_with_dot() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "[1.]" );
+        assertArrayStartState( reader );
+        try {
+            assertFloatState( reader, 0.0F );
+        } catch ( final JsonException ignore ) {}
     }
 
     private void read_arrayStart_wrongDouble() throws IOException, JsonException {

@@ -22,7 +22,6 @@ package com.fossnova.json;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -42,11 +41,8 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
 
     private final List< JsonValue > list;
 
-    private final List< JsonValue > userView;
-
     JsonArray() {
         list = new ArrayList< JsonValue >();
-        userView = Collections.unmodifiableList( list );
     }
 
     @Override
@@ -208,7 +204,7 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
 
     @Override
     public Iterator< JsonValue > iterator() {
-        return userView.iterator();
+        return list.iterator();
     }
 
     @Override
@@ -296,12 +292,12 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
 
     @Override
     public ListIterator< JsonValue > listIterator() {
-        return userView.listIterator();
+        return list.listIterator();
     }
 
     @Override
     public ListIterator< JsonValue > listIterator( final int index ) {
-        return userView.listIterator( index );
+        return list.listIterator( index );
     }
 
     @Override
@@ -321,7 +317,7 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
 
     @Override
     public List< JsonValue > subList( final int fromIndex, final int toIndex ) {
-        return userView.subList( fromIndex, toIndex );
+        return list.subList( fromIndex, toIndex );
     }
 
     @Override
