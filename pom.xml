@@ -69,11 +69,6 @@
       </dependency>
       <dependency>
         <groupId>org.fossnova</groupId>
-        <artifactId>fossnova-io</artifactId>
-        <version>${fossnova.io.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.fossnova</groupId>
         <artifactId>fossnova-json-api</artifactId>
         <version>${project.version}</version>
       </dependency>
