@@ -36,11 +36,11 @@ import org.fossnova.finder.FactoryFinder;
  */
 public abstract class JsonStreamFactory {
 
-    private static final JsonStreamFactory factory;
+    private static final JsonStreamFactory FACTORY;
 
     static {
-        factory = FactoryFinder.find( JsonStreamFactory.class );
-        if ( factory == null ) {
+        FACTORY = FactoryFinder.find( JsonStreamFactory.class );
+        if ( FACTORY == null ) {
             throw new IllegalStateException( "Factory not configured: " + JsonStreamFactory.class.getName() );
         }
     }
@@ -56,7 +56,7 @@ public abstract class JsonStreamFactory {
      * @return JSON stream factory instance
      */
     public static JsonStreamFactory getInstance() {
-        return factory;
+        return FACTORY;
     }
 
     /**
