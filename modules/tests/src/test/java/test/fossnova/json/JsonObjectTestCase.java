@@ -57,6 +57,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
         assertTrue( complexObject.containsValue( 1 ) );
         assertTrue( complexObject.containsValue( true ) );
         assertTrue( complexObject.containsValue( ( Boolean ) null ) );
+        assertTrue( complexObject.containsNullValue() );
         assertTrue( complexObject.containsValue( createSimpleArray() ) );
         assertTrue( complexObject.containsValue( createSimpleObject() ) );
     }
@@ -79,6 +80,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
         assertTrue( o.containsValue( true ) );
         assertTrue( o.containsValue( false ) );
         assertTrue( o.containsValue( ( Boolean ) null ) );
+        assertTrue( o.containsNullValue() );
         assertTrue( o.containsValue( a ) );
         assertTrue( o.containsValue( o1 ) );
     }
@@ -108,6 +110,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
     public void containsValue() {
         final JsonValueFactory factory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = createSimpleObject();
+        assertTrue( jsonObject.containsNullValue() );
         assertTrue( jsonObject.containsValue( ( String ) null ) );
         assertTrue( jsonObject.containsValue( true ) );
         assertTrue( jsonObject.containsValue( 1 ) );
@@ -200,6 +203,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
         assertTrue( jsonObject.containsKey( "2" ) );
         assertTrue( jsonObject.containsValue( "b1" ) );
         assertTrue( jsonObject.containsValue( ( String ) null ) );
+        assertTrue( jsonObject.containsNullValue() );
         jsonObject.remove( ( Object ) "1" );
         jsonObject.remove( "2" );
         assertTrue( 4 == jsonObject.size() );
@@ -207,6 +211,7 @@ public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
         assertFalse( jsonObject.containsKey( "2" ) );
         assertFalse( jsonObject.containsValue( "b1" ) );
         assertFalse( jsonObject.containsValue( ( String ) null ) );
+        assertFalse( jsonObject.containsNullValue() );
     }
 
     @Test

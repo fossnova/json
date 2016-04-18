@@ -64,6 +64,11 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
     }
 
     @Override
+    public JsonValue putNull( final String key ) {
+        return putInternal( key, null );
+    }
+
+    @Override
     public boolean containsKey( final Object key ) {
         return containsKey( ( String ) key );
     }
@@ -104,6 +109,11 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
     @Override
     public boolean containsValue( final JsonValue value ) {
         return map.containsValue( value );
+    }
+
+    @Override
+    public boolean containsNullValue( ) {
+        return map.containsValue( null );
     }
 
     @Override
@@ -221,4 +231,5 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
         }
         return map.put( key, value );
     }
+
 }

@@ -75,6 +75,12 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
     boolean containsValue( final JsonValue value );
 
     /**
+     * Delegates the call to {@link java.util.Map#containsValue(Object)} method.
+     * @return <tt>true</tt> if this JSON object maps one or more keys to <tt>null</tt>
+     */
+    boolean containsNullValue();
+
+    /**
      * Delegates the call to {@link java.util.Map#get(Object)} method.
      * @param key JSON string
      * @return the JSON value to which the specified key is mapped, or
@@ -111,6 +117,15 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
      */
     JsonValue put( final String key, final Number value );
+
+    /**
+     * Delegates the call to
+     * {@link java.util.Map#put(Object, Object)} method.
+     * @param key JSON string
+     * @return the previous value associated with <tt>key</tt>, or
+     *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
+     */
+    JsonValue putNull( final String key );
 
     /**
      * Delegates the call to {@link java.util.Map#remove(Object)} method.

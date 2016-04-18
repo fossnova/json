@@ -118,7 +118,7 @@ abstract class AbstractJsonValuesTestCase {
     static JsonArray createSimpleArray() {
         final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonArray jsonArray = jsonFactory.newJsonArray();
-        jsonArray.add( ( String ) null );
+        jsonArray.addNull();
         jsonArray.add( true );
         jsonArray.add( 0 );
         jsonArray.add( "foo" );
@@ -130,7 +130,7 @@ abstract class AbstractJsonValuesTestCase {
     static JsonObject createSimpleObject() {
         final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
-        jsonObject.put( "1", ( String ) null );
+        jsonObject.putNull( "1" );
         jsonObject.put( "2", true );
         jsonObject.put( "3", 1 );
         jsonObject.put( "4", "bar" );
@@ -143,7 +143,7 @@ abstract class AbstractJsonValuesTestCase {
         final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonObject jsonObject = jsonFactory.newJsonObject();
         jsonObject.put( "1", "b1" );
-        jsonObject.put( "2", ( String ) null );
+        jsonObject.putNull( "2" );
         jsonObject.put( "3", true );
         jsonObject.put( "4", 1 );
         final JsonArray simpleArray = createSimpleArray();
@@ -156,7 +156,7 @@ abstract class AbstractJsonValuesTestCase {
     static JsonArray createComplexArray() {
         final JsonValueFactory jsonFactory = JsonValueFactory.getInstance();
         final JsonArray jsonArray = jsonFactory.newJsonArray();
-        jsonArray.add( ( Boolean ) null );
+        jsonArray.addNull();
         jsonArray.add( false );
         jsonArray.add( 1 );
         jsonArray.add( "2" );

@@ -51,6 +51,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
         assertJsonBoolean( complexArray, 1, false );
         assertJsonNumber( complexArray, 2, 1 );
         assertJsonString( complexArray, 3, "2" );
+        assertTrue( complexArray.containsNull() );
         assertTrue( complexArray.contains( ( Boolean ) null ) );
         assertTrue( complexArray.contains( false ) );
         assertTrue( complexArray.contains( 1 ) );
@@ -70,6 +71,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
         assertJsonBoolean( complexArray, 1, false );
         assertJsonNumber( complexArray, 2, 1 );
         assertJsonString( complexArray, 3, "2" );
+        assertTrue( complexArray.containsNull() );
         assertTrue( complexArray.contains( ( Boolean ) null ) );
         assertTrue( complexArray.contains( false ) );
         assertTrue( complexArray.contains( 1 ) );
@@ -144,12 +146,14 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
         jsonArray.add( 8, 2 );
         jsonArray.add( 9, createSimpleArray() );
         jsonArray.add( 10, createSimpleObject() );
+        jsonArray.addNull(11);
         assertNull( jsonArray.get( 6 ) );
         assertEquals( jsonArray.get( 7 ), factory.newJsonString( "bar" ) );
         assertEquals( jsonArray.get( 8 ), factory.newJsonNumber( 2 ) );
         assertEquals( jsonArray.get( 9 ), createSimpleArray() );
         assertEquals( jsonArray.get( 10 ), createSimpleObject() );
-        assertTrue( jsonArray.size() == 11 );
+        assertNull( jsonArray.get( 11 ) );
+        assertTrue( jsonArray.size() == 12 );
     }
 
     @Test
@@ -196,6 +200,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     public void contains() {
         final JsonArray jsonArray = createComplexArray();
         assertTrue( jsonArray.contains( ( String ) null ) );
+        assertTrue( jsonArray.containsNull() );
         assertTrue( jsonArray.contains( false ) );
         assertTrue( jsonArray.contains( 1 ) );
         assertTrue( jsonArray.contains( "2" ) );
@@ -230,6 +235,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     @Test
     public void indexOf() {
         final JsonArray jsonArray = createComplexArray();
+        assertTrue( jsonArray.indexOfNull() == 0 );
         assertTrue( jsonArray.indexOf( ( String ) null ) == 0 );
         assertTrue( jsonArray.indexOf( false ) == 1 );
         assertTrue( jsonArray.indexOf( 1 ) == 2 );
@@ -248,6 +254,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     public void lastIndexOf() {
         final JsonArray jsonArray = createComplexArray();
         jsonArray.addAll( createComplexArray() );
+        assertTrue( jsonArray.lastIndexOfNull() == 6 );
         assertTrue( jsonArray.lastIndexOf( ( String ) null ) == 6 );
         assertTrue( jsonArray.lastIndexOf( false ) == 7 );
         assertTrue( jsonArray.lastIndexOf( 1 ) == 8 );
@@ -266,6 +273,18 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
     public void remove() {
         final JsonArray jsonArray = createComplexArray();
         jsonArray.remove( ( String ) null );
+        jsonArray.remove( false );
+        jsonArray.remove( ( Number ) 1 );
+        jsonArray.remove( "2" );
+        jsonArray.remove( createSimpleArray() );
+        jsonArray.remove( createSimpleObject() );
+        assertTrue( jsonArray.isEmpty() );
+    }
+
+    @Test
+    public void removeNull() {
+        final JsonArray jsonArray = createComplexArray();
+        jsonArray.removeNull();
         jsonArray.remove( false );
         jsonArray.remove( ( Number ) 1 );
         jsonArray.remove( "2" );

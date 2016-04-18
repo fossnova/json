@@ -69,6 +69,13 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
     boolean add( final JsonValue value );
 
     /**
+     * Delegates the call to
+     * {@link java.util.List#add(Object)} method.
+     * @return <tt>true</tt> if this JSON array contained <tt>null</tt>
+     */
+    boolean addNull();
+
+    /**
      * Wraps passed value with JsonString and delegates the call to
      * {@link java.util.List#add(int, Object)} method.
      * @param index index at which the specified JSON string is to be inserted
@@ -101,6 +108,12 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
     void add( final int index, final JsonValue value );
 
     /**
+     * Delegates the call to {@link java.util.List#add(int, Object)} method.
+     * @param index index at which <tt>null</tt> value is to be inserted
+     */
+    void addNull( final int index );
+
+    /**
      * Wraps passed value with JsonString and delegates the call to
      * {@link java.util.List#contains(Object)} method.
      * @param value string to wrap
@@ -130,6 +143,12 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return <tt>true</tt> if this JSON array contains the specified JSON value
      */
     boolean contains( final JsonValue value );
+
+    /**
+     * Delegates the call to {@link java.util.List#contains(Object)} method.
+     * @return <tt>true</tt> if this JSON array contains <tt>null</tt>
+     */
+    boolean containsNull();
 
     /**
      * Wraps passed value with JsonString and delegates the call to
@@ -167,6 +186,13 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
     int indexOf( final JsonValue value );
 
     /**
+     * Delegates the call to {@link java.util.List#indexOf(Object)} method.
+     * @return the index of the first occurrence of <tt>null</tt> value in
+     *         this JSON array, or -1 if this JSON array does not contain the <tt>null</tt> value
+     */
+    int indexOfNull();
+
+    /**
      * Wraps passed value with JsonString and delegates the call to
      * {@link java.util.List#lastIndexOf(Object)} method.
      * @param value string to wrap
@@ -202,6 +228,13 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
     int lastIndexOf( final JsonValue value );
 
     /**
+     * Delegates the call to {@link java.util.List#lastIndexOf(Object)} method.
+     * @return he index of the last occurrence of the <tt>null</tt> value in
+     *         this JSON array, or -1 if this JSON array does not contain the <tt>null</tt> value
+     */
+    int lastIndexOfNull();
+
+    /**
      * Wraps passed value with JsonString and delegates the call to
      * {@link java.util.List#remove(Object)} method.
      * @param value string to wrap
@@ -231,6 +264,12 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return <tt>true</tt> if this JSON array contained the specified JSON value
      */
     boolean remove( final JsonValue value );
+
+    /**
+     * Delegates the call to {@link java.util.List#remove(Object)} method.
+     * @return <tt>true</tt> if this JSON array contained the <tt>null</tt> value
+     */
+    boolean removeNull();
 
     /**
      * Wraps passed value with JsonString and delegates the call to
@@ -267,6 +306,14 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      */
     @Override
     JsonValue set( final int index, final JsonValue value );
+
+    /**
+     * Delegates the call to
+     * {@link java.util.List#set(int, Object)} method.
+     * @param index index of the JSON value to replace with <tt>null</tt>
+     * @return the JSON value previously held at the specified position
+     */
+    JsonValue setNull( final int index );
 
     /**
      * Translates this JSON array to Java array.
@@ -314,4 +361,5 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      */
     @Override
     JsonArray clone();
+
 }
