@@ -85,7 +85,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeObjectStart() throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.OBJECT_START );
+        analyzer.putObjectStart();
         write( OBJECT_START );
         return this;
     }
@@ -93,7 +93,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     @Override
     public JsonWriter writeObjectEnd() throws IOException, JsonException {
         ensureOpen();
-        analyzer.push( JsonGrammarAnalyzer.OBJECT_END );
+        analyzer.putObjectEnd();
         write( OBJECT_END );
         return this;
     }
@@ -102,7 +102,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeArrayStart() throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.ARRAY_START );
+        analyzer.putArrayStart();
         write( ARRAY_START );
         return this;
     }
@@ -110,7 +110,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     @Override
     public JsonWriter writeArrayEnd() throws IOException, JsonException {
         ensureOpen();
-        analyzer.push( JsonGrammarAnalyzer.ARRAY_END );
+        analyzer.putArrayEnd();
         write( ARRAY_END );
         return this;
     }
@@ -122,7 +122,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         }
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.STRING );
+        analyzer.putString();
         encode( data );
         return this;
     }
@@ -131,7 +131,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeNull() throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.NULL );
+        analyzer.putNull();
         write( NULL, 0, NULL.length() );
         return this;
     }
@@ -140,11 +140,22 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeBoolean( final boolean data ) throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.BOOLEAN );
+        analyzer.putBoolean();
+        if ( limit + 5 > buffer.length ) {
+            out.write( buffer, 0, limit );
+            limit = 0;
+        }
         if ( data ) {
-            write( TRUE, 0, TRUE.length() );
+            buffer[ limit++ ] = 't';
+            buffer[ limit++ ] = 'r';
+            buffer[ limit++ ] = 'u';
+            buffer[ limit++ ] = 'e';
         } else {
-            write( FALSE, 0, FALSE.length() );
+            buffer[ limit++ ] = 'f';
+            buffer[ limit++ ] = 'a';
+            buffer[ limit++ ] = 'l';
+            buffer[ limit++ ] = 's';
+            buffer[ limit++ ] = 'e';
         }
         return this;
     }
@@ -153,7 +164,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeByte( final byte data ) throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.NUMBER );
+        analyzer.putNumber();
         encode( data );
         return this;
     }
@@ -162,7 +173,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeShort( final short data ) throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.NUMBER );
+        analyzer.putNumber();
         encode( data );
         return this;
     }
@@ -171,7 +182,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeInt( final int data ) throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.NUMBER );
+        analyzer.putNumber();
         encode( data );
         return this;
     }
@@ -180,7 +191,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeLong( final long data ) throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.NUMBER );
+        analyzer.putNumber();
         encode( data );
         return this;
     }
@@ -214,17 +225,17 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public JsonWriter writeNumber( final String data ) throws IOException, JsonException {
         ensureOpen();
         writeOptionalColonOrComma();
-        analyzer.push( JsonGrammarAnalyzer.NUMBER );
+        analyzer.putNumber();
         write( data, 0, data.length() );
         return this;
     }
 
     private void writeOptionalColonOrComma() throws IOException, JsonException {
         if ( analyzer.isColonExpected() ) {
-            analyzer.push( JsonGrammarAnalyzer.COLON );
+            analyzer.putColon();
             write( COLON );
         } else if ( analyzer.isCommaExpected() ) {
-            analyzer.push( JsonGrammarAnalyzer.COMMA );
+            analyzer.putComma();
             write( COMMA );
         }
     }

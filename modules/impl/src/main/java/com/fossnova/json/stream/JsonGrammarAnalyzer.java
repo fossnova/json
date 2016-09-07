@@ -27,20 +27,12 @@ import org.fossnova.json.stream.JsonException;
  */
 final class JsonGrammarAnalyzer {
 
-    // used for bit operations
-    static final byte OBJECT_START = 1;
-    static final byte ARRAY_START = 2;
-    static final byte STRING = 4;
-    static final byte COLON = 8;
-    // don't care about bits
-    static final byte OBJECT_END = 9;
-    static final byte ARRAY_END = 10;
-    static final byte NUMBER = 11;
-    static final byte BOOLEAN = 12;
-    static final byte NULL = 13;
-    static final byte COMMA = 14;
-
+    private static final byte OBJECT_START = 1;
+    private static final byte ARRAY_START = 2;
+    private static final byte STRING = 4;
+    private static final byte COLON = 8;
     private boolean canWriteComma;
+    private boolean canWriteCollon;
     private byte[] stack = new byte[ 8 ];
     private int index;
     JsonEvent currentEvent;
@@ -49,64 +41,26 @@ final class JsonGrammarAnalyzer {
     JsonGrammarAnalyzer() {
     }
 
-    void push( final byte event ) throws JsonException {
-        if ( finished ) {
-            throw newJsonException( getExpectingTokensMessage() );
-        }
-        if ( event == STRING ) {
-            putString();
-            currentEvent = JsonEvent.STRING;
-        } else if ( event == COLON ) {
-            putColon();
-            currentEvent = null;
-        } else if ( event == COMMA ) {
-            putComma();
-            currentEvent = null;
-        } else if ( event == NUMBER ) {
-            putValue();
-            currentEvent = JsonEvent.NUMBER;
-        } else if ( event == BOOLEAN ) {
-            putValue();
-            currentEvent = JsonEvent.BOOLEAN;
-        } else if ( event == NULL ) {
-            putValue();
-            currentEvent = JsonEvent.NULL;
-        } else if ( event == OBJECT_START ) {
-            putObjectStart();
-            currentEvent = JsonEvent.OBJECT_START;
-        } else if ( event == OBJECT_END ) {
-            putObjectEnd();
-            currentEvent = JsonEvent.OBJECT_END;
-        } else if ( event == ARRAY_START ) {
-            putArrayStart();
-            currentEvent = JsonEvent.ARRAY_START;
-        } else if ( event == ARRAY_END ) {
-            putArrayEnd();
-            currentEvent = JsonEvent.ARRAY_END;
-        } else {
-            throw new IllegalStateException();
-        }
-    }
-
     boolean isColonExpected() {
-        return index > 1 && stack[ index - 2 ] == OBJECT_START && stack[ index - 1 ] == STRING;
+        return canWriteCollon;
     }
 
     boolean isCommaExpected() {
-        return index > 0 && ( stack[ index - 1 ] == OBJECT_START  || stack[ index - 1 ] == ARRAY_START ) && canWriteComma;
+        return canWriteComma;
     }
 
-    private void putObjectEnd() throws JsonException {
+    void putObjectEnd() throws JsonException {
         // preconditions
-        if ( index == 0 || stack[ index - 1 ] != OBJECT_START || currentEvent == null ) {
+        if ( finished || index == 0 || stack[ index - 1 ] != OBJECT_START || currentEvent == null ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
+        currentEvent = JsonEvent.OBJECT_END;
         index--;
         if ( index > 0 ) {
             if ( stack[ index - 1 ] == COLON ) {
                 index -= 2;
-                canWriteComma = true;
+                canWriteComma = ( stack[ index - 1 ] & ( OBJECT_START  | ARRAY_START ) ) != 0;
             } else if ( stack[ index - 1 ] == ARRAY_START ) {
                 canWriteComma = true;
             }
@@ -116,17 +70,18 @@ final class JsonGrammarAnalyzer {
         }
     }
 
-    private void putArrayEnd() throws JsonException {
+    void putArrayEnd() throws JsonException {
         // preconditions
-        if ( index == 0 || stack[ index - 1 ] != ARRAY_START || currentEvent == null ) {
+        if ( finished || index == 0 || stack[ index - 1 ] != ARRAY_START || currentEvent == null ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
+        currentEvent = JsonEvent.ARRAY_END;
         index--;
         if ( index > 0 ) {
             if ( stack[ index - 1 ] == COLON ) {
                 index -= 2;
-                canWriteComma = true;
+                canWriteComma = ( stack[ index - 1 ] & ( OBJECT_START  | ARRAY_START ) ) != 0;
             } else if ( stack[ index - 1 ] == ARRAY_START ) {
                 canWriteComma = true;
             }
@@ -135,27 +90,56 @@ final class JsonGrammarAnalyzer {
         }
     }
 
-    private void putValue() throws JsonException {
+    void putNumber() throws JsonException {
         // preconditions
-        if ( canWriteComma || index == 0 || ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
+        if ( finished || canWriteComma || index == 0 || ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
+        currentEvent = JsonEvent.NUMBER;
         if ( stack[ index - 1 ] == COLON ) {
             index -= 2;
         }
         canWriteComma = true;
     }
 
-    private void putString() throws JsonException {
+    void putBoolean() throws JsonException {
         // preconditions
-        if ( canWriteComma || index == 0 || ( stack[ index - 1 ] & ( OBJECT_START | ARRAY_START | COLON ) ) == 0 ) {
+        if ( finished || canWriteComma || index == 0 || ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
+        currentEvent = JsonEvent.BOOLEAN;
+        if ( stack[ index - 1 ] == COLON ) {
+            index -= 2;
+        }
+        canWriteComma = true;
+    }
+
+    void putNull() throws JsonException {
+        // preconditions
+        if ( finished || canWriteComma || index == 0 || ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
+            throw newJsonException( getExpectingTokensMessage() );
+        }
+        // implementation
+        currentEvent = JsonEvent.NULL;
+        if ( stack[ index - 1 ] == COLON ) {
+            index -= 2;
+        }
+        canWriteComma = true;
+    }
+
+    void putString() throws JsonException {
+        // preconditions
+        if ( finished || canWriteComma || index == 0 || ( stack[ index - 1 ] & ( OBJECT_START | ARRAY_START | COLON ) ) == 0 ) {
+            throw newJsonException( getExpectingTokensMessage() );
+        }
+        // implementation
+        currentEvent = JsonEvent.STRING;
         if ( stack[ index - 1 ] == OBJECT_START ) {
             if ( index == stack.length ) doubleStack();
             stack[ index++ ] = STRING;
+            canWriteCollon = true;
             return;
         }
         if ( stack[ index - 1 ] == COLON ) {
@@ -164,42 +148,47 @@ final class JsonGrammarAnalyzer {
         canWriteComma = true;
     }
 
-    private void putObjectStart() throws JsonException {
+    void putObjectStart() throws JsonException {
         // preconditions
-        if ( canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
+        if ( finished || canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
+        currentEvent = JsonEvent.OBJECT_START;
         if ( index == stack.length ) doubleStack();
         stack[ index++ ] = OBJECT_START;
     }
 
-    private void putArrayStart() throws JsonException {
+    void putArrayStart() throws JsonException {
         // preconditions
-        if ( canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
+        if ( finished || canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
+        currentEvent = JsonEvent.ARRAY_START;
         if ( index == stack.length ) doubleStack();
         stack[ index++ ] = ARRAY_START;
     }
 
-    private void putColon() throws JsonException {
+    void putColon() throws JsonException {
         // preconditions
-        if ( index == 0 || stack[ index - 1 ] != STRING ) {
+        if ( finished || index == 0 || stack[ index - 1 ] != STRING ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
+        currentEvent = null;
         if ( index == stack.length ) doubleStack();
         stack[ index++ ] = COLON;
+        canWriteCollon = false;
     }
 
-    private void putComma() throws JsonException {
+    void putComma() throws JsonException {
         // preconditions
-        if ( !canWriteComma ) {
+        if ( finished || !canWriteComma ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
+        currentEvent = null;
         canWriteComma = false;
     }
 
@@ -247,8 +236,9 @@ final class JsonGrammarAnalyzer {
         System.arraycopy( oldData, 0, stack, 0, oldData.length );
     }
 
-    private JsonException newJsonException( final String s ) {
+    JsonException newJsonException( final String s ) {
         finished = true;
+        currentEvent = null;
         return new JsonException( s );
     }
 

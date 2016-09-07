@@ -187,7 +187,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
     }
 
     @Override
-    public boolean hasNext() throws IOException, JsonException {
+    public boolean hasNext() {
         ensureOpen();
         return !analyzer.finished;
     }
@@ -203,16 +203,16 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
             currentChar = position < limit ? buffer[ position++ ] : read();
             switch ( currentChar ) {
                 case QUOTE: {
-                    analyzer.push( JsonGrammarAnalyzer.STRING );
+                    analyzer.putString();
                     readString();
                     return analyzer.currentEvent;
                 }
                 case COLON: {
-                    analyzer.push( JsonGrammarAnalyzer.COLON );
+                    analyzer.putColon();
                 }
                     break;
                 case COMMA: {
-                    analyzer.push( JsonGrammarAnalyzer.COMMA );
+                    analyzer.putComma();
                 }
                     break;
                 case '0':
@@ -226,37 +226,37 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                 case '8':
                 case '9':
                 case MINUS: {
-                    analyzer.push( JsonGrammarAnalyzer.NUMBER );
-                    position--;
+                    analyzer.putNumber();
+                    numberOffset = position - 1;
                     readNumber();
                     return analyzer.currentEvent;
                 }
                 case 'f':
                 case 't': {
-                    analyzer.push( JsonGrammarAnalyzer.BOOLEAN );
+                    analyzer.putBoolean();
                     jsonBoolean = currentChar == 't';
                     readString( jsonBoolean ? TRUE : FALSE );
                     return analyzer.currentEvent;
                 }
                 case 'n': {
-                    analyzer.push( JsonGrammarAnalyzer.NULL );
+                    analyzer.putNull();
                     readString( NULL );
                     return analyzer.currentEvent;
                 }
                 case OBJECT_START: {
-                    analyzer.push( JsonGrammarAnalyzer.OBJECT_START );
+                    analyzer.putObjectStart();
                     return analyzer.currentEvent;
                 }
                 case ARRAY_START: {
-                    analyzer.push( JsonGrammarAnalyzer.ARRAY_START );
+                    analyzer.putArrayStart();
                     return analyzer.currentEvent;
                 }
                 case OBJECT_END: {
-                    analyzer.push( JsonGrammarAnalyzer.OBJECT_END );
+                    analyzer.putObjectEnd();
                     return analyzer.currentEvent;
                 }
                 case ARRAY_END: {
-                    analyzer.push( JsonGrammarAnalyzer.ARRAY_END );
+                    analyzer.putArrayEnd();
                     return analyzer.currentEvent;
                 }
                 default: {
@@ -412,7 +412,6 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
     }
 
     private void readNumber() throws IOException, JsonException {
-        numberOffset = position;
         while ( true ) {
             while ( position < limit ) {
                 if ( isNumberChar( buffer[ position++ ] ) ) continue;
@@ -444,8 +443,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
     }
 
     private JsonException newJsonException( final String message ) {
-        analyzer.finished = true;
-        return new JsonException( message );
+        return analyzer.newJsonException( message );
     }
 
     private void ensureOpen() {
