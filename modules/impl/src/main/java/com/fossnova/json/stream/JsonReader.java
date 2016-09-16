@@ -261,16 +261,34 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                 }
                 default: {
                     if ( isWhitespace( currentChar ) ) {
-                        continue;
-                    }
-                    if ( currentChar >= 0 ) {
-                        throw newJsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON stream" );
+                        processWhitespaces();
                     } else {
-                        throw newJsonException( "Unexpected EOF while reading JSON stream" );
+                        if ( currentChar >= 0 ) {
+                            throw newJsonException( "Unexpected character '" + toUnicodeString( currentChar ) + "' while reading JSON stream" );
+                        } else {
+                            throw newJsonException( "Unexpected EOF while reading JSON stream" );
+                        }
                     }
                 }
             }
         }
+    }
+
+    private void processWhitespaces() throws IOException {
+        do {
+            if ( position == limit ) {
+                limit = 0;
+                position = 0;
+                fillBuffer();
+                if ( position == limit ) return;
+            } else if ( position == limit - 1 ) {
+                buffer[ 0 ] = buffer[ position ];
+                limit = 1;
+                position = 0;
+                fillBuffer();
+            }
+        } while ( isWhitespace( buffer[ position++ ] ) );
+        position--;
     }
 
     private void ensureData() throws IOException {
