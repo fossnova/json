@@ -104,27 +104,27 @@ public final class JsonValueFactory extends org.fossnova.json.JsonValueFactory {
 
     @Override
     public JsonValue readFrom( final Reader input ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonReader reader = JsonStreamFactory.getInstance().newJsonReader( input );
-        return readFrom( reader );
+        assertNotNullParameter( input );
+        return readFrom( JsonStreamFactory.getInstance().newJsonReader( input ) );
     }
 
     @Override
     public JsonValue readFrom( final String input ) throws IOException, JsonException {
         assertNotNullParameter( input );
-        final Reader reader = new StringReader( input );
-        return readFrom( reader );
+        return readFrom( new StringReader( input ) );
     }
 
     @Override
     public JsonValue readFrom( final InputStream input ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonReader reader = JsonStreamFactory.getInstance().newJsonReader( input );
-        return readFrom( reader );
+        assertNotNullParameter( input );
+        return readFrom( JsonStreamFactory.getInstance().newJsonReader( input ) );
     }
 
     @Override
     public JsonValue readFrom( final InputStream input, final Charset charset ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonReader reader = JsonStreamFactory.getInstance().newJsonReader( input, charset );
-        return readFrom( reader );
+        assertNotNullParameter( input );
+        assertNotNullParameter( charset );
+        return readFrom( JsonStreamFactory.getInstance().newJsonReader( input, charset ) );
     }
 
     private JsonValue readFrom( final JsonReader jsonReader ) throws IOException, JsonException {

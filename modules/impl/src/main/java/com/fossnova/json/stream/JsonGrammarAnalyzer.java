@@ -31,8 +31,8 @@ final class JsonGrammarAnalyzer {
     private static final byte ARRAY_START = 2;
     private static final byte STRING = 4;
     private static final byte COLON = 8;
-    private boolean canWriteComma;
     private boolean canWriteCollon;
+    private boolean canWriteComma;
     private byte[] stack = new byte[ 8 ];
     private int index;
     JsonEvent currentEvent;

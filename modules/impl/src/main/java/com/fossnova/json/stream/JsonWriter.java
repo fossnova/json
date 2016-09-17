@@ -249,7 +249,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
             out.write( buffer, 0, limit );
             limit = 0;
         }
-
         buffer[ limit++ ] = c;
     }
 
@@ -309,19 +308,16 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
             out.write( buffer, 0, limit );
             limit = 0;
         }
-
         // compute bounds
         long longQuotient;
         int remainder;
         int writeIndex = limit + stringSizeOf( l );
         limit = writeIndex;
-
         // always convert to negative number
         final boolean negative = l < 0;
         if ( !negative ) {
             l = -l;
         }
-
         // processing upper 32 bits (long operations are slower on CPU)
         while ( l < Integer.MIN_VALUE ) {
             longQuotient = l / 100;
@@ -330,7 +326,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
             buffer[ --writeIndex ] = ONES[ remainder ];
             buffer[ --writeIndex ] = TENS[ remainder ];
         }
-
         // processing lower 32 bits (int operations are faster on CPU)
         int intQuotient;
         int i = ( int ) l;
@@ -341,16 +336,13 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
             buffer[ --writeIndex ] = ONES[ remainder ];
             buffer[ --writeIndex ] = TENS[ remainder ];
         }
-
         // processing remaining digits
         intQuotient = i / 10;
         remainder  = ( intQuotient * 10 ) - i;
         buffer[ --writeIndex ] = ( char ) ( '0' + remainder );
-
         if ( intQuotient < 0 ) {
             buffer[ --writeIndex ] = ( char ) ( '0' - intQuotient );
         }
-
         // processing sign
         if ( negative ) {
             buffer[ --writeIndex ] = '-';
@@ -363,19 +355,16 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
             out.write( buffer, 0, limit );
             limit = 0;
         }
-
         // compute bounds
         int quotient;
         int remainder;
         int writeIndex = limit + stringSizeOf( i );
         limit = writeIndex;
-
         // always convert to negative number
         boolean negative = i < 0;
         if ( !negative ) {
             i = -i;
         }
-
         // processing lower 32 bits (int operations are faster on CPU)
         while ( i <= -100 ) {
             quotient = i / 100;
@@ -384,16 +373,13 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
             buffer[ --writeIndex ] = ONES[ remainder ];
             buffer[ --writeIndex ] = TENS[ remainder ];
         }
-
         // processing remaining digits
         quotient = i / 10;
         remainder = ( quotient * 10 ) - i;
         buffer[ --writeIndex ] = ( char ) ( '0' + remainder );
-
         if ( quotient < 0 ) {
             buffer[ --writeIndex ] = ( char ) ( '0' - quotient );
         }
-
         // processing sign
         if ( negative ) {
             buffer[ --writeIndex ] = '-';

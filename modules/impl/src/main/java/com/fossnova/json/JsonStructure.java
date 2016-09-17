@@ -43,25 +43,24 @@ abstract class JsonStructure implements JsonValue {
     private static final long serialVersionUID = 1L;
 
     public final void writeTo( final org.fossnova.json.stream.JsonWriter output ) throws IOException, JsonException {
-        if ( output == null ) {
-            throw new NullPointerException( "JSON writer cannot be null" );
-        }
+        assertNotNullParameter( output );
         writeTo( ( JsonWriter ) output );
     }
 
     public final void writeTo( final Writer output ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonWriter writer = JsonStreamFactory.getInstance().newJsonWriter( output );
-        writeTo( writer );
+        assertNotNullParameter( output );
+        writeTo( JsonStreamFactory.getInstance().newJsonWriter( output ) );
     }
 
     public final void writeTo( final OutputStream output ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonWriter writer = JsonStreamFactory.getInstance().newJsonWriter( output );
-        writeTo( writer );
+        assertNotNullParameter( output );
+        writeTo( JsonStreamFactory.getInstance().newJsonWriter( output ) );
     }
 
     public final void writeTo( final OutputStream output, final Charset charset ) throws IOException, JsonException {
-        final org.fossnova.json.stream.JsonWriter writer = JsonStreamFactory.getInstance().newJsonWriter( output, charset );
-        writeTo( writer );
+        assertNotNullParameter( output );
+        assertNotNullParameter( charset );
+        writeTo( JsonStreamFactory.getInstance().newJsonWriter( output, charset ) );
     }
 
     protected abstract void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException;
@@ -115,7 +114,7 @@ abstract class JsonStructure implements JsonValue {
         if ( values == null ) return null;
         final HashSet< JsonValue > jsonValues = new HashSet< JsonValue >();
         final Iterator< ? > i = values.iterator();
-        Object value = null;
+        Object value;
         while ( i.hasNext() ) {
             value = i.next();
             if ( value instanceof String ) {
@@ -134,5 +133,11 @@ abstract class JsonStructure implements JsonValue {
     @Override
     public JsonStructure clone() {
         throw new UnsupportedOperationException();
+    }
+
+    private static void assertNotNullParameter( final Object o ) {
+        if ( o == null ) {
+            throw new NullPointerException( "Parameter cannot be null" );
+        }
     }
 }
