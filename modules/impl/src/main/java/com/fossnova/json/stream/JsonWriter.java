@@ -33,7 +33,6 @@ import static com.fossnova.json.stream.JsonConstants.QUOTE;
 import static com.fossnova.json.stream.JsonConstants.OBJECT_END;
 import static com.fossnova.json.stream.JsonConstants.OBJECT_START;
 import static com.fossnova.json.stream.JsonConstants.NL;
-import static com.fossnova.json.stream.JsonConstants.NULL;
 import static com.fossnova.json.stream.JsonConstants.TAB;
 import static com.fossnova.json.stream.Utils.isControl;
 import static com.fossnova.json.stream.Utils.stringSizeOf;
@@ -130,7 +129,14 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putNull();
-        write( NULL, 0, NULL.length() );
+        if ( limit + 4 > buffer.length ) {
+            out.write( buffer, 0, limit );
+            limit = 0;
+        }
+        buffer[ limit++ ] = 'n';
+        buffer[ limit++ ] = 'u';
+        buffer[ limit++ ] = 'l';
+        buffer[ limit++ ] = 'l';
         return this;
     }
 
