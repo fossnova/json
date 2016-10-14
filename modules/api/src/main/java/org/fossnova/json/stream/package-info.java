@@ -20,7 +20,7 @@
 /**
  * <I>Streaming API for JSON (StAJ)</I> for reading and writing <A href="http://www.json.org/">JSON</A> documents.
  *
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 package org.fossnova.json.stream;
 

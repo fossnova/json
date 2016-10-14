@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 final class JsonNumber implements org.fossnova.json.JsonNumber {
 

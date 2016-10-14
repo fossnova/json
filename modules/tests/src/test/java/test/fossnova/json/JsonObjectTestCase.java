@@ -42,7 +42,7 @@ import org.fossnova.json.stream.JsonStreamFactory;
 import org.junit.Test;
 
 /**
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 public final class JsonObjectTestCase extends AbstractJsonValuesTestCase {
 

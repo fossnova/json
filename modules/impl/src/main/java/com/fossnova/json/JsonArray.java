@@ -33,7 +33,7 @@ import org.fossnova.json.stream.JsonException;
 import com.fossnova.json.stream.JsonWriter;
 
 /**
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArray, RandomAccess {
 

@@ -24,7 +24,7 @@ import java.math.BigInteger;
 
 /**
  * JSON number.
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  * @see JsonValue
  * @see JsonValueFactory
  */

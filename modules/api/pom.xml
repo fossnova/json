@@ -42,6 +42,10 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <skip.maven.javadoc.plugin>false</skip.maven.javadoc.plugin>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -52,18 +56,6 @@
           <consoleOutput>true</consoleOutput>
           <failsOnError>false</failsOnError>
           <useFile/>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <detectJavaApiLink>false</detectJavaApiLink>
-          <detectLinks>false</detectLinks>
-          <doctitle><![CDATA[FOSS Nova JSON API ]]>${project.version}</doctitle>
-          <header><![CDATA[FOSS Nova JSON API ]]>${project.version}</header>
-          <footer><![CDATA[FOSS Nova JSON API ]]>${project.version}</footer>
-          <bottom><![CDATA[<i>Copyright &#169;, 2012 FOSS Nova Software Foundation (FNSF)</i>]]></bottom>
         </configuration>
       </plugin>
     </plugins>

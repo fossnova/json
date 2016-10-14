@@ -44,7 +44,7 @@ import org.fossnova.json.stream.JsonStreamFactory;
 import com.fossnova.json.stream.JsonReader;
 
 /**
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 public final class JsonValueFactory extends org.fossnova.json.JsonValueFactory {
 

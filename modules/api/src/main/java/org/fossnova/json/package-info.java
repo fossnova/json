@@ -20,7 +20,7 @@
 /**
  * <I>JSON Object Model (JOM)</I> for representing and interacting with <A href="http://www.json.org/">JSON</A> objects and arrays. 
  *
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 package org.fossnova.json;
 

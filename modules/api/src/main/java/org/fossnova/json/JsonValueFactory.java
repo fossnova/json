@@ -32,7 +32,7 @@ import org.fossnova.json.stream.JsonReader;
  * JSON values factory. Defines an abstract implementation of a factory for creating JSON values.
  * All JSON values returned by this factory are not thread safe.
  *
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  * @see JsonArray
  * @see JsonBoolean
  * @see JsonNumber

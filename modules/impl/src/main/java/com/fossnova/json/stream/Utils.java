@@ -22,7 +22,7 @@ package com.fossnova.json.stream;
 import static com.fossnova.json.stream.JsonConstants.BACKSLASH;
 
 /**
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 final class Utils {
 

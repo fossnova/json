@@ -23,7 +23,7 @@ import java.io.Serializable;
 
 /**
  * JSON value abstraction. All JSON values are serializable and cloneable.
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 public interface JsonValue extends Cloneable, Serializable {
 

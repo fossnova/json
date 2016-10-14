@@ -21,7 +21,7 @@ package org.fossnova.json.stream;
 
 /**
  * JSON encoding exception.
- * @author <a href="mailto:opalka dot richard at gmail dot com">Richard Opalka</a>
+ * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
 public final class JsonException extends Exception {
 
