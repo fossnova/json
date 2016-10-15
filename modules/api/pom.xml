@@ -51,11 +51,7 @@
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
           <configLocation>../../checkstyle/api.xml</configLocation>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>false</failsOnError>
-          <useFile/>
         </configuration>
       </plugin>
     </plugins>

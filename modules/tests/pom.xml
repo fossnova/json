@@ -35,6 +35,12 @@
   <groupId>org.fossnova</groupId>
   <artifactId>fossnova-json-tests</artifactId>
 
+  <properties>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <maven.install.skip>true</maven.install.skip>
+    <gpg.skip>true</gpg.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.fossnova</groupId>
