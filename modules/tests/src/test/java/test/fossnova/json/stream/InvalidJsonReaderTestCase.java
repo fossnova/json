@@ -47,11 +47,6 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         read_comma();
         read_objectEnd();
         read_arrayEnd();
-        read_string();
-        read_number();
-        read_false();
-        read_true();
-        read_null();
     }
 
     @Test
@@ -461,31 +456,6 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
 
     private void read_arrayEnd() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "]" );
-        assertJsonException( reader, "Expecting { [" );
-    }
-
-    private void read_string() throws IOException, JsonException {
-        final JsonReader reader = getJsonReader( "\"" );
-        assertJsonException( reader, "Expecting { [" );
-    }
-
-    private void read_number() throws IOException, JsonException {
-        final JsonReader reader = getJsonReader( "1" );
-        assertJsonException( reader, "Expecting { [" );
-    }
-
-    private void read_false() throws IOException, JsonException {
-        final JsonReader reader = getJsonReader( "false" );
-        assertJsonException( reader, "Expecting { [" );
-    }
-
-    private void read_true() throws IOException, JsonException {
-        final JsonReader reader = getJsonReader( "true" );
-        assertJsonException( reader, "Expecting { [" );
-    }
-
-    private void read_null() throws IOException, JsonException {
-        final JsonReader reader = getJsonReader( "null" );
         assertJsonException( reader, "Expecting { [" );
     }
 
@@ -3056,7 +3026,8 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
     private void read_arrayStart_number_EOF() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "[0" );
         assertArrayStartState( reader );
-        assertJsonException( reader, "Unexpected EOF while reading JSON number" );
+        assertIntState( reader, 0 );
+        assertJsonException( reader, "Unexpected EOF while reading JSON stream" );
     }
 
     private void read_arrayStart_false_EOF() throws IOException, JsonException {

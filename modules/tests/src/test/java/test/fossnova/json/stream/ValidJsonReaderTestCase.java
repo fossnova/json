@@ -33,6 +33,51 @@ import org.junit.Test;
 public final class ValidJsonReaderTestCase extends AbstractJsonStreamsTestCase {
 
     @Test
+    public void simpleNull() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "null" );
+        assertNullState( reader );
+        assertFinalState( reader );
+        reader.close();
+        assertClosedState( reader );
+    }
+
+    @Test
+    public void simpleTrue() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "true" );
+        assertBooleanState( reader, true );
+        assertFinalState( reader );
+        reader.close();
+        assertClosedState( reader );
+    }
+
+    @Test
+    public void simpleFalse() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "false" );
+        assertBooleanState( reader, false );
+        assertFinalState( reader );
+        reader.close();
+        assertClosedState( reader );
+    }
+
+    @Test
+    public void simpleString() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "\"\"" );
+        assertStringState( reader, "" );
+        assertFinalState( reader );
+        reader.close();
+        assertClosedState( reader );
+    }
+
+    @Test
+    public void simpleNumber() throws IOException, JsonException {
+        final JsonReader reader = getJsonReader( "0" );
+        assertIntState( reader, 0 );
+        assertFinalState( reader );
+        reader.close();
+        assertClosedState( reader );
+    }
+
+    @Test
     public void emptyObjectWithWhitespaces() throws IOException, JsonException {
         final JsonReader reader = getJsonReader( "{ \t\r\n}" );
         assertObjectStartState( reader );

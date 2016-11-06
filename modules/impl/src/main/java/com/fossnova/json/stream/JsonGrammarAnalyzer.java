@@ -92,11 +92,15 @@ final class JsonGrammarAnalyzer {
 
     void putNumber() throws JsonException {
         // preconditions
-        if ( finished || canWriteComma || index == 0 || ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
+        if ( finished || canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
         currentEvent = JsonEvent.NUMBER;
+        if ( index == 0 ) {
+            finished = true;
+            return;
+        }
         if ( stack[ index - 1 ] == COLON ) {
             index -= 2;
         }
@@ -105,11 +109,15 @@ final class JsonGrammarAnalyzer {
 
     void putBoolean() throws JsonException {
         // preconditions
-        if ( finished || canWriteComma || index == 0 || ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
+        if ( finished || canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
         currentEvent = JsonEvent.BOOLEAN;
+        if ( index == 0 ) {
+            finished = true;
+            return;
+        }
         if ( stack[ index - 1 ] == COLON ) {
             index -= 2;
         }
@@ -118,11 +126,15 @@ final class JsonGrammarAnalyzer {
 
     void putNull() throws JsonException {
         // preconditions
-        if ( finished || canWriteComma || index == 0 || ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
+        if ( finished || canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
         currentEvent = JsonEvent.NULL;
+        if ( index == 0 ) {
+            finished = true;
+            return;
+        }
         if ( stack[ index - 1 ] == COLON ) {
             index -= 2;
         }
@@ -131,11 +143,15 @@ final class JsonGrammarAnalyzer {
 
     void putString() throws JsonException {
         // preconditions
-        if ( finished || canWriteComma || index == 0 || ( stack[ index - 1 ] & ( OBJECT_START | ARRAY_START | COLON ) ) == 0 ) {
+        if ( finished || canWriteComma || index != 0 && ( stack[ index - 1 ] & ( OBJECT_START | ARRAY_START | COLON ) ) == 0 ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
         currentEvent = JsonEvent.STRING;
+        if ( index == 0 ) {
+            finished = true;
+            return;
+        }
         if ( stack[ index - 1 ] == OBJECT_START ) {
             if ( index == stack.length ) doubleStack();
             stack[ index++ ] = STRING;

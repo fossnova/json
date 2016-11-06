@@ -133,8 +133,16 @@ public final class JsonValueFactory extends org.fossnova.json.JsonValueFactory {
             return readJsonObjectFrom( jsonReader );
         } else if ( jsonEvent == ARRAY_START ) {
             return readJsonArrayFrom( jsonReader );
+        } else if ( jsonEvent == STRING ) {
+            return new JsonString( jsonReader.getString() );
+        } else if ( jsonEvent == NUMBER ) {
+            return new JsonNumber( jsonReader.getNumber() );
+        } else if ( jsonEvent == BOOLEAN ) {
+            return new JsonBoolean( jsonReader.getBoolean() );
+        } else if ( jsonEvent == NULL ) {
+            return null;
         }
-        throw new IllegalStateException( "JSON reader have to point to array or object" );
+        throw new IllegalStateException();
     }
 
     private JsonObject readJsonObjectFrom( final JsonReader jsonReader ) throws IOException, JsonException {

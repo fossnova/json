@@ -187,15 +187,15 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
     }
 
     @Override
-    public boolean hasNext() {
+    public boolean hasNext() throws IOException {
         ensureOpen();
-        return !analyzer.finished;
+        return !analyzer.finished || hasMoreData();
     }
 
     @Override
     public JsonEvent next() throws IOException, JsonException {
         ensureOpen();
-        if ( analyzer.finished ) {
+        if ( analyzer.finished && ! hasMoreData() ) {
             throw new IllegalStateException( "No more JSON tokens available" );
         }
         int currentChar;
@@ -291,7 +291,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
         position--;
     }
 
-    private void ensureData() throws IOException {
+    private boolean hasMoreData() throws IOException {
         if ( position == limit ) {
             if ( limit == buffer.length ) {
                 limit = 0;
@@ -299,6 +299,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
             }
             fillBuffer();
         }
+        return position != limit;
     }
 
     private void fillBuffer() throws IOException {
@@ -311,8 +312,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
     }
 
     private int read() throws IOException {
-        ensureData();
-        return position < limit ? buffer[ position++ ] : -1;
+        return hasMoreData() ? buffer[ position++ ] : -1;
     }
 
     private void readString() throws IOException, JsonException {
@@ -394,8 +394,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                 limit = stringLength;
                 stringOffset = 0;
             } else if ( stringOffset == 0 && limit == buffer.length ) doubleBuffer();
-            ensureData();
-            if ( position == limit ) {
+            if ( ! hasMoreData() ) {
                 throw newJsonException( "Unexpected EOF while reading JSON string" );
             }
         }
@@ -421,8 +420,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                     }
                 }
                 if ( i == expected.length ) return;
-                ensureData();
-                if ( position == limit ) {
+                if ( ! hasMoreData() ) {
                     throw newJsonException( "Unexpected EOF while reading JSON " + new String( expected ) + " token" );
                 }
             }
@@ -444,10 +442,7 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                 limit = numberLength;
                 numberOffset = 0;
             } else if ( limit == buffer.length ) doubleBuffer();
-            ensureData();
-            if ( position == limit ) {
-                throw newJsonException( "Unexpected EOF while reading JSON number" );
-            }
+            if ( ! hasMoreData() ) break;
         }
         if ( !isNumberString( buffer, numberOffset, numberLength ) ) {
             throw newJsonException( "Incorrect JSON number: '" + getNumber() + "'" );

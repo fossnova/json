@@ -75,6 +75,114 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     }
 
     @Test
+    public void simple_string() throws IOException, JsonException {
+        writer.writeString( "" );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "\"\"", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_byte() throws IOException, JsonException {
+        writer.writeByte( ( byte ) 0 );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "0", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_short() throws IOException, JsonException {
+        writer.writeShort( ( short ) 0 );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "0", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_int() throws IOException, JsonException {
+        writer.writeInt( 0 );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "0", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_long() throws IOException, JsonException {
+        writer.writeLong( 0L );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "0", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_bigInteger() throws IOException, JsonException {
+        writer.writeBigInteger( BigInteger.ZERO );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "0", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_bigDecimal() throws IOException, JsonException {
+        writer.writeBigDecimal( BigDecimal.ZERO );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "0", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_float() throws IOException, JsonException {
+        writer.writeFloat( 0.0F );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "0.0", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_double() throws IOException, JsonException {
+        writer.writeDouble( 0.0 );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "0.0", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_false() throws IOException, JsonException {
+        writer.writeBoolean( false );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "false", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_true() throws IOException, JsonException {
+        writer.writeBoolean( true );
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "true", getWriterOutput() );
+    }
+
+    @Test
+    public void simple_null() throws IOException, JsonException {
+        writer.writeNull();
+        writer.flush();
+        writer.close();
+        assertClosedState( writer );
+        Assert.assertEquals( "null", getWriterOutput() );
+    }
+
+    @Test
     public void moreComplexArray() throws IOException, JsonException {
         writer.writeArrayStart();
         writer.writeString( "0" );

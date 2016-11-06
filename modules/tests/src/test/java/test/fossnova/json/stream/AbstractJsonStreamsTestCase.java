@@ -220,9 +220,6 @@ abstract class AbstractJsonStreamsTestCase {
     }
 
     static void assertFinalState( final JsonReader reader ) throws IOException, JsonException {
-        assertNotStringException( reader );
-        assertNotNumberException( reader );
-        assertNotBooleanException( reader );
         assertFalse( reader.hasNext() );
         try {
             reader.next();
