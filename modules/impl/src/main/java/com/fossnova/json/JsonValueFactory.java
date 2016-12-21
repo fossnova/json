@@ -194,7 +194,7 @@ public final class JsonValueFactory extends org.fossnova.json.JsonValueFactory {
             } else {
                 throw new IllegalStateException();
             }
-            jsonArray.addInternal( jsonValue );
+            jsonArray.add( jsonValue );
             jsonEvent = jsonReader.next();
         }
         return jsonArray;

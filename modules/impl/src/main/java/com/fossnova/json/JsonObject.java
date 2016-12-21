@@ -37,11 +37,9 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
 
     private static final long serialVersionUID = 1L;
 
-    private final Map< String, JsonValue > map;
+    private final Map< String, JsonValue > map = new HashMap<>();
 
-    JsonObject() {
-        map = new HashMap<>();
-    }
+    JsonObject() {}
 
     @Override
     public JsonValue put( final String key, final String value ) {
@@ -80,15 +78,14 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
 
     @Override
     public boolean containsValue( final Object value ) {
-        if ( ( value == null ) || ( value instanceof String ) ) {
+        if ( value instanceof String ) {
             return containsValue( ( String ) value );
         } else if ( value instanceof Number ) {
             return containsValue( ( Number ) value );
         } else if ( value instanceof Boolean ) {
             return containsValue( ( Boolean ) value );
-        } else {
-            return containsValue( ( JsonValue ) value );
         }
+        return value == null ? containsNullValue() : containsValue( ( JsonValue ) value );
     }
 
     @Override
@@ -207,16 +204,16 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
         for ( final String jsonKey : map.keySet() ) {
             jsonWriter.writeString( jsonKey );
             jsonValue = map.get( jsonKey );
-            if ( jsonValue == null ) {
-                jsonWriter.writeNull();
-            } else if ( jsonValue instanceof JsonBoolean ) {
+            if ( jsonValue instanceof JsonBoolean ) {
                 jsonWriter.writeBoolean( ( ( JsonBoolean ) jsonValue ).getBoolean() );
             } else if ( jsonValue instanceof JsonNumber ) {
-                jsonWriter.writeNumber( ( ( JsonNumber ) jsonValue ).toString() );
+                jsonWriter.writeNumber( ( jsonValue ).toString() );
             } else if ( jsonValue instanceof JsonString ) {
                 jsonWriter.writeString( ( ( JsonString ) jsonValue ).getString() );
             } else if ( jsonValue instanceof JsonStructure ) {
                 ( ( JsonStructure ) jsonValue ).writeTo( jsonWriter );
+            } else if ( jsonValue == null ) {
+                jsonWriter.writeNull();
             } else {
                 throw new IllegalStateException();
             }

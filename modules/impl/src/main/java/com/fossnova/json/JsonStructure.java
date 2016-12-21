@@ -65,24 +65,15 @@ abstract class JsonStructure implements JsonValue {
 
     protected abstract void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException;
 
-    protected final JsonString toJsonString( final String value ) {
-        if ( value == null ) {
-            return null;
-        }
-        return new JsonString( value );
+    final JsonString toJsonString( final String value ) {
+        return value != null ? new JsonString( value ) : null;
     }
 
-    protected final JsonBoolean toJsonBoolean( final Boolean value ) {
-        if ( value == null ) {
-            return null;
-        }
-        return new JsonBoolean( value );
+    final JsonBoolean toJsonBoolean( final Boolean value ) {
+        return value != null ? new JsonBoolean( value ) : null;
     }
 
-    protected final JsonNumber toJsonNumber( final Number value ) {
-        if ( value == null ) {
-            return null;
-        }
+    final JsonNumber toJsonNumber( final Number value ) {
         if ( value instanceof Byte ) {
             return new JsonNumber( value.byteValue() );
         }
@@ -107,12 +98,15 @@ abstract class JsonStructure implements JsonValue {
         if ( value instanceof BigDecimal ) {
             return new JsonNumber( ( BigDecimal ) value );
         }
+        if ( value == null ) {
+            return null;
+        }
         throw new IllegalStateException();
     }
 
-    protected final Collection< JsonValue > toJsonValuesCollection( final Collection< ? > values ) {
+    final Collection< JsonValue > toJsonValuesCollection( final Collection< ? > values ) {
         if ( values == null ) return null;
-        final HashSet< JsonValue > jsonValues = new HashSet< JsonValue >();
+        final HashSet< JsonValue > jsonValues = new HashSet<>();
         final Iterator< ? > i = values.iterator();
         Object value;
         while ( i.hasNext() ) {
