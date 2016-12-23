@@ -20,6 +20,7 @@
 package test.fossnova.json.stream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -419,7 +420,6 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         read_arrayStart_wrongLong();
         read_arrayStart_wrongBigInteger();
         read_arrayStart_wrongBigDecimal();
-        read_arrayStart_wrongFloat();
         read_arrayStart_wrongFloat_twice_minus();
         read_arrayStart_wrongFloat_minus_followed_with_plus();
         read_arrayStart_wrongFloat_plus_followed_with_minus();
@@ -436,7 +436,6 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         read_arrayStart_wrongFloat_negative_number_starts_with_0();
         read_arrayStart_wrongFloat_number_ends_with_dot();
         read_arrayStart_wrongFloat_twice_plus();
-        read_arrayStart_wrongDouble();
     }
 
     private void read_colon() throws IOException, JsonException {
@@ -3119,6 +3118,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertByteState( reader, ( byte ) 0 );
+            fail();
         } catch ( final NumberFormatException ignore ) {}
     }
 
@@ -3127,6 +3127,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertShortState( reader, ( short ) 0 );
+            fail();
         } catch ( final NumberFormatException ignore ) {}
     }
 
@@ -3135,6 +3136,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertIntState( reader, 0 );
+            fail();
         } catch ( final NumberFormatException ignore ) {}
     }
 
@@ -3143,6 +3145,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertLongState( reader, 0L );
+            fail();
         } catch ( final NumberFormatException ignore ) {}
     }
 
@@ -3151,6 +3154,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertBigIntegerState( reader, BigInteger.ZERO );
+            fail();
         } catch ( final NumberFormatException ignore ) {}
     }
 
@@ -3159,15 +3163,8 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertBigDecimalState( reader, BigDecimal.ZERO );
+            fail();
         } catch ( final JsonException ignore ) {}
-    }
-
-    private void read_arrayStart_wrongFloat() throws IOException, JsonException {
-        final JsonReader reader = getJsonReader( "[1.1e-99999999999999999999999999999999]" );
-        assertArrayStartState( reader );
-        try {
-            assertFloatState( reader, 0.0F );
-        } catch ( final NumberFormatException ignore ) {}
     }
 
     private void read_arrayStart_wrongFloat_twice_minus() throws IOException, JsonException {
@@ -3175,6 +3172,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3183,6 +3181,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3191,6 +3190,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3199,6 +3199,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3207,6 +3208,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3215,6 +3217,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3223,6 +3226,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3231,6 +3235,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3239,6 +3244,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3247,6 +3253,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3255,6 +3262,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3263,6 +3271,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3271,6 +3280,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3279,6 +3289,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3287,6 +3298,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
     }
 
@@ -3295,15 +3307,8 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertArrayStartState( reader );
         try {
             assertFloatState( reader, 0.0F );
+            fail();
         } catch ( final JsonException ignore ) {}
-    }
-
-    private void read_arrayStart_wrongDouble() throws IOException, JsonException {
-        final JsonReader reader = getJsonReader( "[1.1e-99999999999999999999999999999999]" );
-        assertArrayStartState( reader );
-        try {
-            assertDoubleState( reader, 0.0 );
-        } catch ( final NumberFormatException ignore ) {}
     }
 
     private void read_objectStart_string_null_string() throws IOException, JsonException {
@@ -3314,6 +3319,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertNullState( reader );
         try {
             reader.next();
+            fail();
         } catch ( final JsonException e ) {
             assertEquals( "JSON keys have to be unique. The key '" + sameKey + "' already exists", e.getMessage() );
         }
@@ -3330,6 +3336,7 @@ public final class InvalidJsonReaderTestCase extends AbstractJsonStreamsTestCase
         assertObjectEndState( reader );
         try {
             reader.next();
+            fail();
         } catch ( final JsonException e ) {
             assertEquals( "JSON keys have to be unique. The key '" + sameKey + "' already exists", e.getMessage() );
         }
