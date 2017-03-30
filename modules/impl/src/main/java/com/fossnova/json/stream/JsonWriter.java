@@ -120,6 +120,9 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putString();
+        if ( analyzer.isColonExpected() ) {
+            analyzer.putKey( data );
+        }
         encode( data );
         return this;
     }

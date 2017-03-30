@@ -22,6 +22,11 @@ package com.fossnova.json.stream;
 import org.fossnova.json.stream.JsonEvent;
 import org.fossnova.json.stream.JsonException;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  */
@@ -31,9 +36,10 @@ final class JsonGrammarAnalyzer {
     private static final byte ARRAY_START = 2;
     private static final byte STRING = 4;
     private static final byte COLON = 8;
+    private final Deque< Set< String >> jsonKeys = new ArrayDeque<>();
+    private byte[] stack = new byte[ 8 ];
     private boolean canWriteCollon;
     private boolean canWriteComma;
-    private byte[] stack = new byte[ 8 ];
     private int index;
     JsonEvent currentEvent;
     boolean finished;
@@ -65,6 +71,7 @@ final class JsonGrammarAnalyzer {
                 canWriteComma = true;
             }
         }
+        jsonKeys.removeLast();
         if ( index == 0 ) {
             finished = true;
         }
@@ -164,6 +171,14 @@ final class JsonGrammarAnalyzer {
         canWriteComma = true;
     }
 
+    void putKey( final String jsonKey ) throws JsonException {
+        if ( stack[ index - 1 ] == STRING ) {
+            if ( !jsonKeys.getLast().add( jsonKey ) ) {
+                throw newJsonException( "JSON keys have to be unique. The key '" + jsonKey + "' already exists" );
+            }
+        }
+    }
+
     void putObjectStart() throws JsonException {
         // preconditions
         if ( finished || canWriteComma || index != 0 && ( stack[ index - 1 ] & ( ARRAY_START | COLON ) ) == 0 ) {
@@ -173,6 +188,7 @@ final class JsonGrammarAnalyzer {
         currentEvent = JsonEvent.OBJECT_START;
         if ( index == stack.length ) doubleStack();
         stack[ index++ ] = OBJECT_START;
+        jsonKeys.addLast( new HashSet<>() );
     }
 
     void putArrayStart() throws JsonException {

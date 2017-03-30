@@ -205,6 +205,9 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
                 case QUOTE: {
                     analyzer.putString();
                     readString();
+                    if ( analyzer.isColonExpected() ) {
+                        analyzer.putKey( getString() );
+                    }
                     return analyzer.currentEvent;
                 }
                 case COLON: {
