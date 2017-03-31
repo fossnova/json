@@ -38,7 +38,7 @@ final class JsonGrammarAnalyzer {
     private static final byte COLON = 8;
     private final Deque< Set< String >> jsonKeys = new ArrayDeque<>();
     private byte[] stack = new byte[ 8 ];
-    private boolean canWriteCollon;
+    private boolean canWriteColon;
     private boolean canWriteComma;
     private int index;
     JsonEvent currentEvent;
@@ -48,7 +48,7 @@ final class JsonGrammarAnalyzer {
     }
 
     boolean isColonExpected() {
-        return canWriteCollon;
+        return canWriteColon;
     }
 
     boolean isCommaExpected() {
@@ -66,7 +66,7 @@ final class JsonGrammarAnalyzer {
         if ( index > 0 ) {
             if ( stack[ index - 1 ] == COLON ) {
                 index -= 2;
-                canWriteComma = ( stack[ index - 1 ] & ( OBJECT_START  | ARRAY_START ) ) != 0;
+                canWriteComma = true;
             } else if ( stack[ index - 1 ] == ARRAY_START ) {
                 canWriteComma = true;
             }
@@ -88,7 +88,7 @@ final class JsonGrammarAnalyzer {
         if ( index > 0 ) {
             if ( stack[ index - 1 ] == COLON ) {
                 index -= 2;
-                canWriteComma = ( stack[ index - 1 ] & ( OBJECT_START  | ARRAY_START ) ) != 0;
+                canWriteComma = true;
             } else if ( stack[ index - 1 ] == ARRAY_START ) {
                 canWriteComma = true;
             }
@@ -162,7 +162,7 @@ final class JsonGrammarAnalyzer {
         if ( stack[ index - 1 ] == OBJECT_START ) {
             if ( index == stack.length ) doubleStack();
             stack[ index++ ] = STRING;
-            canWriteCollon = true;
+            canWriteColon = true;
             return;
         }
         if ( stack[ index - 1 ] == COLON ) {
@@ -204,14 +204,14 @@ final class JsonGrammarAnalyzer {
 
     void putColon() throws JsonException {
         // preconditions
-        if ( finished || index == 0 || stack[ index - 1 ] != STRING ) {
+        if ( finished || !canWriteColon ) {
             throw newJsonException( getExpectingTokensMessage() );
         }
         // implementation
         currentEvent = null;
         if ( index == stack.length ) doubleStack();
         stack[ index++ ] = COLON;
-        canWriteCollon = false;
+        canWriteColon = false;
     }
 
     void putComma() throws JsonException {
