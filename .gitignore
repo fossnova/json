@@ -1,6 +1,18 @@
-.classpath
-.project
-.settings
+# ignore Maven files
 target
+# ignore Eclipse files
+.project
+.classpath
+.settings
+.metadata
+.checkstyle
+# ignore Idea files
 *.iml
+*.ipr
+*.iws
 .idea
+# ignore NetBeans files
+nbactions.xml
+nb-configuration.xml
+catalog.xml
+nbproject
