@@ -19,9 +19,6 @@
  */
 package test.fossnova.json.stream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -29,6 +26,9 @@ import java.math.BigInteger;
 import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonWriter;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>

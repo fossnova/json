@@ -42,7 +42,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value string to wrap
      * @return <tt>true</tt> if this JSON array contained the specified JSON string
      */
-    boolean add( final String value );
+    boolean add( String value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -50,7 +50,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value number to wrap
      * @return <tt>true</tt> if this JSON array contained the specified JSON number
      */
-    boolean add( final Number value );
+    boolean add( Number value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -58,7 +58,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value boolean to wrap
      * @return <tt>true</tt> if this JSON array contained the specified JSON boolean
      */
-    boolean add( final Boolean value );
+    boolean add( Boolean value );
 
     /**
      * Delegates the call to {@link java.util.List#add(Object)} method.
@@ -66,7 +66,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return <tt>true</tt> if this JSON array contained the specified JSON value
      */
     @Override
-    boolean add( final JsonValue value );
+    boolean add( JsonValue value );
 
     /**
      * Delegates the call to
@@ -81,7 +81,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param index index at which the specified JSON string is to be inserted
      * @param value string to wrap
      */
-    void add( final int index, final String value );
+    void add( int index, String value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -89,7 +89,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param index index at which the specified JSON number is to be inserted
      * @param value number to wrap
      */
-    void add( final int index, final Number value );
+    void add( int index, Number value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -97,7 +97,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param index index at which the specified JSON boolean is to be inserted
      * @param value boolean to wrap
      */
-    void add( final int index, final Boolean value );
+    void add( int index, Boolean value );
 
     /**
      * Delegates the call to {@link java.util.List#add(int, Object)} method.
@@ -105,13 +105,13 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value JSON value
      */
     @Override
-    void add( final int index, final JsonValue value );
+    void add( int index, JsonValue value );
 
     /**
      * Delegates the call to {@link java.util.List#add(int, Object)} method.
      * @param index index at which <tt>null</tt> value is to be inserted
      */
-    void addNull( final int index );
+    void addNull( int index );
 
     /**
      * Wraps passed value with JsonString and delegates the call to
@@ -119,7 +119,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value string to wrap
      * @return <tt>true</tt> if this JSON array contains the specified JSON string
      */
-    boolean contains( final String value );
+    boolean contains( String value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -127,7 +127,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value number to wrap
      * @return <tt>true</tt> if this JSON array contains the specified JSON number
      */
-    boolean contains( final Number value );
+    boolean contains( Number value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -135,14 +135,14 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value boolean to wrap
      * @return <tt>true</tt> if this JSON array contains the specified JSON boolean
      */
-    boolean contains( final Boolean value );
+    boolean contains( Boolean value );
 
     /**
      * Delegates the call to {@link java.util.List#contains(Object)} method.
      * @param value JSON value
      * @return <tt>true</tt> if this JSON array contains the specified JSON value
      */
-    boolean contains( final JsonValue value );
+    boolean contains( JsonValue value );
 
     /**
      * Delegates the call to {@link java.util.List#contains(Object)} method.
@@ -157,7 +157,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return the index of the first occurrence of the specified JSON string in
      *         this JSON array, or -1 if this JSON array does not contain the JSON string
      */
-    int indexOf( final String value );
+    int indexOf( String value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -166,7 +166,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return the index of the first occurrence of the specified JSON number in
      *         this JSON array, or -1 if this JSON array does not contain the JSON number
      */
-    int indexOf( final Number value );
+    int indexOf( Number value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -175,7 +175,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return the index of the first occurrence of the specified JSON boolean in
      *         this JSON array, or -1 if this JSON array does not contain the JSON boolean
      */
-    int indexOf( final Boolean value );
+    int indexOf( Boolean value );
 
     /**
      * Delegates the call to {@link java.util.List#indexOf(Object)} method.
@@ -183,7 +183,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return the index of the first occurrence of the specified JSON value in
      *         this JSON array, or -1 if this JSON array does not contain the JSON value
      */
-    int indexOf( final JsonValue value );
+    int indexOf( JsonValue value );
 
     /**
      * Delegates the call to {@link java.util.List#indexOf(Object)} method.
@@ -199,7 +199,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return he index of the last occurrence of the specified JSON string in
      *         this JSON array, or -1 if this JSON array does not contain the JSON string
      */
-    int lastIndexOf( final String value );
+    int lastIndexOf( String value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -208,7 +208,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return he index of the last occurrence of the specified JSON number in
      *         this JSON array, or -1 if this JSON array does not contain the JSON number
      */
-    int lastIndexOf( final Number value );
+    int lastIndexOf( Number value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -217,7 +217,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return he index of the last occurrence of the specified JSON boolean in
      *         this JSON array, or -1 if this JSON array does not contain the JSON boolean
      */
-    int lastIndexOf( final Boolean value );
+    int lastIndexOf( Boolean value );
 
     /**
      * Delegates the call to {@link java.util.List#lastIndexOf(Object)} method.
@@ -225,7 +225,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return he index of the last occurrence of the specified JSON value in
      *         this JSON array, or -1 if this JSON array does not contain the JSON value
      */
-    int lastIndexOf( final JsonValue value );
+    int lastIndexOf( JsonValue value );
 
     /**
      * Delegates the call to {@link java.util.List#lastIndexOf(Object)} method.
@@ -240,7 +240,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value string to wrap
      * @return <tt>true</tt> if this JSON array contained the specified JSON string
      */
-    boolean remove( final String value );
+    boolean remove( String value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -248,7 +248,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value number to wrap
      * @return <tt>true</tt> if this JSON array contained the specified JSON number
      */
-    boolean remove( final Number value );
+    boolean remove( Number value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -256,14 +256,14 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value boolean to wrap
      * @return <tt>true</tt> if this JSON array contained the specified JSON boolean
      */
-    boolean remove( final Boolean value );
+    boolean remove( Boolean value );
 
     /**
      * Delegates the call to {@link java.util.List#remove(Object)} method.
      * @param value JSON value
      * @return <tt>true</tt> if this JSON array contained the specified JSON value
      */
-    boolean remove( final JsonValue value );
+    boolean remove( JsonValue value );
 
     /**
      * Delegates the call to {@link java.util.List#remove(Object)} method.
@@ -278,7 +278,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value string to wrap
      * @return the JSON value previously held at the specified position
      */
-    JsonValue set( final int index, final String value );
+    JsonValue set( int index, String value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -287,7 +287,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value number to wrap
      * @return the JSON value previously held at the specified position
      */
-    JsonValue set( final int index, final Number value );
+    JsonValue set( int index, Number value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -296,7 +296,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param value boolean to wrap
      * @return the JSON value previously held at the specified position
      */
-    JsonValue set( final int index, final Boolean value );
+    JsonValue set( int index, Boolean value );
 
     /**
      * Delegates the call to {@link java.util.List#set(int, Object)} method.
@@ -305,7 +305,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @return the JSON value previously held at the specified position
      */
     @Override
-    JsonValue set( final int index, final JsonValue value );
+    JsonValue set( int index, JsonValue value );
 
     /**
      * Delegates the call to
@@ -313,7 +313,7 @@ public interface JsonArray extends JsonValue, List< JsonValue > {
      * @param index index of the JSON value to replace with <tt>null</tt>
      * @return the JSON value previously held at the specified position
      */
-    JsonValue setNull( final int index );
+    JsonValue setNull( int index );
 
     /**
      * Translates this JSON array to Java array.

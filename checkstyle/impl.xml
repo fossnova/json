@@ -28,7 +28,7 @@
         </module>
         <!-- Restricts nested boolean operators (&&, ||, &, | and ^) to a specified depth -->
         <module name="BooleanExpressionComplexity">
-            <property name="max" value="5"/>
+            <property name="max" value="6"/>
             <property name="tokens" value="LAND, BAND, LOR, BOR, BXOR, LAND, BAND, LOR, BOR, BXOR"/>
         </module>
         <!-- This metric measures the number of instantiations of other classes within the given class. -->

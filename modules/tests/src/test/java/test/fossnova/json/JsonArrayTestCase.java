@@ -19,13 +19,6 @@
  */
 package test.fossnova.json;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotSame;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.assertTrue;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashSet;
@@ -38,6 +31,13 @@ import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertSame;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
@@ -146,7 +146,7 @@ public final class JsonArrayTestCase extends AbstractJsonValuesTestCase {
         jsonArray.add( 8, 2 );
         jsonArray.add( 9, createSimpleArray() );
         jsonArray.add( 10, createSimpleObject() );
-        jsonArray.addNull(11);
+        jsonArray.addNull( 11 );
         assertNull( jsonArray.get( 6 ) );
         assertEquals( jsonArray.get( 7 ), factory.newJsonString( "bar" ) );
         assertEquals( jsonArray.get( 8 ), factory.newJsonNumber( 2 ) );

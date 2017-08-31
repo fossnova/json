@@ -41,7 +41,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @param key JSON string
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      */
-    boolean containsKey( final String key );
+    boolean containsKey( String key );
 
     /**
      * Wraps passed value with JsonString and delegates the call to
@@ -49,7 +49,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @param value string to wrap
      * @return <tt>true</tt> if this JSON object maps one or more keys to the specified value
      */
-    boolean containsValue( final String value );
+    boolean containsValue( String value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -57,7 +57,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @param value boolean to wrap
      * @return <tt>true</tt> if this JSON object maps one or more keys to the specified value
      */
-    boolean containsValue( final Boolean value );
+    boolean containsValue( Boolean value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -65,14 +65,14 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @param value number to wrap
      * @return <tt>true</tt> if this JSON object maps one or more keys to the specified value
      */
-    boolean containsValue( final Number value );
+    boolean containsValue( Number value );
 
     /**
      * Delegates the call to {@link java.util.Map#containsValue(Object)} method.
      * @param value JSON value
      * @return <tt>true</tt> if this JSON object maps one or more keys to the specified value
      */
-    boolean containsValue( final JsonValue value );
+    boolean containsValue( JsonValue value );
 
     /**
      * Delegates the call to {@link java.util.Map#containsValue(Object)} method.
@@ -86,7 +86,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @return the JSON value to which the specified key is mapped, or
      *         {@code null} if this JSON object contains no mapping for the key
      */
-    JsonValue get( final String key );
+    JsonValue get( String key );
 
     /**
      * Wraps passed value with JsonString and delegates the call to
@@ -96,7 +96,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @return the previous value associated with <tt>key</tt>, or
      *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
      */
-    JsonValue put( final String key, final String value );
+    JsonValue put( String key, String value );
 
     /**
      * Wraps passed value with JsonBoolean and delegates the call to
@@ -106,7 +106,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @return the previous value associated with <tt>key</tt>, or
      *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
      */
-    JsonValue put( final String key, final Boolean value );
+    JsonValue put( String key, Boolean value );
 
     /**
      * Wraps passed value with JsonNumber and delegates the call to
@@ -116,7 +116,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @return the previous value associated with <tt>key</tt>, or
      *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
      */
-    JsonValue put( final String key, final Number value );
+    JsonValue put( String key, Number value );
 
     /**
      * Delegates the call to
@@ -125,7 +125,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @return the previous value associated with <tt>key</tt>, or
      *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
      */
-    JsonValue putNull( final String key );
+    JsonValue putNull( String key );
 
     /**
      * Delegates the call to {@link java.util.Map#remove(Object)} method.
@@ -133,7 +133,7 @@ public interface JsonObject extends JsonValue, Map< String, JsonValue > {
      * @return the previous value associated with <tt>key</tt>, or
      *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
      */
-    JsonValue remove( final String key );
+    JsonValue remove( String key );
 
     /**
      * Serializes this JSON object to the writer.

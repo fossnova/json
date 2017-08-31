@@ -63,7 +63,7 @@ abstract class JsonStructure implements JsonValue {
         writeTo( JsonStreamFactory.getInstance().newJsonWriter( output, charset ) );
     }
 
-    protected abstract void writeTo( final JsonWriter jsonWriter ) throws IOException, JsonException;
+    protected abstract void writeTo( JsonWriter jsonWriter ) throws IOException, JsonException;
 
     final JsonString toJsonString( final String value ) {
         return value != null ? new JsonString( value ) : null;

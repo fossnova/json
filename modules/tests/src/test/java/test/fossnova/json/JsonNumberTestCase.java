@@ -19,15 +19,15 @@
  */
 package test.fossnova.json;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.fossnova.json.JsonNumber;
 import org.fossnova.json.JsonValueFactory;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>

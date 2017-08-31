@@ -19,20 +19,6 @@
  */
 package test.fossnova.json.stream;
 
-import static org.fossnova.json.stream.JsonEvent.ARRAY_END;
-import static org.fossnova.json.stream.JsonEvent.ARRAY_START;
-import static org.fossnova.json.stream.JsonEvent.BOOLEAN;
-import static org.fossnova.json.stream.JsonEvent.NULL;
-import static org.fossnova.json.stream.JsonEvent.NUMBER;
-import static org.fossnova.json.stream.JsonEvent.OBJECT_END;
-import static org.fossnova.json.stream.JsonEvent.OBJECT_START;
-import static org.fossnova.json.stream.JsonEvent.STRING;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -50,6 +36,20 @@ import org.fossnova.json.stream.JsonException;
 import org.fossnova.json.stream.JsonReader;
 import org.fossnova.json.stream.JsonStreamFactory;
 import org.fossnova.json.stream.JsonWriter;
+
+import static org.fossnova.json.stream.JsonEvent.ARRAY_END;
+import static org.fossnova.json.stream.JsonEvent.ARRAY_START;
+import static org.fossnova.json.stream.JsonEvent.BOOLEAN;
+import static org.fossnova.json.stream.JsonEvent.NULL;
+import static org.fossnova.json.stream.JsonEvent.NUMBER;
+import static org.fossnova.json.stream.JsonEvent.OBJECT_END;
+import static org.fossnova.json.stream.JsonEvent.OBJECT_START;
+import static org.fossnova.json.stream.JsonEvent.STRING;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>

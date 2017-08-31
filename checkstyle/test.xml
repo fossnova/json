@@ -108,6 +108,8 @@
             <property name="groups" value="java,javax,junit,org"/>
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
+            <property name="option" value="bottom"/>
+            <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
         <!-- Checks correct indentation of Java Code. -->
         <module name="Indentation"/>
@@ -116,12 +118,6 @@
         <!-- Implements Bloch, Effective Java, Item 17 - Use Interfaces only to define types. -->
         <module name="InterfaceIsType">
             <property name="allowMarkerInterfaces" value="false"/>
-        </module>
-        <!-- This check calculates the Non Commenting Source Statements (NCSS) metric for java source files and methods. -->
-        <module name="JavaNCSS">
-            <property name="methodMaximum" value="80"/>
-            <property name="classMaximum" value="1500"/>
-            <property name="fileMaximum" value="2000"/>
         </module>
         <!-- Checks the placement of left curly braces on types, methods and other blocks. -->
         <module name="LeftCurly">
@@ -139,7 +135,9 @@
         <!-- Checks that instance variable names conform to a format specified by the format property. -->
         <module name="MemberName"/>
         <!-- Checks that method names conform to a format specified by the format property. -->
-        <module name="MethodName"/>
+        <module name="MethodName">
+            <property name="format" value="^[a-z](_?[a-zA-Z0-9]+)*$"/>
+        </module>
         <!--
           Checks the padding between the identifier of a method definition, constructor definition,
           method call, or constructor invocation; and the left parenthesis of the parameter list.
@@ -149,8 +147,6 @@
         </module>
         <!-- Checks that class type parameter names conform to a format specified by the format property. -->
         <module name="MethodTypeParameterName"/>
-        <!-- Checks that classes (except abstract one) define a ctor and don't rely on the default one. -->
-        <module name="MissingCtor"/>
         <!-- Checks that switch statement has "default" clause. -->
         <module name="MissingSwitchDefault"/>
         <!-- Check for ensuring that for loop control variables are not modified inside the for block. -->
@@ -254,10 +250,6 @@
             <property name="allowEmptyConstructors" value="true"/>
             <property name="allowEmptyMethods" value="true"/>
         </module>
-    </module>
-    <!-- Checks for long source files. -->
-    <module name="FileLength">
-        <property name="max" value="2000"/>
     </module>
     <!-- Checks to see if a file contains a tab character. -->
     <module name="FileTabCharacter">

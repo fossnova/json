@@ -277,7 +277,9 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
             c = s.charAt( dataEnd );
             // identify unescaped string sequence
             while ( c != BACKSLASH && c != QUOTE && !isControl( c ) ) {
-                if ( ++dataEnd < s.length() ) { c = s.charAt( dataEnd ); } else break;
+                if ( ++dataEnd < s.length() ) {
+                    c = s.charAt( dataEnd );
+                } else break;
             }
             // write unescaped characters
             if ( dataBegin < dataEnd ) {
@@ -364,7 +366,7 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         int writeIndex = limit + stringSizeOf( i );
         limit = writeIndex;
         // always convert to negative number
-        boolean negative = i < 0;
+        final boolean negative = i < 0;
         if ( !negative ) {
             i = -i;
         }

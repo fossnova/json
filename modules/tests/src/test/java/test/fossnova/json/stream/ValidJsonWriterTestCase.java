@@ -283,18 +283,18 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
     @Test
     public void testIntegers() throws IOException, JsonException {
         writer.writeArrayStart();
-        writer.writeByte(Byte.MIN_VALUE);
-        writer.writeByte((byte)0);
-        writer.writeByte(Byte.MAX_VALUE);
-        writer.writeShort(Short.MIN_VALUE);
-        writer.writeShort((short)0);
-        writer.writeShort(Short.MAX_VALUE);
-        writer.writeInt(Integer.MIN_VALUE);
-        writer.writeInt(0);
-        writer.writeInt(Integer.MAX_VALUE);
-        writer.writeLong(Long.MIN_VALUE);
-        writer.writeLong(0L);
-        writer.writeLong(Long.MAX_VALUE);
+        writer.writeByte( Byte.MIN_VALUE );
+        writer.writeByte( ( byte ) 0 );
+        writer.writeByte( Byte.MAX_VALUE );
+        writer.writeShort( Short.MIN_VALUE );
+        writer.writeShort( ( short ) 0 );
+        writer.writeShort( Short.MAX_VALUE );
+        writer.writeInt( Integer.MIN_VALUE );
+        writer.writeInt( 0 );
+        writer.writeInt( Integer.MAX_VALUE );
+        writer.writeLong( Long.MIN_VALUE );
+        writer.writeLong( 0L );
+        writer.writeLong( Long.MAX_VALUE );
         writer.writeArrayEnd();
         writer.flush();
         writer.close();
@@ -302,8 +302,7 @@ public final class ValidJsonWriterTestCase extends AbstractJsonStreamsTestCase {
         Assert.assertEquals( "[" + Byte.MIN_VALUE + ",0," + Byte.MAX_VALUE + ","
                 + Short.MIN_VALUE + ",0," + Short.MAX_VALUE + ","
                 + Integer.MIN_VALUE + ",0," + Integer.MAX_VALUE + ","
-                + Long.MIN_VALUE + ",0," + Long.MAX_VALUE + "]"
-                , getWriterOutput() );
+                + Long.MIN_VALUE + ",0," + Long.MAX_VALUE + "]", getWriterOutput() );
     }
 
     @Test

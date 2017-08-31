@@ -64,7 +64,9 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
     }
 
     @Override
-    public boolean addNull() { return list.add( null ); }
+    public boolean addNull() {
+        return list.add( null );
+    }
 
     @Override
     public void add( final int index, final String value ) {
@@ -87,7 +89,9 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
     }
 
     @Override
-    public void addNull( final int index ) { list.add( index, null ); }
+    public void addNull( final int index ) {
+        list.add( index, null );
+    }
 
     @Override
     public boolean addAll( final Collection< ? extends JsonValue > values ) {
@@ -120,7 +124,9 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
     }
 
     @Override
-    public boolean containsNull() { return list.contains( null ); }
+    public boolean containsNull() {
+        return list.contains( null );
+    }
 
     @Override
     public boolean contains( final Object value ) {
@@ -163,7 +169,9 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
     }
 
     @Override
-    public int indexOfNull() { return list.indexOf( null ); }
+    public int indexOfNull() {
+        return list.indexOf( null );
+    }
 
     @Override
     public int indexOf( final Object value ) {
@@ -198,7 +206,9 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
     }
 
     @Override
-    public int lastIndexOfNull() { return list.lastIndexOf( null ); }
+    public int lastIndexOfNull() {
+        return list.lastIndexOf( null );
+    }
 
     @Override
     public int lastIndexOf( final Object value ) {
@@ -243,7 +253,9 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
     }
 
     @Override
-    public boolean removeNull() { return list.remove( null ); }
+    public boolean removeNull() {
+        return list.remove( null );
+    }
 
     @Override
     public boolean remove( final Object value ) {
@@ -303,7 +315,9 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
     }
 
     @Override
-    public JsonValue setNull( final int index ) { return list.set( index, null ); }
+    public JsonValue setNull( final int index ) {
+        return list.set( index, null );
+    }
 
     @Override
     public ListIterator< JsonValue > listIterator() {
@@ -369,7 +383,7 @@ final class JsonArray extends JsonStructure implements org.fossnova.json.JsonArr
             if ( jsonValue instanceof JsonString ) {
                 jsonWriter.writeString( ( ( JsonString ) jsonValue ).getString() );
             } else if ( jsonValue instanceof JsonNumber ) {
-                jsonWriter.writeNumber( ( jsonValue ).toString() );
+                jsonWriter.writeNumber( jsonValue.toString() );
             } else if ( jsonValue instanceof JsonBoolean ) {
                 jsonWriter.writeBoolean( ( ( JsonBoolean ) jsonValue ).getBoolean() );
             } else if ( jsonValue instanceof JsonStructure ) {

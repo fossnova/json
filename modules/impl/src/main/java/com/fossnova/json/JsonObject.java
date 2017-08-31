@@ -207,7 +207,7 @@ final class JsonObject extends JsonStructure implements org.fossnova.json.JsonOb
             if ( jsonValue instanceof JsonBoolean ) {
                 jsonWriter.writeBoolean( ( ( JsonBoolean ) jsonValue ).getBoolean() );
             } else if ( jsonValue instanceof JsonNumber ) {
-                jsonWriter.writeNumber( ( jsonValue ).toString() );
+                jsonWriter.writeNumber( jsonValue.toString() );
             } else if ( jsonValue instanceof JsonString ) {
                 jsonWriter.writeString( ( ( JsonString ) jsonValue ).getString() );
             } else if ( jsonValue instanceof JsonStructure ) {
