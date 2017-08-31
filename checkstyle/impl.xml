@@ -51,8 +51,6 @@
         <module name="DefaultComesLast"/>
         <!-- Checks that classes are designed for inheritance. -->
         <module name="DesignForExtension"/>
-        <!-- Detect the double-checked locking idiom. -->
-        <module name="DoubleCheckedLocking"/>
         <!-- Checks for empty blocks. Must be commented if found. -->
         <module name="EmptyBlock">
             <property name="option" value="text"/>
@@ -107,8 +105,6 @@
         <module name="InterfaceIsType">
             <property name="allowMarkerInterfaces" value="false"/>
         </module>
-        <!-- Ensures that the setUp(), tearDown()methods are named correctly, have no arguments, return void and are either public or protected. -->
-        <module name="JUnitTestCase"/>
         <!-- Validates Javadoc comments to help ensure they are well formed. -->
         <module name="JavadocStyle">
             <property name="scope" value="private"/>
@@ -200,11 +196,6 @@
         </module>
         <!-- Checks for redundant modifiers in interface and annotation definitions. -->
         <module name="RedundantModifier"/>
-        <!-- Checks for redundant exceptions declared in throws clause such as duplicates, unchecked exceptions or subclasses of another declared exception. -->
-        <module name="RedundantThrows">
-            <property name="logLoadErrors" value="true"/>
-            <property name="suppressLoadErrors" value="true"/>
-        </module>
         <!-- Implementation of a check that looks for System.out in java files. -->
         <module name="RegexpSinglelineJava">
             <property name="format" value="System\.out"/>

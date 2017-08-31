@@ -53,8 +53,6 @@
         <module name="CovariantEquals"/>
         <!-- Checks that the parts of a class or interface declaration appear in the order suggested by the Code Conventions for the Java Programming Language. -->
         <module name="DefaultComesLast"/>
-        <!-- Detect the double-checked locking idiom. -->
-        <module name="DoubleCheckedLocking"/>
         <!-- Checks for empty blocks. Must be commented if found. -->
         <module name="EmptyBlock">
             <property name="option" value="text"/>
@@ -121,8 +119,6 @@
         <module name="InterfaceIsType">
             <property name="allowMarkerInterfaces" value="false"/>
         </module>
-        <!-- Ensures that the setUp(), tearDown()methods are named correctly, have no arguments, return void and are either public or protected. -->
-        <module name="JUnitTestCase"/>
         <!-- This check calculates the Non Commenting Source Statements (NCSS) metric for java source files and methods. -->
         <module name="JavaNCSS">
             <property name="methodMaximum" value="80"/>
@@ -213,11 +209,6 @@
         </module>
         <!-- Checks for redundant modifiers in interface and annotation definitions. -->
         <module name="RedundantModifier"/>
-        <!-- Checks for redundant exceptions declared in throws clause such as duplicates, unchecked exceptions or subclasses of another declared exception. -->
-        <module name="RedundantThrows">
-            <property name="logLoadErrors" value="true"/>
-            <property name="suppressLoadErrors" value="true"/>
-        </module>
         <!-- Implementation of a check that looks for System.out in java files. -->
         <module name="RegexpSinglelineJava">
             <property name="format" value="System\.out"/>

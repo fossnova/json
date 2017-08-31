@@ -47,10 +47,7 @@
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
           <configLocation>../../checkstyle/impl.xml</configLocation>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>false</failsOnError>
           <useFile/>
         </configuration>
       </plugin>

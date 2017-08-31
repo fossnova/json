@@ -51,8 +51,6 @@
         <module name="DefaultComesLast"/>
         <!-- Checks that classes are designed for inheritance. -->
         <module name="DesignForExtension"/>
-        <!-- Detect the double-checked locking idiom. -->
-        <module name="DoubleCheckedLocking"/>
         <!-- Checks for empty blocks. Must be commented if found. -->
         <module name="EmptyBlock">
             <property name="option" value="text"/>
@@ -119,8 +117,6 @@
         <module name="InterfaceIsType">
             <property name="allowMarkerInterfaces" value="false"/>
         </module>
-        <!-- Ensures that the setUp(), tearDown()methods are named correctly, have no arguments, return void and are either public or protected. -->
-        <module name="JUnitTestCase"/>
         <!-- This check calculates the Non Commenting Source Statements (NCSS) metric for java source files and methods. -->
         <module name="JavaNCSS">
             <property name="methodMaximum" value="80"/>
@@ -205,11 +201,6 @@
         </module>
         <!-- Checks for redundant modifiers in interface and annotation definitions. -->
         <module name="RedundantModifier"/>
-        <!-- Checks for redundant exceptions declared in throws clause such as duplicates, unchecked exceptions or subclasses of another declared exception. -->
-        <module name="RedundantThrows">
-            <property name="logLoadErrors" value="true"/>
-            <property name="suppressLoadErrors" value="true"/>
-        </module>
         <!-- Checks the placement of right curly braces. -->
         <module name="RightCurly">
             <property name="option" value="same"/>
