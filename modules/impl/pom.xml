@@ -48,7 +48,6 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <configLocation>../../checkstyle/impl.xml</configLocation>
-          <useFile/>
         </configuration>
       </plugin>
     </plugins>
