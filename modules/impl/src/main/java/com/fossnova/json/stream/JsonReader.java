@@ -75,28 +75,29 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
 
     @Override
     public void close() {
+        analyzer.currentEvent = null;
         closed = true;
     }
 
     @Override
     public boolean getBoolean() {
-        if ( !isCurrentEvent( JsonEvent.BOOLEAN ) ) {
-            throw new IllegalStateException( "Current event isn't boolean" );
+        if ( analyzer.currentEvent != JsonEvent.BOOLEAN ) {
+            throw new IllegalStateException();
         }
         return jsonBoolean;
     }
 
     public String getNumber() {
-        if ( !isCurrentEvent( JsonEvent.NUMBER ) ) {
-            throw new IllegalStateException( "Current event isn't number" );
+        if ( analyzer.currentEvent != JsonEvent.NUMBER ) {
+            throw new IllegalStateException();
         }
         return new String( buffer, numberOffset, numberLength );
     }
 
     @Override
     public String getString() {
-        if ( !isCurrentEvent( JsonEvent.STRING ) ) {
-            throw new IllegalStateException( "Current event isn't string" );
+        if ( analyzer.currentEvent != JsonEvent.STRING ) {
+            throw new IllegalStateException();
         }
         return new String( buffer, stringOffset, stringLength );
     }
@@ -143,53 +144,47 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
 
     @Override
     public boolean isArrayEnd() {
-        return isCurrentEvent( JsonEvent.ARRAY_END );
+        return analyzer.currentEvent == JsonEvent.ARRAY_END;
     }
 
     @Override
     public boolean isArrayStart() {
-        return isCurrentEvent( JsonEvent.ARRAY_START );
+        return analyzer.currentEvent == JsonEvent.ARRAY_START;
     }
 
     @Override
     public boolean isNumber() {
-        return isCurrentEvent( JsonEvent.NUMBER );
+        return analyzer.currentEvent == JsonEvent.NUMBER;
     }
 
     @Override
     public boolean isObjectEnd() {
-        return isCurrentEvent( JsonEvent.OBJECT_END );
+        return analyzer.currentEvent == JsonEvent.OBJECT_END;
     }
 
     @Override
     public boolean isObjectStart() {
-        return isCurrentEvent( JsonEvent.OBJECT_START );
+        return analyzer.currentEvent == JsonEvent.OBJECT_START;
     }
 
     @Override
     public boolean isString() {
-        return isCurrentEvent( JsonEvent.STRING );
+        return analyzer.currentEvent == JsonEvent.STRING;
     }
 
     @Override
     public boolean isNull() {
-        return isCurrentEvent( JsonEvent.NULL );
+        return analyzer.currentEvent == JsonEvent.NULL;
     }
 
     @Override
     public boolean isBoolean() {
-        return isCurrentEvent( JsonEvent.BOOLEAN );
-    }
-
-    private boolean isCurrentEvent( final JsonEvent event ) {
-        ensureOpen();
-        return analyzer.currentEvent == event;
+        return analyzer.currentEvent == JsonEvent.BOOLEAN;
     }
 
     @Override
-    public boolean hasNext() throws IOException {
-        ensureOpen();
-        return !analyzer.finished || hasMoreData();
+    public boolean hasNext() {
+        return !analyzer.finished;
     }
 
     @Override

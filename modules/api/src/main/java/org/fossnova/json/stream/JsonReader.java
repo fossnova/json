@@ -35,9 +35,8 @@ public interface JsonReader extends Closeable {
      * Detects if there is next JSON parsing event available.
      * Users should call this method before calling {@link #next()} method.
      * @return true if there are more JSON parsing events, false otherwise
-     * @throws IOException if some I/O error occurs
      */
-    boolean hasNext() throws IOException;
+    boolean hasNext();
 
     /**
      * Returns next JSON parsing event.
