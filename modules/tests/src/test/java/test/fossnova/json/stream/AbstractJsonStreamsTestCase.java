@@ -228,58 +228,68 @@ abstract class AbstractJsonStreamsTestCase {
         try {
             reader.getBoolean();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getByte();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getShort();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getInt();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getLong();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getFloat();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getDouble();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getBigInteger();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getBigDecimal();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getString();
             fail();
-        } catch ( final IllegalStateException e ) {}
-        assertFalse(reader.hasNext());
+        } catch ( final IllegalStateException e ) {
+        }
+        assertFalse( reader.hasNext() );
         try {
             reader.next();
             fail();
         } catch ( final IllegalStateException e ) {
             assertEquals( "JSON reader have been closed", e.getMessage() );
         }
-        assertFalse(reader.isArrayEnd());
-        assertFalse(reader.isArrayStart());
-        assertFalse(reader.isObjectEnd());
-        assertFalse(reader.isObjectStart());
-        assertFalse(reader.isNull());
-        assertFalse(reader.isBoolean());
-        assertFalse(reader.isNumber());
-        assertFalse(reader.isString());
+        assertFalse( reader.isArrayEnd() );
+        assertFalse( reader.isArrayStart() );
+        assertFalse( reader.isObjectEnd() );
+        assertFalse( reader.isObjectStart() );
+        assertFalse( reader.isNull() );
+        assertFalse( reader.isBoolean() );
+        assertFalse( reader.isNumber() );
+        assertFalse( reader.isString() );
     }
 
     static void assertStringState( final JsonReader reader, final String expected ) throws IOException, JsonException {
@@ -399,49 +409,59 @@ abstract class AbstractJsonStreamsTestCase {
         try {
             reader.getString();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
     }
 
     private static void assertNotBooleanException( final JsonReader reader ) throws IOException {
         try {
             reader.getBoolean();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
     }
 
     private static void assertNotNumberException( final JsonReader reader ) throws IOException {
         try {
             reader.getByte();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getShort();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getInt();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getLong();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getBigInteger();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getBigDecimal();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getFloat();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
         try {
             reader.getDouble();
             fail();
-        } catch ( final IllegalStateException e ) {}
+        } catch ( final IllegalStateException e ) {
+        }
     }
 
     static JsonReader getJsonReader( final String data ) throws IOException {
