@@ -229,7 +229,7 @@ final class JsonGrammarAnalyzer {
             if ( !finished ) {
                 return "Expecting " + JsonConstants.OBJECT_START + " " + JsonConstants.ARRAY_START;
             } else {
-                return "Expecting EOF";
+                return "JSON processing finished";
             }
         }
         if ( stack[ index - 1 ] == OBJECT_START ) {

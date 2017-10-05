@@ -57,101 +57,96 @@ import static org.junit.Assert.fail;
 abstract class AbstractJsonStreamsTestCase {
 
     static void assertClosedState( final JsonWriter writer ) throws IOException, JsonException {
-        try {
-            writer.flush();
-            fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
-        }
+        writer.flush();
         try {
             writer.writeArrayEnd();
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeArrayStart();
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeObjectEnd();
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeObjectStart();
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeNull();
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeString( "" );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeBoolean( true );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeByte( ( byte ) 0 );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeShort( ( short ) 0 );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeInt( 0 );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeLong( 0L );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeFloat( 0.0F );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeDouble( 0.0 );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeBigInteger( BigInteger.ZERO );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
         try {
             writer.writeBigDecimal( BigDecimal.ZERO );
             fail();
-        } catch ( final IllegalStateException e ) {
-            assertEquals( "JSON writer have been closed", e.getMessage() );
+        } catch ( final JsonException e ) {
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 

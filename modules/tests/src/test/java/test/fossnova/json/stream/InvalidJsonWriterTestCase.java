@@ -481,7 +481,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeObjectStart();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -493,7 +493,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeObjectEnd();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -505,7 +505,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeArrayStart();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -517,7 +517,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeArrayEnd();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -529,7 +529,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeString( "" );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -541,7 +541,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeByte( ( byte ) 0 );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -553,7 +553,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeShort( ( short ) 0 );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -565,7 +565,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeInt( 0 );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -577,7 +577,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeLong( 0L );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -589,7 +589,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeBigInteger( BigInteger.ZERO );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -601,7 +601,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeBigDecimal( BigDecimal.ZERO );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -613,7 +613,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeFloat( 0.0F );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -625,7 +625,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeDouble( 0.0 );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -637,7 +637,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeBoolean( false );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -649,7 +649,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeBoolean( true );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -661,7 +661,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeNull();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -673,7 +673,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeObjectStart();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -685,7 +685,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeObjectEnd();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -697,7 +697,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeArrayStart();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -709,7 +709,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeArrayEnd();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -721,7 +721,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeString( "" );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -733,7 +733,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeByte( ( byte ) 0 );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -745,7 +745,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeShort( ( short ) 0 );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -757,7 +757,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeInt( 0 );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -769,7 +769,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeLong( 0L );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -781,7 +781,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeBigInteger( BigInteger.ZERO );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -793,7 +793,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeBigDecimal( BigDecimal.ZERO );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -805,7 +805,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeFloat( 0.0F );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -817,7 +817,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeDouble( 0.0 );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -829,7 +829,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeBoolean( false );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -841,7 +841,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeBoolean( true );
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 
@@ -853,7 +853,7 @@ public final class InvalidJsonWriterTestCase extends AbstractJsonStreamsTestCase
             writer.writeNull();
             fail();
         } catch ( final JsonException e ) {
-            assertEquals( "Expecting EOF", e.getMessage() );
+            assertEquals( "JSON processing finished", e.getMessage() );
         }
     }
 

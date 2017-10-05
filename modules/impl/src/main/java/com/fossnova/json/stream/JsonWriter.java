@@ -70,17 +70,15 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public void flush() throws IOException {
-        ensureOpen();
         if ( limit > 0 ) {
             out.write( buffer, 0, limit );
             limit = 0;
+            out.flush();
         }
-        out.flush();
     }
 
     @Override
     public JsonWriter writeObjectStart() throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putObjectStart();
         write( OBJECT_START );
@@ -89,7 +87,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeObjectEnd() throws IOException, JsonException {
-        ensureOpen();
         analyzer.putObjectEnd();
         write( OBJECT_END );
         return this;
@@ -97,7 +94,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeArrayStart() throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putArrayStart();
         write( ARRAY_START );
@@ -106,7 +102,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeArrayEnd() throws IOException, JsonException {
-        ensureOpen();
         analyzer.putArrayEnd();
         write( ARRAY_END );
         return this;
@@ -117,7 +112,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
         if ( data == null ) {
             throw new NullPointerException( "Parameter cannot be null" );
         }
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putString();
         if ( analyzer.isColonExpected() ) {
@@ -129,7 +123,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeNull() throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putNull();
         if ( limit + 4 > buffer.length ) {
@@ -145,7 +138,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeBoolean( final boolean data ) throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putBoolean();
         if ( limit + 5 > buffer.length ) {
@@ -169,7 +161,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeByte( final byte data ) throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putNumber();
         encode( data );
@@ -178,7 +169,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeShort( final short data ) throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putNumber();
         encode( data );
@@ -187,7 +177,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeInt( final int data ) throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putNumber();
         encode( data );
@@ -196,7 +185,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
 
     @Override
     public JsonWriter writeLong( final long data ) throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putNumber();
         encode( data );
@@ -230,7 +218,6 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     }
 
     public JsonWriter writeNumber( final String data ) throws IOException, JsonException {
-        ensureOpen();
         writeOptionalColonOrComma();
         analyzer.putNumber();
         write( data, 0, data.length() );
