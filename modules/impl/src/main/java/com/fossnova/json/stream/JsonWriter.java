@@ -63,9 +63,11 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     }
 
     @Override
-    public void close() {
-        if ( limit > 0 ) throw new IllegalStateException( "Flush method must be called before closing" );
+    public void close() throws IOException, JsonException {
+        if ( closed ) return; // idempotent
         closed = true;
+        flush();
+        analyzer.close( true );
     }
 
     @Override

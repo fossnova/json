@@ -268,6 +268,13 @@ final class JsonGrammarAnalyzer {
         System.arraycopy( oldData, 0, stack, 0, oldData.length );
     }
 
+    void close( final boolean write ) throws JsonException {
+        if ( !finished ) {
+            throw newJsonException( "Detected attempt to " + ( write ? "write" : "read" ) + " uncomplete JSON stream" );
+        }
+        currentEvent = null;
+    }
+
     JsonException newJsonException( final String s ) {
         finished = true;
         currentEvent = null;

@@ -19,7 +19,6 @@
  */
 package org.fossnova.json.stream;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -29,7 +28,7 @@ import java.math.BigInteger;
  * @author <a href="mailto:opalka.richard@gmail.com">Richard Opalka</a>
  * @see JsonStreamFactory
  */
-public interface JsonReader extends Closeable {
+public interface JsonReader extends AutoCloseable {
 
     /**
      * Detects if there is next JSON parsing event available.
@@ -185,7 +184,10 @@ public interface JsonReader extends Closeable {
 
     /**
      * Free resources associated with this reader. Never closes underlying output stream or reader.
+     * @throws IOException if some I/O error occurs
+     * @throws JsonException if wrong JSON is detected
      */
     @Override
-    void close();
+    void close() throws IOException, JsonException;
+
 }

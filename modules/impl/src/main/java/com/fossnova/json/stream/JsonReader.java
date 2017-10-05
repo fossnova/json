@@ -74,9 +74,10 @@ public final class JsonReader implements org.fossnova.json.stream.JsonReader {
     }
 
     @Override
-    public void close() {
-        analyzer.currentEvent = null;
+    public void close() throws IOException, JsonException {
+        if ( closed ) return; // idempotent
         closed = true;
+        analyzer.close( false );
     }
 
     @Override
