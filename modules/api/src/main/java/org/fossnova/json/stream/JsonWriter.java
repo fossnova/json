@@ -169,7 +169,7 @@ public interface JsonWriter extends Flushable, AutoCloseable {
     void flush() throws IOException;
 
     /**
-     * Free resources associated with this writer. Never closes underlying input stream or writer.
+     * Free resources associated with this writer. Closes underlying output stream or writer.
      * @throws IOException if some I/O error occurs
      * @throws JsonException if wrong JSON is detected
      */

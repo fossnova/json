@@ -66,8 +66,12 @@ public final class JsonWriter implements org.fossnova.json.stream.JsonWriter {
     public void close() throws IOException, JsonException {
         if ( closed ) return; // idempotent
         closed = true;
-        flush();
-        analyzer.close( true );
+        try {
+            flush();
+            analyzer.close( true );
+        } finally {
+            out.close();
+        }
     }
 
     @Override

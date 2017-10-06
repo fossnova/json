@@ -183,7 +183,7 @@ public interface JsonReader extends AutoCloseable {
     BigDecimal getBigDecimal();
 
     /**
-     * Free resources associated with this reader. Never closes underlying output stream or reader.
+     * Free resources associated with this reader. Closes underlying input stream or reader.
      * @throws IOException if some I/O error occurs
      * @throws JsonException if wrong JSON is detected
      */
