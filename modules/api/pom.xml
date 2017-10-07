@@ -43,7 +43,7 @@
   </dependencies>
 
   <properties>
-    <skip.maven.javadoc.plugin>false</skip.maven.javadoc.plugin>
+    <maven.javadoc.skip>false</maven.javadoc.skip>
   </properties>
 
   <build>
