@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2017, FOSS Nova Software foundation (FNSF),
+ * Copyright (c) 2012-2020, FOSS Nova Software foundation (FNSF),
  * and individual contributors as indicated by the @author tags.
  *
  * This is free software; you can redistribute it and/or modify it
