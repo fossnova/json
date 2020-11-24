@@ -34,7 +34,7 @@
   <parent>
     <groupId>org.fossnova</groupId>
     <artifactId>fossnova-maven-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
 
   <scm>
@@ -49,7 +49,7 @@
   </issueManagement>
 
   <properties>
-    <fossnova.factory.finder.version>1.0.0</fossnova.factory.finder.version>
+    <fossnova.factory.finder.version>1.0.1-SNAPSHOT</fossnova.factory.finder.version>
     <junit.version>4.10</junit.version>
   </properties>
 
